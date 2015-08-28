@@ -1,0 +1,12 @@
+//
+//  Channels-Prefix.pch
+//  Channels
+//
+//  Created by Stuart Tett on 8/27/15.
+//  Copyright (c) 2015 Complex Polygon. All rights reserved.
+//
+
+#ifndef Channels_Channels_Prefix_pch
+#define Channels_Channels_Prefix_pch
+
+#endif

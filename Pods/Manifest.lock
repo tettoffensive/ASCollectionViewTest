@@ -1,0 +1,62 @@
+PODS:
+  - AFNetworking (2.5.4):
+    - AFNetworking/NSURLConnection (= 2.5.4)
+    - AFNetworking/NSURLSession (= 2.5.4)
+    - AFNetworking/Reachability (= 2.5.4)
+    - AFNetworking/Security (= 2.5.4)
+    - AFNetworking/Serialization (= 2.5.4)
+    - AFNetworking/UIKit (= 2.5.4)
+  - AFNetworking/NSURLConnection (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.4)
+  - AFNetworking/Security (2.5.4)
+  - AFNetworking/Serialization (2.5.4)
+  - AFNetworking/UIKit (2.5.4):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - FBSnapshotTestCase (1.4)
+  - KVOController (1.0.3)
+  - libextobjc/EXTKeyPathCoding (0.4):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTScope (0.4):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/RuntimeExtensions (0.4)
+  - Mixpanel (2.8.3):
+    - Mixpanel/Mixpanel (= 2.8.3)
+  - Mixpanel/Mixpanel (2.8.3)
+  - ObjectiveSugar (1.1.0)
+  - OHHTTPStubs (3.1.2)
+  - pop (1.0.7)
+  - XCTest+OHHTTPStubSuiteCleanUp (1.0.0):
+    - OHHTTPStubs
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.5.1)
+  - FBSnapshotTestCase (~> 1.4)
+  - KVOController
+  - libextobjc/EXTKeyPathCoding (= 0.4)
+  - libextobjc/EXTScope (= 0.4)
+  - Mixpanel
+  - ObjectiveSugar
+  - OHHTTPStubs (= 3.1.2)
+  - pop (~> 1.0)
+  - XCTest+OHHTTPStubSuiteCleanUp (= 1.0.0)
+
+SPEC CHECKSUMS:
+  AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  FBSnapshotTestCase: 892508495a69e8703bab36c9da7674ff740d41db
+  KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
+  libextobjc: f2802d4262f6885570df9799747409ceb1de602c
+  Mixpanel: fd52e097ae0d27295d0595b2261c60b94d191fda
+  ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
+  OHHTTPStubs: c93230597bc5c8b74bcfdb403cc8773515b8b08c
+  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  XCTest+OHHTTPStubSuiteCleanUp: 4469ec8863c6bc022c5089a9b94233eb3416c5ee
+
+COCOAPODS: 0.38.2
