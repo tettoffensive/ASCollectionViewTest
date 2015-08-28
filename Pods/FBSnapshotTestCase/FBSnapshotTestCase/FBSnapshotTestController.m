@@ -13,39 +13,30 @@
 #import "UIImage+Compare.h"
 #import "UIImage+Diff.h"
 
-#import <objc/runtime.h>
-
 #import <UIKit/UIKit.h>
 
 NSString *const FBSnapshotTestControllerErrorDomain = @"FBSnapshotTestControllerErrorDomain";
 
 NSString *const FBReferenceImageFilePathKey = @"FBReferenceImageFilePathKey";
 
-typedef struct RGBAPixel {
-  char r;
-  char g;
-  char b;
-  char a;
-} RGBAPixel;
-
-@interface FBSnapshotTestController ()
-
-@property (readonly, nonatomic, retain) Class testClass;
-
-@end
-
 @implementation FBSnapshotTestController
 {
+  NSString *_testName;
   NSFileManager *_fileManager;
 }
 
 #pragma mark -
 #pragma mark Lifecycle
 
-- (id)initWithTestClass:(Class)testClass;
+- (instancetype)initWithTestClass:(Class)testClass;
+{
+  return [self initWithTestName:NSStringFromClass(testClass)];
+}
+
+- (instancetype)initWithTestName:(NSString *)testName
 {
   if ((self = [super init])) {
-    _testClass = testClass;
+    _testName = [testName copy];
     _fileManager = [[NSFileManager alloc] init];
   }
   return self;
@@ -163,8 +154,8 @@ typedef struct RGBAPixel {
   }
 
   NSString *diffPath = [self _failedFilePathForSelector:selector
-                                               identifier:identifier
-                                             fileNameType:FBTestSnapshotFileNameTypeFailedTestDiff];
+                                             identifier:identifier
+                                           fileNameType:FBTestSnapshotFileNameTypeFailedTestDiff];
 
   UIImage *diffImage = [referenceImage diffWithImage:testImage];
   NSData *diffImageData = UIImagePNGRepresentation(diffImage);
@@ -239,7 +230,7 @@ typedef NS_ENUM(NSUInteger, FBTestSnapshotFileNameType) {
   if (0 < identifier.length) {
     fileName = [fileName stringByAppendingFormat:@"_%@", identifier];
   }
-  if ([[UIScreen mainScreen] scale] > 1.0) {
+  if ([[UIScreen mainScreen] scale] > 1) {
     fileName = [fileName stringByAppendingFormat:@"@%.fx", [[UIScreen mainScreen] scale]];
   }
   fileName = [fileName stringByAppendingPathExtension:@"png"];
@@ -251,7 +242,7 @@ typedef NS_ENUM(NSUInteger, FBTestSnapshotFileNameType) {
   NSString *fileName = [self _fileNameForSelector:selector
                                        identifier:identifier
                                      fileNameType:FBTestSnapshotFileNameTypeReference];
-  NSString *filePath = [_referenceImagesDirectory stringByAppendingPathComponent:NSStringFromClass(_testClass)];
+  NSString *filePath = [_referenceImagesDirectory stringByAppendingPathComponent:_testName];
   filePath = [filePath stringByAppendingPathComponent:fileName];
   return filePath;
 }
@@ -267,7 +258,7 @@ typedef NS_ENUM(NSUInteger, FBTestSnapshotFileNameType) {
   if (getenv("IMAGE_DIFF_DIR")) {
     folderPath = @(getenv("IMAGE_DIFF_DIR"));
   }
-  NSString *filePath = [folderPath stringByAppendingPathComponent:NSStringFromClass(_testClass)];
+  NSString *filePath = [folderPath stringByAppendingPathComponent:_testName];
   filePath = [filePath stringByAppendingPathComponent:fileName];
   return filePath;
 }
@@ -380,19 +371,6 @@ typedef NS_ENUM(NSUInteger, FBTestSnapshotFileNameType) {
         
 - (UIImage *)_renderView:(UIView *)view
 {
-  if (!self.renderAsLayer) {
-#ifdef __IPHONE_7_0
-    if ([view respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-      UIGraphicsBeginImageContextWithOptions(view.frame.size, NO, 0);
-      [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
-      UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-      UIGraphicsEndImageContext();
-      return image;
-    }
-#else
-    NSLog(@"drawViewHierarchy is only available on iOS 7+");
-#endif
-  }
   [view layoutIfNeeded];
   return [self _renderLayer:view.layer];
 }

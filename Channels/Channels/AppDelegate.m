@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 
+@import POLYFoundation;
+
 @interface AppDelegate ()
 
 @end
@@ -28,6 +30,9 @@
     
     self.window.backgroundColor = [UIColor magentaColor];
     [self.window makeKeyAndVisible];
+    
+    POLYNetworking *networking = [POLYNetworking sharedNetwork];
+    NSLog(@"network %@",[networking description]);
     
     return YES;
 }

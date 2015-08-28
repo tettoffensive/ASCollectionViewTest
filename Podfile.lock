@@ -20,7 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - FBSnapshotTestCase (1.4)
+  - FBSnapshotTestCase (1.8.1)
   - KVOController (1.0.3)
   - libextobjc/EXTKeyPathCoding (0.4):
     - libextobjc/RuntimeExtensions
@@ -50,7 +50,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
-  FBSnapshotTestCase: 892508495a69e8703bab36c9da7674ff740d41db
+  FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
   libextobjc: f2802d4262f6885570df9799747409ceb1de602c
   Mixpanel: fd52e097ae0d27295d0595b2261c60b94d191fda

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		170C59411B90EFC900EBAAC1 /* POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 170C593C1B90EAE700EBAAC1 /* POLYFoundation.framework */; };
 		17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F31B8FDE9E00AAE2BF /* main.m */; };
 		17AC67F71B8FDE9E00AAE2BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F61B8FDE9E00AAE2BF /* AppDelegate.m */; };
 		17AC67FA1B8FDE9E00AAE2BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F91B8FDE9E00AAE2BF /* ViewController.m */; };
@@ -15,7 +16,6 @@
 		17AC680E1B8FDE9E00AAE2BF /* ChannelsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC680D1B8FDE9E00AAE2BF /* ChannelsTests.m */; };
 		32F083D01808C6D14E218036 /* Pods_Channels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		B12CF2490DE7EABFA89889D7 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDDED4DC95A561BCF1539D35 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		170C593C1B90EAE700EBAAC1 /* POLYFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = POLYFoundation.framework; path = "../../Library/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos/POLYFoundation.framework"; sourceTree = "<group>"; };
 		17A387781B8FE92A00702E85 /* Channels-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Channels-Prefix.pch"; sourceTree = "<group>"; };
 		17AC67EE1B8FDE9E00AAE2BF /* Channels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Channels.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17AC67F21B8FDE9E00AAE2BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,7 +51,6 @@
 		B12A9B8AFFEF85E509638F29 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Channels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E11531D5AFF4817BD81B7302 /* Pods-ChannelsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelsTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ChannelsTests/Pods-ChannelsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		EDDED4DC95A561BCF1539D35 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B12CF2490DE7EABFA89889D7 /* Pods.framework in Frameworks */,
+				170C59411B90EFC900EBAAC1 /* POLYFoundation.framework in Frameworks */,
 				32F083D01808C6D14E218036 /* Pods_Channels.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,7 +170,7 @@
 		2BD97E7D89FF9E5A050AE206 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EDDED4DC95A561BCF1539D35 /* Pods.framework */,
+				170C593C1B90EAE700EBAAC1 /* POLYFoundation.framework */,
 				778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */,
 				C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */,
 			);
@@ -511,6 +511,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/Stuart/Channels/POLYFoundation/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphonesimulator",
+				);
 				INFOPLIST_FILE = Channels/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -524,6 +530,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/Stuart/Channels/POLYFoundation/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphonesimulator",
+				);
 				INFOPLIST_FILE = Channels/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
