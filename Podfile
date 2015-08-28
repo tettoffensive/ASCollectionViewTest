@@ -26,11 +26,15 @@ end
 target :Channels do
   xcodeproj 'Channels/Channels'
   import_pods
+  # Core
+  pod 'Mantle'
+
   # Analytics
   pod 'Mixpanel'
 
-  # Animation
+  # Animation/Layout/UI
   pod 'pop', '~> 1.0'
+  pod 'FLKAutoLayout'
 end
 
 target 'ChannelsTests', :exclusive => true do
@@ -49,6 +53,7 @@ target :POLYFoundation do
   import_pods
   # Core
   pod "AFNetworking", "~> 2.5.1"
+  pod "AFNetworkActivityLogger"
 end
 
 target 'POLYFoundationTests', :exclusive => true do

@@ -1,4 +1,7 @@
 PODS:
+  - AFNetworkActivityLogger (2.0.4):
+    - AFNetworking/NSURLConnection (~> 2.0)
+    - AFNetworking/NSURLSession (~> 2.0)
   - AFNetworking (2.5.4):
     - AFNetworking/NSURLConnection (= 2.5.4)
     - AFNetworking/NSURLSession (= 2.5.4)
@@ -21,12 +24,16 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - FBSnapshotTestCase (1.8.1)
+  - FLKAutoLayout (0.2.1)
   - KVOController (1.0.3)
   - libextobjc/EXTKeyPathCoding (0.4):
     - libextobjc/RuntimeExtensions
   - libextobjc/EXTScope (0.4):
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.4)
+  - Mantle (2.0.4):
+    - Mantle/extobjc (= 2.0.4)
+  - Mantle/extobjc (2.0.4)
   - Mixpanel (2.8.3):
     - Mixpanel/Mixpanel (= 2.8.3)
   - Mixpanel/Mixpanel (2.8.3)
@@ -37,11 +44,14 @@ PODS:
     - OHHTTPStubs
 
 DEPENDENCIES:
+  - AFNetworkActivityLogger
   - AFNetworking (~> 2.5.1)
   - FBSnapshotTestCase (~> 1.4)
+  - FLKAutoLayout
   - KVOController
   - libextobjc/EXTKeyPathCoding (= 0.4)
   - libextobjc/EXTScope (= 0.4)
+  - Mantle
   - Mixpanel
   - ObjectiveSugar
   - OHHTTPStubs (= 3.1.2)
@@ -49,10 +59,13 @@ DEPENDENCIES:
   - XCTest+OHHTTPStubSuiteCleanUp (= 1.0.0)
 
 SPEC CHECKSUMS:
+  AFNetworkActivityLogger: 121486778117d53b3ab1c61d264b88081d0c3eee
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
+  FLKAutoLayout: 9db6b30c2008d230da608e62c607b11c23b942e6
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
   libextobjc: f2802d4262f6885570df9799747409ceb1de602c
+  Mantle: 6bee68168423948be0c0c5924832bf3af188e099
   Mixpanel: fd52e097ae0d27295d0595b2261c60b94d191fda
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
   OHHTTPStubs: c93230597bc5c8b74bcfdb403cc8773515b8b08c
