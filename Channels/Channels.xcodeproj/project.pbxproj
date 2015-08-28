@@ -16,6 +16,10 @@
 		17AC680E1B8FDE9E00AAE2BF /* ChannelsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC680D1B8FDE9E00AAE2BF /* ChannelsTests.m */; };
 		17D4CA6F1B90FA7200070321 /* VideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA6E1B90FA7200070321 /* VideoModel.m */; };
 		17D4CA721B90FA8200070321 /* ChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA711B90FA8200070321 /* ChannelModel.m */; };
+		17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA741B910B2200070321 /* ChannelViewController.m */; };
+		17D4CA781B910B3F00070321 /* PostingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA771B910B3F00070321 /* PostingViewController.m */; };
+		17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA7E1B910BE600070321 /* BaseViewController.m */; };
+		17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA811B910C1900070321 /* ListChannelsViewController.m */; };
 		32F083D01808C6D14E218036 /* Pods_Channels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -49,6 +53,14 @@
 		17D4CA6E1B90FA7200070321 /* VideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoModel.m; sourceTree = "<group>"; };
 		17D4CA701B90FA8200070321 /* ChannelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelModel.h; sourceTree = "<group>"; };
 		17D4CA711B90FA8200070321 /* ChannelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelModel.m; sourceTree = "<group>"; };
+		17D4CA731B910B2200070321 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
+		17D4CA741B910B2200070321 /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelViewController.m; sourceTree = "<group>"; };
+		17D4CA761B910B3F00070321 /* PostingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostingViewController.h; sourceTree = "<group>"; };
+		17D4CA771B910B3F00070321 /* PostingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostingViewController.m; sourceTree = "<group>"; };
+		17D4CA7D1B910BE600070321 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		17D4CA7E1B910BE600070321 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		17D4CA801B910C1900070321 /* ListChannelsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListChannelsViewController.h; sourceTree = "<group>"; };
+		17D4CA811B910C1900070321 /* ListChannelsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListChannelsViewController.m; sourceTree = "<group>"; };
 		4EEAFA6384F410BFB8D50D6E /* Pods-ChannelsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelsTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ChannelsTests/Pods-ChannelsTests.release.xcconfig"; sourceTree = "<group>"; };
 		778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79D2A893B3A6CA08204C0F03 /* Pods-Channels.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.release.xcconfig"; sourceTree = "<group>"; };
@@ -83,8 +95,16 @@
 		17A387791B8FE9AF00702E85 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				17D4CA7D1B910BE600070321 /* BaseViewController.h */,
+				17D4CA7E1B910BE600070321 /* BaseViewController.m */,
 				17AC67F81B8FDE9E00AAE2BF /* ViewController.h */,
 				17AC67F91B8FDE9E00AAE2BF /* ViewController.m */,
+				17D4CA731B910B2200070321 /* ChannelViewController.h */,
+				17D4CA741B910B2200070321 /* ChannelViewController.m */,
+				17D4CA761B910B3F00070321 /* PostingViewController.h */,
+				17D4CA771B910B3F00070321 /* PostingViewController.m */,
+				17D4CA801B910C1900070321 /* ListChannelsViewController.h */,
+				17D4CA811B910C1900070321 /* ListChannelsViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -399,6 +419,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */,
+				17D4CA781B910B3F00070321 /* PostingViewController.m in Sources */,
+				17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */,
+				17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */,
 				17AC67FA1B8FDE9E00AAE2BF /* ViewController.m in Sources */,
 				17AC67F71B8FDE9E00AAE2BF /* AppDelegate.m in Sources */,
 				17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */,
