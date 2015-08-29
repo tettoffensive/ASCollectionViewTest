@@ -54,6 +54,7 @@ target :POLYFoundation do
   # Core
   pod "AFNetworking", "~> 2.5.1"
   pod "AFNetworkActivityLogger"
+  pod "SDWebImage"
 end
 
 target 'POLYFoundationTests', :exclusive => true do

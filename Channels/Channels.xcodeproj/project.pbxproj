@@ -553,6 +553,8 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphonesimulator",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Channels/Channels-Prefix.pch";
 				INFOPLIST_FILE = Channels/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -572,6 +574,8 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphonesimulator",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Channels/Channels-Prefix.pch";
 				INFOPLIST_FILE = Channels/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

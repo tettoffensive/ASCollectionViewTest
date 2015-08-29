@@ -40,6 +40,9 @@ PODS:
   - ObjectiveSugar (1.1.0)
   - OHHTTPStubs (3.1.2)
   - pop (1.0.7)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
   - XCTest+OHHTTPStubSuiteCleanUp (1.0.0):
     - OHHTTPStubs
 
@@ -56,6 +59,7 @@ DEPENDENCIES:
   - ObjectiveSugar
   - OHHTTPStubs (= 3.1.2)
   - pop (~> 1.0)
+  - SDWebImage
   - XCTest+OHHTTPStubSuiteCleanUp (= 1.0.0)
 
 SPEC CHECKSUMS:
@@ -70,6 +74,7 @@ SPEC CHECKSUMS:
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
   OHHTTPStubs: c93230597bc5c8b74bcfdb403cc8773515b8b08c
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   XCTest+OHHTTPStubSuiteCleanUp: 4469ec8863c6bc022c5089a9b94233eb3416c5ee
 
 COCOAPODS: 0.38.2

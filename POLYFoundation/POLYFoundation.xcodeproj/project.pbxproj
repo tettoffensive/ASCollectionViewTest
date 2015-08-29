@@ -7,11 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		171674231B911F110099FBA6 /* POLYFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1716741D1B911F110099FBA6 /* POLYFileManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		171674241B911F110099FBA6 /* POLYFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1716741E1B911F110099FBA6 /* POLYFileManager.m */; };
+		171674251B911F110099FBA6 /* POLYImageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1716741F1B911F110099FBA6 /* POLYImageManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		171674261B911F110099FBA6 /* POLYImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 171674201B911F110099FBA6 /* POLYImageManager.m */; };
+		171674271B911F110099FBA6 /* POLYVideoManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 171674211B911F110099FBA6 /* POLYVideoManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		171674281B911F110099FBA6 /* POLYVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 171674221B911F110099FBA6 /* POLYVideoManager.m */; };
+		1716742C1B9120F30099FBA6 /* POLYUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1716742A1B9120F30099FBA6 /* POLYUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1716742D1B9120F30099FBA6 /* POLYUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1716742B1B9120F30099FBA6 /* POLYUtils.m */; };
+		1716742F1B9121550099FBA6 /* POLYFoundation-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 1716742E1B9121550099FBA6 /* POLYFoundation-Prefix.pch */; };
+		1716743A1B9122620099FBA6 /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 171674381B9122620099FBA6 /* AWSRuntime.framework */; };
+		1716743B1B9122620099FBA6 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 171674391B9122620099FBA6 /* AWSS3.framework */; };
+		1716743E1B9123CD0099FBA6 /* POLYDate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1716743C1B9123CD0099FBA6 /* POLYDate.h */; };
+		1716743F1B9123CD0099FBA6 /* POLYDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1716743D1B9123CD0099FBA6 /* POLYDate.m */; };
 		172D74FB1B90E01E00FC8137 /* POLYNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 172D74F91B90E01E00FC8137 /* POLYNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		172D74FC1B90E01E00FC8137 /* POLYNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 172D74FA1B90E01E00FC8137 /* POLYNetworking.m */; };
 		17A3878D1B90D1AF00702E85 /* POLYFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 17A3878C1B90D1AF00702E85 /* POLYFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		17A387931B90D1AF00702E85 /* POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17A387871B90D1AF00702E85 /* POLYFoundation.framework */; };
 		17A3879A1B90D1AF00702E85 /* POLYFoundationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A387991B90D1AF00702E85 /* POLYFoundationTests.m */; };
+		17A8B66B1B9127050094D2C9 /* UIImage+WebP.h in Headers */ = {isa = PBXBuildFile; fileRef = 17A8B6681B9127050094D2C9 /* UIImage+WebP.h */; };
+		17A8B66C1B9127050094D2C9 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A8B6691B9127050094D2C9 /* UIImage+WebP.m */; };
+		17A8B66D1B9127050094D2C9 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17A8B66A1B9127050094D2C9 /* WebP.framework */; };
+		17A8B6711B912BB20094D2C9 /* CGPointExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 17A8B66F1B912BB20094D2C9 /* CGPointExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		17A8B6721B912BB20094D2C9 /* CGPointExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A8B6701B912BB20094D2C9 /* CGPointExtension.m */; };
+		17A8B68C1B912C5B0094D2C9 /* UIButton+UIQueryAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 17A8B6841B912C5B0094D2C9 /* UIButton+UIQueryAdditions.h */; };
+		17A8B68D1B912C5B0094D2C9 /* UIButton+UIQueryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A8B6851B912C5B0094D2C9 /* UIButton+UIQueryAdditions.m */; };
+		17A8B68E1B912C5B0094D2C9 /* UIColor+UIQueryAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 17A8B6861B912C5B0094D2C9 /* UIColor+UIQueryAdditions.h */; };
+		17A8B68F1B912C5B0094D2C9 /* UIColor+UIQueryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A8B6871B912C5B0094D2C9 /* UIColor+UIQueryAdditions.m */; };
+		17A8B6901B912C5B0094D2C9 /* UIQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 17A8B6881B912C5B0094D2C9 /* UIQuery.h */; };
+		17A8B6911B912C5B0094D2C9 /* UIQueryShortcuts.h in Headers */ = {isa = PBXBuildFile; fileRef = 17A8B6891B912C5B0094D2C9 /* UIQueryShortcuts.h */; };
+		17A8B6921B912C5B0094D2C9 /* UIView+UIQueryAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 17A8B68A1B912C5B0094D2C9 /* UIView+UIQueryAdditions.h */; };
+		17A8B6931B912C5B0094D2C9 /* UIView+UIQueryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A8B68B1B912C5B0094D2C9 /* UIView+UIQueryAdditions.m */; };
 		17D4CA7B1B910B7B00070321 /* POLYViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 17D4CA791B910B7B00070321 /* POLYViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		17D4CA7C1B910B7B00070321 /* POLYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA7A1B910B7B00070321 /* POLYViewController.m */; };
 		7FF2496B24D5ABD3C09980BB /* Pods_POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 469D7124D47E8B15DE3CDE28 /* Pods_POLYFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -29,6 +55,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1716741D1B911F110099FBA6 /* POLYFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = POLYFileManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		1716741E1B911F110099FBA6 /* POLYFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = POLYFileManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1716741F1B911F110099FBA6 /* POLYImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = POLYImageManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		171674201B911F110099FBA6 /* POLYImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYImageManager.m; sourceTree = "<group>"; };
+		171674211B911F110099FBA6 /* POLYVideoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = POLYVideoManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		171674221B911F110099FBA6 /* POLYVideoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = POLYVideoManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1716742A1B9120F30099FBA6 /* POLYUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYUtils.h; sourceTree = "<group>"; };
+		1716742B1B9120F30099FBA6 /* POLYUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYUtils.m; sourceTree = "<group>"; };
+		1716742E1B9121550099FBA6 /* POLYFoundation-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "POLYFoundation-Prefix.pch"; sourceTree = "<group>"; };
+		171674381B9122620099FBA6 /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSRuntime.framework; sourceTree = "<group>"; };
+		171674391B9122620099FBA6 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSS3.framework; sourceTree = "<group>"; };
+		1716743C1B9123CD0099FBA6 /* POLYDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYDate.h; sourceTree = "<group>"; };
+		1716743D1B9123CD0099FBA6 /* POLYDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYDate.m; sourceTree = "<group>"; };
 		172D74F91B90E01E00FC8137 /* POLYNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYNetworking.h; sourceTree = "<group>"; };
 		172D74FA1B90E01E00FC8137 /* POLYNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYNetworking.m; sourceTree = "<group>"; };
 		17A387871B90D1AF00702E85 /* POLYFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = POLYFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,6 +76,19 @@
 		17A387921B90D1AF00702E85 /* POLYFoundationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = POLYFoundationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17A387981B90D1AF00702E85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17A387991B90D1AF00702E85 /* POLYFoundationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = POLYFoundationTests.m; sourceTree = "<group>"; };
+		17A8B6681B9127050094D2C9 /* UIImage+WebP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+WebP.h"; path = "WebP/UIImage+WebP.h"; sourceTree = "<group>"; };
+		17A8B6691B9127050094D2C9 /* UIImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+WebP.m"; path = "WebP/UIImage+WebP.m"; sourceTree = "<group>"; };
+		17A8B66A1B9127050094D2C9 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = WebP/WebP.framework; sourceTree = "<group>"; };
+		17A8B66F1B912BB20094D2C9 /* CGPointExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGPointExtension.h; sourceTree = "<group>"; };
+		17A8B6701B912BB20094D2C9 /* CGPointExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGPointExtension.m; sourceTree = "<group>"; };
+		17A8B6841B912C5B0094D2C9 /* UIButton+UIQueryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+UIQueryAdditions.h"; sourceTree = "<group>"; };
+		17A8B6851B912C5B0094D2C9 /* UIButton+UIQueryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+UIQueryAdditions.m"; sourceTree = "<group>"; };
+		17A8B6861B912C5B0094D2C9 /* UIColor+UIQueryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+UIQueryAdditions.h"; sourceTree = "<group>"; };
+		17A8B6871B912C5B0094D2C9 /* UIColor+UIQueryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+UIQueryAdditions.m"; sourceTree = "<group>"; };
+		17A8B6881B912C5B0094D2C9 /* UIQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIQuery.h; sourceTree = "<group>"; };
+		17A8B6891B912C5B0094D2C9 /* UIQueryShortcuts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIQueryShortcuts.h; sourceTree = "<group>"; };
+		17A8B68A1B912C5B0094D2C9 /* UIView+UIQueryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIQueryAdditions.h"; sourceTree = "<group>"; };
+		17A8B68B1B912C5B0094D2C9 /* UIView+UIQueryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIQueryAdditions.m"; sourceTree = "<group>"; };
 		17D4CA791B910B7B00070321 /* POLYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYViewController.h; sourceTree = "<group>"; };
 		17D4CA7A1B910B7B00070321 /* POLYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYViewController.m; sourceTree = "<group>"; };
 		3FF9FF824E4D18283AD1E95A /* Pods-POLYFoundation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-POLYFoundation.release.xcconfig"; path = "../Pods/Target Support Files/Pods-POLYFoundation/Pods-POLYFoundation.release.xcconfig"; sourceTree = "<group>"; };
@@ -54,6 +106,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17A8B66D1B9127050094D2C9 /* WebP.framework in Frameworks */,
+				1716743B1B9122620099FBA6 /* AWSS3.framework in Frameworks */,
+				1716743A1B9122620099FBA6 /* AWSRuntime.framework in Frameworks */,
 				7FF2496B24D5ABD3C09980BB /* Pods_POLYFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -70,6 +125,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		171674291B911F3E0099FBA6 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				1716741D1B911F110099FBA6 /* POLYFileManager.h */,
+				1716741E1B911F110099FBA6 /* POLYFileManager.m */,
+				1716741F1B911F110099FBA6 /* POLYImageManager.h */,
+				171674201B911F110099FBA6 /* POLYImageManager.m */,
+				171674211B911F110099FBA6 /* POLYVideoManager.h */,
+				171674221B911F110099FBA6 /* POLYVideoManager.m */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		171674341B9121CC0099FBA6 /* WebP */ = {
+			isa = PBXGroup;
+			children = (
+				17A8B6681B9127050094D2C9 /* UIImage+WebP.h */,
+				17A8B6691B9127050094D2C9 /* UIImage+WebP.m */,
+				17A8B66A1B9127050094D2C9 /* WebP.framework */,
+			);
+			name = WebP;
+			sourceTree = "<group>";
+		};
+		171674351B9121D70099FBA6 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				171674341B9121CC0099FBA6 /* WebP */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
 		17A3877D1B90D1AF00702E85 = {
 			isa = PBXGroup;
 			children = (
@@ -93,11 +179,14 @@
 		17A387891B90D1AF00702E85 /* POLYFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				17A3878C1B90D1AF00702E85 /* POLYFoundation.h */,
+				17A8B66E1B912B430094D2C9 /* Utilities */,
+				171674351B9121D70099FBA6 /* External */,
+				171674291B911F3E0099FBA6 /* Managers */,
 				17D4CA791B910B7B00070321 /* POLYViewController.h */,
 				17D4CA7A1B910B7B00070321 /* POLYViewController.m */,
 				172D74F91B90E01E00FC8137 /* POLYNetworking.h */,
 				172D74FA1B90E01E00FC8137 /* POLYNetworking.m */,
-				17A3878C1B90D1AF00702E85 /* POLYFoundation.h */,
 				17A3878A1B90D1AF00702E85 /* Supporting Files */,
 			);
 			path = POLYFoundation;
@@ -107,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				17A3878B1B90D1AF00702E85 /* Info.plist */,
+				1716742E1B9121550099FBA6 /* POLYFoundation-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -128,9 +218,40 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		17A8B66E1B912B430094D2C9 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				17A8B6831B912C5B0094D2C9 /* UIQuery */,
+				17A8B66F1B912BB20094D2C9 /* CGPointExtension.h */,
+				17A8B6701B912BB20094D2C9 /* CGPointExtension.m */,
+				1716743C1B9123CD0099FBA6 /* POLYDate.h */,
+				1716743D1B9123CD0099FBA6 /* POLYDate.m */,
+				1716742A1B9120F30099FBA6 /* POLYUtils.h */,
+				1716742B1B9120F30099FBA6 /* POLYUtils.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		17A8B6831B912C5B0094D2C9 /* UIQuery */ = {
+			isa = PBXGroup;
+			children = (
+				17A8B6841B912C5B0094D2C9 /* UIButton+UIQueryAdditions.h */,
+				17A8B6851B912C5B0094D2C9 /* UIButton+UIQueryAdditions.m */,
+				17A8B6861B912C5B0094D2C9 /* UIColor+UIQueryAdditions.h */,
+				17A8B6871B912C5B0094D2C9 /* UIColor+UIQueryAdditions.m */,
+				17A8B6881B912C5B0094D2C9 /* UIQuery.h */,
+				17A8B6891B912C5B0094D2C9 /* UIQueryShortcuts.h */,
+				17A8B68A1B912C5B0094D2C9 /* UIView+UIQueryAdditions.h */,
+				17A8B68B1B912C5B0094D2C9 /* UIView+UIQueryAdditions.m */,
+			);
+			path = UIQuery;
+			sourceTree = "<group>";
+		};
 		74BB5513AEEE24D18DFA3565 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				171674381B9122620099FBA6 /* AWSRuntime.framework */,
+				171674391B9122620099FBA6 /* AWSS3.framework */,
 				469D7124D47E8B15DE3CDE28 /* Pods_POLYFoundation.framework */,
 				B6D02FBCC7B6856712480888 /* Pods_POLYFoundationTests.framework */,
 			);
@@ -157,9 +278,22 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17A8B6711B912BB20094D2C9 /* CGPointExtension.h in Headers */,
+				1716742F1B9121550099FBA6 /* POLYFoundation-Prefix.pch in Headers */,
 				172D74FB1B90E01E00FC8137 /* POLYNetworking.h in Headers */,
+				17A8B66B1B9127050094D2C9 /* UIImage+WebP.h in Headers */,
+				171674271B911F110099FBA6 /* POLYVideoManager.h in Headers */,
+				17A8B68C1B912C5B0094D2C9 /* UIButton+UIQueryAdditions.h in Headers */,
+				17A8B6921B912C5B0094D2C9 /* UIView+UIQueryAdditions.h in Headers */,
 				17D4CA7B1B910B7B00070321 /* POLYViewController.h in Headers */,
+				1716743E1B9123CD0099FBA6 /* POLYDate.h in Headers */,
+				171674251B911F110099FBA6 /* POLYImageManager.h in Headers */,
+				17A8B6901B912C5B0094D2C9 /* UIQuery.h in Headers */,
+				1716742C1B9120F30099FBA6 /* POLYUtils.h in Headers */,
 				17A3878D1B90D1AF00702E85 /* POLYFoundation.h in Headers */,
+				171674231B911F110099FBA6 /* POLYFileManager.h in Headers */,
+				17A8B6911B912C5B0094D2C9 /* UIQueryShortcuts.h in Headers */,
+				17A8B68E1B912C5B0094D2C9 /* UIColor+UIQueryAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,8 +476,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17A8B6721B912BB20094D2C9 /* CGPointExtension.m in Sources */,
+				171674261B911F110099FBA6 /* POLYImageManager.m in Sources */,
+				171674241B911F110099FBA6 /* POLYFileManager.m in Sources */,
 				17D4CA7C1B910B7B00070321 /* POLYViewController.m in Sources */,
+				17A8B68D1B912C5B0094D2C9 /* UIButton+UIQueryAdditions.m in Sources */,
+				17A8B66C1B9127050094D2C9 /* UIImage+WebP.m in Sources */,
+				1716742D1B9120F30099FBA6 /* POLYUtils.m in Sources */,
+				1716743F1B9123CD0099FBA6 /* POLYDate.m in Sources */,
 				172D74FC1B90E01E00FC8137 /* POLYNetworking.m in Sources */,
+				17A8B68F1B912C5B0094D2C9 /* UIColor+UIQueryAdditions.m in Sources */,
+				171674281B911F110099FBA6 /* POLYVideoManager.m in Sources */,
+				17A8B6931B912C5B0094D2C9 /* UIView+UIQueryAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +606,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Stuart/Swipe/Swipe,
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/POLYFoundation/WebP",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "POLYFoundation/POLYFoundation-Prefix.pch";
 				INFOPLIST_FILE = POLYFoundation/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -480,6 +632,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Stuart/Swipe/Swipe,
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/POLYFoundation/WebP",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "POLYFoundation/POLYFoundation-Prefix.pch";
 				INFOPLIST_FILE = POLYFoundation/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

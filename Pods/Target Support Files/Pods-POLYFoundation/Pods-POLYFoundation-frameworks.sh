@@ -57,6 +57,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-POLYFoundation/libextobjc.framework'
   install_framework 'Pods-POLYFoundation/AFNetworkActivityLogger.framework'
   install_framework 'Pods-POLYFoundation/AFNetworking.framework'
+  install_framework 'Pods-POLYFoundation/SDWebImage.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-POLYFoundation/KVOController.framework'
@@ -64,4 +65,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-POLYFoundation/libextobjc.framework'
   install_framework 'Pods-POLYFoundation/AFNetworkActivityLogger.framework'
   install_framework 'Pods-POLYFoundation/AFNetworking.framework'
+  install_framework 'Pods-POLYFoundation/SDWebImage.framework'
 fi

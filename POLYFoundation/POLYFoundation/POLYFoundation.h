@@ -16,3 +16,8 @@ FOUNDATION_EXPORT const unsigned char POLYFoundationVersionString[];
 
 #import <POLYFoundation/POLYNetworking.h>
 #import <POLYFoundation/POLYViewController.h>
+#import <POLYFoundation/POLYUtils.h>
+#import <POLYFoundation/POLYFileManager.h>
+#import <POLYFoundation/POLYImageManager.h>
+#import <POLYFoundation/POLYVideoManager.h>
+#import <POLYFoundation/CGPointExtension.h>
