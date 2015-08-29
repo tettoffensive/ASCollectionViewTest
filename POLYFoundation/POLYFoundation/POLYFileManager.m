@@ -69,18 +69,18 @@
     void (^successBlockCopy)(NSData *data) = [successBlock copy];
     void (^failureBlockCopy)(NSError *err) = [failureBlock copy];
     
-    [dictionary setObject: progressBlockCopy forKey: @"progress"];
-    [dictionary setObject: successBlockCopy forKey: @"success"];
-    [dictionary setObject: failureBlockCopy forKey: @"failure"];
+    dictionary[@"progress"] = progressBlockCopy;
+    dictionary[@"success"] = successBlockCopy;
+    dictionary[@"failure"] = failureBlockCopy;
     
     // Completion percentage
-    [dictionary setObject: [NSNumber numberWithFloat: 0.0] forKey: @"percent"];
+    dictionary[@"percent"] = @0.0f;
     
     // Array of pending blocks
     NSMutableArray *pending = [[NSMutableArray alloc] init];
-    [dictionary setObject: pending forKey: @"pending"];
+    dictionary[@"pending"] = pending;
     
-    [self.downloads setObject: dictionary forKey: key];
+    (self.downloads)[key] = dictionary;
     
     S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey: key withBucket: self.s3Bucket];
     [request setDate: [POLYDate correctDate]];
@@ -90,7 +90,7 @@
     
     [self.s3 getObject: request];
     
-    [[self.downloads objectForKey: key] setObject: request forKey: @"request"];
+    (self.downloads)[key][@"request"] = request;
     
 }
 
@@ -147,18 +147,18 @@
     void (^successBlockCopy)(BOOL finished) = [successBlock copy];
     void (^failureBlockCopy)(NSError *err) = [failureBlock copy];
     
-    [dictionary setObject: progressBlockCopy forKey: @"progress"];
-    [dictionary setObject: successBlockCopy forKey: @"success"];
-    [dictionary setObject: failureBlockCopy forKey: @"failure"];
+    dictionary[@"progress"] = progressBlockCopy;
+    dictionary[@"success"] = successBlockCopy;
+    dictionary[@"failure"] = failureBlockCopy;
     
     // Completion percentage
-    [dictionary setObject: [NSNumber numberWithFloat: 0.0] forKey: @"percent"];
+    dictionary[@"percent"] = @0.0f;
     
     // Array of pending blocks
     NSMutableArray *pending = [[NSMutableArray alloc] init];
-    [dictionary setObject: pending forKey: @"pending"];
+    dictionary[@"pending"] = pending;
     
-    [self.uploads setObject: dictionary forKey: key];
+    (self.uploads)[key] = dictionary;
     
     S3PutObjectRequest *request = [[S3PutObjectRequest alloc] initWithKey: key inBucket: self.s3Bucket];
     [request setCacheControl: @"max-age=31536000"];
@@ -171,7 +171,7 @@
     
     [self.s3tm upload: request];
     
-    [[self.uploads objectForKey: key] setObject: request forKey: @"request"];
+    (self.uploads)[key][@"request"] = request;
     
     return key;
     
@@ -209,23 +209,23 @@
 {
     if ([[self.downloads allKeys] containsObject: key]) {
         
-        for (void (^block)() in [[self.downloads objectForKey: key] objectForKey: @"pending"]) {
+        for (void (^block)() in (self.downloads)[key][@"pending"]) {
             
             block();
             
         }
         
-        [[[self.downloads objectForKey: key] objectForKey: @"pending"] removeAllObjects];
+        [(self.downloads)[key][@"pending"] removeAllObjects];
         
     } else if ([[self.uploads allKeys] containsObject: key]) {
         
-        for (void (^block)() in [[self.uploads objectForKey: key] objectForKey: @"pending"]) {
+        for (void (^block)() in (self.uploads)[key][@"pending"]) {
             
             block();
             
         }
         
-        [[[self.uploads objectForKey: key] objectForKey: @"pending"] removeAllObjects];
+        [(self.uploads)[key][@"pending"] removeAllObjects];
         
     }
     
@@ -235,11 +235,11 @@
 {
     if ([[self.downloads allKeys] containsObject: key]) {
         
-        [[[self.downloads objectForKey: key] objectForKey: @"pending"] removeAllObjects];
+        [(self.downloads)[key][@"pending"] removeAllObjects];
         
     } else if ([[self.uploads allKeys] containsObject: key]) {
         
-        [[[self.uploads objectForKey: key] objectForKey: @"pending"] removeAllObjects];
+        [(self.uploads)[key][@"pending"] removeAllObjects];
         
     }
 }
@@ -248,11 +248,11 @@
 {
     if ([[self.downloads allKeys] containsObject: key]) {
         
-        [[[self.downloads objectForKey: key] objectForKey: @"pending"] addObject: block];
+        [(self.downloads)[key][@"pending"] addObject: block];
         
     } else if ([[self.uploads allKeys] containsObject: key]) {
         
-        [[[self.uploads objectForKey: key] objectForKey: @"pending"] addObject: block];
+        [(self.uploads)[key][@"pending"] addObject: block];
         
     } else {
         
@@ -266,7 +266,7 @@
     CGFloat percentage = -1.0;
     
     if ([[self.uploads allKeys] containsObject: key]) {
-        percentage = [[[self.uploads objectForKey: key] valueForKey: @"percentage"] floatValue];
+        percentage = [[(self.uploads)[key] valueForKey: @"percentage"] floatValue];
     }
     
     return percentage;
@@ -315,7 +315,7 @@
 - (void)restartUploadWithKey:(NSString *)key
 {
     if ([[self.uploads allKeys] containsObject: key]) {
-        S3PutObjectRequest *request = [[self.uploads objectForKey: key] objectForKey: @"request"];
+        S3PutObjectRequest *request = (self.uploads)[key][@"request"];
         [request setDelegate: self];
         [self.s3tm upload: request];
     }
@@ -323,7 +323,7 @@
 
 - (void)cancelUploadWithKey:(NSString *)key
 {
-    [[[self.uploads objectForKey: key] objectForKey: @"request"] cancel];
+    [(self.uploads)[key][@"request"] cancel];
     [self.uploads removeObjectForKey: key];
 }
 
@@ -343,13 +343,13 @@
     
     if ([[self.downloads allKeys] containsObject: request.requestTag]) {
         
-        [[self.downloads objectForKey: request.requestTag] setObject: [NSNumber numberWithFloat: percentage] forKey: @"percentage"];
-        progressCallback = [[self.downloads objectForKey: request.requestTag] objectForKey: @"progress"];
+        (self.downloads)[request.requestTag][@"percentage"] = @(percentage);
+        progressCallback = (self.downloads)[request.requestTag][@"progress"];
         
     } else if ([[self.uploads allKeys] containsObject: request.requestTag]) {
         
-        [[self.uploads objectForKey: request.requestTag] setObject: [NSNumber numberWithFloat: percentage] forKey: @"percentage"];
-        progressCallback = [[self.uploads objectForKey: request.requestTag] objectForKey: @"progress"];
+        (self.uploads)[request.requestTag][@"percentage"] = @(percentage);
+        progressCallback = (self.uploads)[request.requestTag][@"progress"];
         
     }
     
@@ -367,14 +367,14 @@
     
     if ([[self.downloads allKeys] containsObject: request.requestTag]) {
         
-        failureCallback = [[self.downloads objectForKey:request.requestTag] objectForKey: @"failure"];
+        failureCallback = (self.downloads)[request.requestTag][@"failure"];
         if (failureCallback) failureCallback(error);
         
         [self.downloads removeObjectForKey: request.requestTag];
         
     } else if ([[self.uploads allKeys] containsObject: request.requestTag]) {
         
-        failureCallback = [[self.uploads objectForKey:request.requestTag] objectForKey: @"failure"];
+        failureCallback = (self.uploads)[request.requestTag][@"failure"];
         if (failureCallback) failureCallback(error);
         
     }
@@ -389,14 +389,14 @@
     
     if ([[self.downloads allKeys] containsObject: request.requestTag]) {
         
-        void (^successCallback)(NSData *data) = [[self.downloads objectForKey:request.requestTag] objectForKey: @"success"];
+        void (^successCallback)(NSData *data) = (self.downloads)[request.requestTag][@"success"];
         successCallback([response body]);
         
         [self.downloads removeObjectForKey: request.requestTag];
         
     } else if ([[self.uploads allKeys] containsObject: request.requestTag]) {
         
-        void (^successCallback)(BOOL finished) = [[self.uploads objectForKey:request.requestTag] objectForKey: @"success"];
+        void (^successCallback)(BOOL finished) = (self.uploads)[request.requestTag][@"success"];
         successCallback(YES);
         
         [self.uploads removeObjectForKey: request.requestTag];

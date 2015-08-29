@@ -29,8 +29,8 @@
 
 - (CGFloat)percentageCompleteForUploadWithKey:(NSString *)key;
 
-- (CGFloat)percentageCompleteForAllDownloads;
-- (CGFloat)percentageCompleteForAllUploads;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGFloat percentageCompleteForAllDownloads;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGFloat percentageCompleteForAllUploads;
 
 - (void)restartUploadWithKey:(NSString *)key;
 - (void)cancelUploadWithKey:(NSString *)key;

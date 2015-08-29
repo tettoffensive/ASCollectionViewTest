@@ -28,7 +28,7 @@
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
     char *machine = malloc(size);
     sysctlbyname("hw.machine", machine, &size, NULL, 0);
-    NSString *platform = [NSString stringWithUTF8String:machine];
+    NSString *platform = @(machine);
     free(machine);
     
     return platform;
@@ -56,7 +56,7 @@
 + (NSString *)documentPathForFilename:(NSString *)filename {
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documents = [paths objectAtIndex: 0];
+    NSString *documents = paths[0];
     NSString *path = [documents stringByAppendingPathComponent: filename];
     
     return path;
@@ -85,7 +85,7 @@
 + (CGFloat)keyboardHeight:(NSNotification*)notification forView:(UIView*)view {
     
     NSDictionary *info = [notification userInfo];
-    NSValue* value = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    NSValue* value = info[UIKeyboardFrameEndUserInfoKey];
     CGRect keyboard;
     [value getValue:&keyboard];
     keyboard = [view convertRect: keyboard fromView: 0];
@@ -272,7 +272,7 @@ void __POLYDebugPrint(const char *fileName, int lineNumber, NSString *logMsg)
     static NSDateFormatter *debugFormatter = nil;
     debugFormatter = [[NSDateFormatter alloc] init];
     [debugFormatter setDateFormat:@"yyyyMMdd.HH:mm:ss"];
-    NSString *filePath  = [[NSString alloc] initWithUTF8String:fileName];
+    NSString *filePath  = @(fileName);
     fprintf(stdout, "%.f %s:%d - %s\n", [NSDate timeIntervalSinceReferenceDate], [[filePath lastPathComponent] UTF8String], lineNumber, [logMsg UTF8String]);
 }
 

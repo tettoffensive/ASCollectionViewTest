@@ -10,7 +10,7 @@
 
 @interface POLYNetworking : NSObject
 
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE NS_DESIGNATED_INITIALIZER;
 + (instancetype)sharedNetwork;
 
 @end
