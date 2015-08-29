@@ -22,8 +22,8 @@
 
 // Device
 
-+ (NSString *)deviceIdentifier {
-    
++ (NSString *)deviceIdentifier
+{
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
     char *machine = malloc(size);
@@ -35,7 +35,8 @@
     
 }
 
-+ (BOOL)deviceUsesLowResolutionCamera {
++ (BOOL)deviceUsesLowResolutionCamera
+{
     
     NSString *device = [POLYUtils deviceIdentifier];
     
@@ -53,7 +54,8 @@
 
 // Filesystem
 
-+ (NSString *)documentPathForFilename:(NSString *)filename {
++ (NSString *)documentPathForFilename:(NSString *)filename
+{
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documents = paths[0];
@@ -65,10 +67,11 @@
 
 // Helpers
 
-+ (NSString *)formatLargeNumber:(int)number {
++ (NSString *)formatLargeNumber:(NSInteger)number
+{
     NSString *numberString = @"";
     if (number < 10000) {
-        numberString = [NSString stringWithFormat:@"%d",number];
+        numberString = [NSString stringWithFormat:@"%d",(int)number];
     } else if (number < 1000000) {
         CGFloat n = number / 1000;
         numberString = [NSString stringWithFormat:@"%0.0fK",n];
@@ -82,7 +85,8 @@
     return numberString;
 }
 
-+ (CGFloat)keyboardHeight:(NSNotification*)notification forView:(UIView*)view {
++ (CGFloat)keyboardHeight:(NSNotification*)notification forView:(UIView*)view
+{
     
     NSDictionary *info = [notification userInfo];
     NSValue* value = info[UIKeyboardFrameEndUserInfoKey];
@@ -93,7 +97,8 @@
     
 }
 
-+ (NSString *)randomIdentifierWithLength:(int)length {
++ (NSString *)randomIdentifierWithLength:(NSInteger)length
+{
     
     NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
     int possibilities = (int)[alphabet length];
@@ -110,7 +115,8 @@
     
 }
 
-+ (NSString *)sha1:(NSString*)input {
++ (NSString *)sha1:(NSString*)input
+{
 
     const char *cstr = [input cStringUsingEncoding:NSUTF8StringEncoding];
     NSData *data = [NSData dataWithBytes:cstr length:input.length];
@@ -130,7 +136,8 @@
 
 // Images
 
-+ (NSData *)dataFromRedrawnImage:(UIImage *)image {
++ (NSData *)dataFromRedrawnImage:(UIImage *)image
+{
     
     CGSize size = image.size;
     UIGraphicsBeginImageContext(size);
@@ -148,6 +155,7 @@
 
 + (UIImage *)imageResizedForThumbnail:(UIImage *)image {
     
+    
     CGFloat size = 88.0;
     
     CGSize scaledSize = CGSizeMake(size, (image.size.height * size) / image.size.width);
@@ -163,7 +171,8 @@
     
 }
 
-+ (UIImage *)imageResizedForUpload:(UIImage *)image {
++ (UIImage *)imageResizedForUpload:(UIImage *)image
+{
     
     CGFloat size = 1080.0;
     
@@ -180,7 +189,8 @@
     
 }
 
-+ (NSString *)imageProcessedForUpload:(UIImage *)image withCompletion:(void (^)(NSData *, NSString *))complete {
++ (NSString *)imageProcessedForUpload:(UIImage *)image withCompletion:(void (^)(NSData *, NSString *))complete
+{
     
     __block NSString *identifier = [POLYUtils randomIdentifierWithLength: 8];
     
@@ -201,7 +211,8 @@
     
 }
 
-+ (void)imageFromWebPData:(NSData *)data withCompletion:(void (^)(UIImage *))complete {
++ (void)imageFromWebPData:(NSData *)data withCompletion:(void (^)(UIImage *))complete
+{
     
     [UIImage imageFromWebPData: data completionBlock:^(UIImage *result) {
         

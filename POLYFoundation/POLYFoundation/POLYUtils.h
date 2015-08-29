@@ -18,9 +18,9 @@
 + (NSString *)documentPathForFilename:(NSString *)filename;
 
 // Helpers
-+ (NSString *)formatLargeNumber:(int)number;
++ (NSString *)formatLargeNumber:(NSInteger)number;
 + (CGFloat)keyboardHeight:(NSNotification*)notification forView:(UIView*)view;
-+ (NSString *)randomIdentifierWithLength:(int)length;
++ (NSString *)randomIdentifierWithLength:(NSInteger)length;
 + (NSString *)sha1:(NSString*)input;
 
 // Images
