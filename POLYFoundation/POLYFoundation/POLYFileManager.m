@@ -9,43 +9,49 @@
 #import "POLYFileManager.h"
 
 @import AWSCore;
+@import MobileCoreServices;
 
 #import <SDWebImage/SDWebImageManager.h>
 
 @interface POLYFileManager()
+{
+    // background queues to manage calls to caching uploads/downloads on background threads (avoid race-conditions)
+    dispatch_queue_t _uploadsCacheQueue;
+    dispatch_queue_t _downloadsCacheQueue;
+}
 
 @property (nonatomic, strong) AWSS3TransferManager *transferManager;
-
-@property (nonatomic, strong) NSMutableDictionary *downloads;
-@property (nonatomic, strong) NSMutableDictionary *uploads;
+@property (nonatomic, strong) NSMutableDictionary  *downloads;
+@property (nonatomic, strong) NSMutableDictionary  *uploads;
 
 @end
 
 @implementation POLYFileManager
 
-- (instancetype)initWithAccessKey:(NSString *)accessKey withSecretKey:(NSString *)secretKey
+- (instancetype)initWithAccessKey:(NSString *)accessKey
+                    withSecretKey:(NSString *)secretKey
 {
     if (self = [super init]) {
-        _downloads = [[NSMutableDictionary alloc] init];
-        _uploads = [[NSMutableDictionary alloc] init];
+        _uploadsCacheQueue   = dispatch_queue_create("com.ComplexPolygon.uploadscache", DISPATCH_QUEUE_CONCURRENT);
+        _downloadsCacheQueue = dispatch_queue_create("com.ComplexPolygon.downloadscache", DISPATCH_QUEUE_CONCURRENT);
+        
+        _downloads = [NSMutableDictionary new];
+        _uploads = [NSMutableDictionary new];
+        
+        _region = AWSRegionUSWest2;
+        _baseURLString = @"http://cdn.joinswipe.com";
         _transferManager = [AWSS3TransferManager defaultS3TransferManager];
     }
     return self;
 }
 
-- (NSURL *)getURLForFileWithKey:(NSString *)key
-{
-    if (key) {
-        NSString *url = [NSString stringWithFormat:@"%@/%@", self.baseURL, key];
-        return [NSURL URLWithString:url];
-    } else {
-        return nil;
-    }
-}
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Download Files
+#pragma -------------------------------------------------------------------------------------------
 
-- (void)downloadFileWithKey:(NSString *)key
+- (AWSTask *)downloadFileWithKey:(NSString *)key
                    progress:(void (^)(CGFloat progress))progressBlock
-                    success:(void (^)(NSData *))successBlock
+                    success:(void (^)(NSURL *))successBlock
                     failure:(void (^)(NSError *err))failureBlock
 {
     // Construct the download request.
@@ -57,61 +63,94 @@
     downloadRequest.downloadProgress = ^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         CGFloat percentage = ((CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite);
         dispatch_async(dispatch_get_main_queue(), ^{
-            progressBlock(percentage);
+            if (progressBlock) progressBlock(percentage);
         });
     };
     
-    (self.downloads[key])[@"request"] = downloadRequest;
+    [self setDownloadCacheObject:downloadRequest forKey:key];
     
-//    [[self.s3tm download:downloadRequest]
-//     continueWithExecutor:[AWSExecutor mainThreadExecutor]
-//     withBlock:^id(AWSTask *task) {
-//         if (task.error){
-//             if ([task.error.domain isEqualToString:AWSS3TransferManagerErrorDomain]) {
-//                 switch (task.error.code) {
-//                     case AWSS3TransferManagerErrorCancelled:
-//                     case AWSS3TransferManagerErrorPaused:
-//                         break;
-//                         
-//                     default:
-//                         NSLog(@"Error: %@", task.error);
-//                         break;
-//                 }
-//             } else {
-//                 // Unknown error.
-//                 NSLog(@"Error: %@", task.error);
-//             }
-//         }
-//         
-//         if (task.result) {
-//             AWSS3TransferManagerDownloadOutput *downloadOutput = task.result;
-//             //File downloaded successfully.
-//         }
-//         return nil;
-//     }];
+    __weak __typeof(self)weakSelf = self;
+    return [[self.transferManager download:downloadRequest]
+     continueWithBlock:^id(AWSTask *task) {
+         
+         __strong __typeof(weakSelf)strongSelf = weakSelf;
+         [strongSelf clearDownloadCacheObject:key];
+         
+         if (task.error){
+             if ([task.error.domain isEqualToString:AWSS3TransferManagerErrorDomain]) {
+                 switch (task.error.code) {
+                     case AWSS3TransferManagerErrorCancelled:
+                     case AWSS3TransferManagerErrorPaused:
+                         break;
+                         
+                     default:
+                         POLYLog(@"Error: %@", task.error);
+                         break;
+                 }
+             } else {
+                 // Unknown error.
+                 POLYLog(@"Error: %@", task.error);
+             }
+             
+             if (failureBlock) failureBlock(task.error);
+         }
+         
+         if(successBlock) successBlock(downloadRequest.downloadingFileURL);
+         
+         return nil;
+     }];
 }
 
-- (NSString *)uploadFileData:(NSData *)data
-                 contentType:(NSString *)contentType
+- (AWSTask *)downloadImageWithKey:(NSString *)key
                     progress:(void (^)(CGFloat progress))progressBlock
-                     success:(void (^)(BOOL finished))successBlock
+                     success:(void (^)(UIImage *))successBlock
                      failure:(void (^)(NSError *err))failureBlock
+{
+    if (!key || [key isEqualToString: @""]) {
+        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: NSLocalizedString(@"Operation was unsuccessful. Empty key provided", nil), };
+        NSError *error = [NSError errorWithDomain:@"POLYFileManagerErrorDomain" code:-57 userInfo:userInfo];
+        if (failureBlock) failureBlock(error);
+        
+        return [AWSTask taskWithError:error];
+        
+    } else {
+        return [self downloadFileWithKey:key progress:^(CGFloat progress) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (progressBlock) progressBlock(progress);
+            });
+        } success:^(NSURL *downloadingFilePath) {
+            UIImage *image = [UIImage imageWithContentsOfFile:[downloadingFilePath absoluteString]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (progressBlock) successBlock(image);
+            });
+        } failure:^(NSError *err) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (failureBlock) failureBlock(err);
+            });
+        }];
+    }
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Upload Files
+#pragma -------------------------------------------------------------------------------------------
+
+- (AWSTask *)uploadFileData:(NSData *)data
+            withContentType:(NSString *)contentType
+                   progress:(void (^)(CGFloat progress))progressBlock
+                    success:(void (^)(BOOL finished, NSString *key))successBlock
+                    failure:(void (^)(NSError *err))failureBlock
 {
     // Build a key based off the content type
     NSString *key = [[NSUUID UUID] UUIDString];
-    if ([contentType isEqualToString:@"image/jpeg"]) {
-        key = [key stringByAppendingString:@".jpeg"];
-    } else if ([contentType isEqualToString:@"image/webp"]) {
-        key = [key stringByAppendingString:@".webp"];
-    } else if ([contentType isEqualToString:@"video/mp4"]) {
-        key = [key stringByAppendingString:@".mp4"];
-    } else {
-        NSAssert(FALSE, @"Content Type Not Accounted For In uploadFileData");
+    NSString *extension = [self fileExtensionForMimeType:contentType];
+    if ([extension length] > 0) {
+        key = [key stringByAppendingString:extension];
     }
     
     // write data to disk
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:key];
+    NSString *filePath = [paths[0] stringByAppendingPathComponent:key];
     [data writeToFile:filePath atomically:YES];
     NSURL* fileURL = [NSURL fileURLWithPath:filePath];
     
@@ -127,14 +166,14 @@
         });
     };
     
-    (self.uploads)[key] = uploadRequest; // add to the uploads dictionary
+    [self setUploadCacheObject:uploadRequest forKey:key];
     
-    NSMutableDictionary *uploads = self.uploads;
+    __weak __typeof(self)weakSelf = self;
+    return [[self.transferManager upload:uploadRequest]
+     continueWithBlock:^id(AWSTask *task) {
 
-    [[self.transferManager upload:uploadRequest]
-     continueWithExecutor:[AWSExecutor mainThreadExecutor]
-     withBlock:^id(AWSTask *task) {
-         [uploads removeObjectForKey:key];
+         __strong __typeof(weakSelf)strongSelf = weakSelf;
+         [strongSelf clearUploadCacheObject:key];
          
          if (task.error) {
              if ([task.error.domain isEqualToString:AWSS3TransferManagerErrorDomain]) {
@@ -151,144 +190,198 @@
                  // Unknown error.
                  POLYLog(@"Error: %@", task.error);
              }
-             failureBlock(task.error);
+             if(failureBlock) failureBlock(task.error);
          }
          
-         successBlock(YES);
+         if(successBlock) successBlock(YES,key);
          
          return nil;
      }];
-
-    return key;
 }
 
-// Part of the new SPOperationQueue implementation.
+#pragma mark Upload Data Types
 
-- (void)uploadVideoData:(NSData *)data
-               progress:(void (^)(CGFloat progress))progressBlock
-                success:(void (^)(BOOL finished, NSString *key))successBlock
-                failure:(void (^)(NSError *err))failureBlock
+- (AWSTask *)uploadVideoData:(NSData *)data
+                    progress:(void (^)(CGFloat progress))progressBlock
+                     success:(void (^)(BOOL finished, NSString *key))successBlock
+                     failure:(void (^)(NSError *err))failureBlock
 {
-    __block NSString *key = [self uploadFileData:data withContentType:@"video/mp4" progress:^(CGFloat progress) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            progressBlock(progress);
-        });
-        
-    } success:^(BOOL finished) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            successBlock(finished, key);
-        });
-        
-    } failure:^(NSError *err) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            failureBlock(err);
-        });
-        
+    return [self uploadFileData:data
+                withContentType:@"video/mp4"
+                       progress:^(CGFloat progress) {
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               progressBlock(progress);
+                           });
+                       } success:^(BOOL finished, NSString *key) {
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               successBlock(finished, key);
+                           });
+                       } failure:^(NSError *err) {
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               failureBlock(err);
+                           });
+                       }];
+}
+
+
+- (AWSTask *)uploadImage:(UIImage *)image
+                progress:(void (^)(CGFloat progress))progressBlock
+                 success:(void (^)(BOOL finished, NSString *key))successBlock
+                 failure:(void (^)(NSError *err))failureBlock
+{
+    NSData *resampled = UIImageJPEGRepresentation(image, 0.85);
+    
+    return [self uploadFileData: resampled
+                withContentType: @"image/jpeg"
+                       progress:^(CGFloat progress) {
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               progressBlock(progress);
+                           });
+                       } success:^(BOOL finished, NSString *key) {
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               successBlock(finished, key);
+                           });
+                       } failure:^(NSError *err) {
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               failureBlock(err);
+                           });
+                       }];
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - File Transfer Management
+#pragma -------------------------------------------------------------------------------------------
+
+- (AWSTask *)pauseUploadWithKey:(NSString *)key
+{
+    AWSS3TransferManagerUploadRequest *uploadRequest = [self cacheUploadForKey:key];
+    return [[uploadRequest pause] continueWithBlock:nil];
+}
+
+- (AWSTask *)restartUploadWithKey:(NSString *)key
+{
+    AWSS3TransferManagerUploadRequest *uploadRequest = [self cacheUploadForKey:key];
+    return [self.transferManager upload:uploadRequest];
+}
+
+- (AWSTask *)cancelUploadWithKey:(NSString *)key
+{
+    AWSS3TransferManagerUploadRequest *uploadRequest = [self cacheUploadForKey:key];
+    [self clearDownloadCacheObject:key];
+    return [uploadRequest cancel];
+}
+
+- (AWSTask *)pauseDownloadWithKey:(NSString *)key
+{
+    AWSS3TransferManagerDownloadRequest *downloadRequest = [self cacheDownloadForKey:key];
+    return [[downloadRequest pause] continueWithBlock:^id(AWSTask *task) {
+        return nil;
     }];
 }
 
-
-- (void)uploadImage:(UIImage *)image
-           progress:(void (^)(CGFloat progress))progressBlock
-            success:(void (^)(BOOL finished, NSString *key))successBlock
-            failure:(void (^)(NSError *err))failureBlock
+- (AWSTask *)restartDownloadWithKey:(NSString *)key
 {
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-        
-        NSData *resampled = UIImageJPEGRepresentation(image, 0.85);
-        
-        __block NSString *key = [self uploadFileData: resampled withContentType: @"image/jpeg" progress:^(CGFloat progress) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                progressBlock(progress);
-            });
-            
-        } success:^(BOOL finished) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                successBlock(finished, key);
-            });
-            
-        } failure:^(NSError *err) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                failureBlock(err);
-            });
-            
-        }];
-    });
+    AWSS3TransferManagerDownloadRequest *downloadRequest = [self cacheDownloadForKey:key];
+    return [self.transferManager download:downloadRequest];
 }
 
-
-- (void)restartUploadWithKey:(NSString *)key
+- (AWSTask *)cancelDownloadWithKey:(NSString *)key
 {
-    if ([[self.uploads allKeys] containsObject:key]) {
-        [self.transferManager upload:(self.uploads)[key][@"request"]];
+    AWSS3TransferManagerDownloadRequest *downloadRequest = [self cacheDownloadForKey:key];
+    [self clearDownloadCacheObject:key];
+    return [downloadRequest cancel];
+}
+
+- (AWSTask *)pauseAllTransfers
+{
+    return [self.transferManager pauseAll];
+}
+
+- (AWSTask *)resumeAllTransfers
+{
+    return [self.transferManager resumeAll:^(AWSRequest *request) {
+        return;
+    }];
+}
+
+- (AWSTask *)cancelAllTransfers
+{
+    return [self.transferManager cancelAll];
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Utilities
+#pragma -------------------------------------------------------------------------------------------
+
+- (NSURL *)getURLForFileWithKey:(NSString *)key
+{
+    if (key) {
+        NSString *url = [NSString stringWithFormat:@"%@/%@", self.baseURLString, key];
+        return [NSURL URLWithString:url];
+    } else {
+        return nil;
     }
 }
 
-- (void)cancelUploadWithKey:(NSString *)key
+- (id)cacheUploadForKey:(id)key
 {
-    [((AWSS3TransferManagerUploadRequest*)(self.uploads)[key][@"request"]) cancel];
-    [self.uploads removeObjectForKey: key];
+    __block id obj;
+    dispatch_sync(_uploadsCacheQueue, ^{
+        obj = (self.uploads)[key];
+    });
+    return obj;
 }
 
-- (void)cancelAllTransfers
+- (void)setUploadCacheObject:(id)obj forKey: (id)key
 {
-    [self.transferManager cancelAll];
+    NSParameterAssert(obj != nil);
+    dispatch_barrier_async(_uploadsCacheQueue, ^{
+        (self.uploads)[key] = obj;
+    });
 }
 
-#pragma -------------------------------------------------------------------------------------------
-#pragma mark - Private Methods
-#pragma -------------------------------------------------------------------------------------------
+- (void)clearUploadCacheObject:(id)key
+{
+    dispatch_barrier_async(_uploadsCacheQueue, ^{
+        [self.uploads removeObjectForKey:key];
+    });
+}
 
-//- (void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error
-//{
-//    void (^failureCallback)(NSError *err);
-//    
-//    [self removePendingBlocksForRequestWithKey: request.requestTag];
-//    
-//    if ([[self.downloads allKeys] containsObject: request.requestTag]) {
-//        
-//        failureCallback = (self.downloads)[request.requestTag][@"failure"];
-//        if (failureCallback) failureCallback(error);
-//        
-//        [self.downloads removeObjectForKey: request.requestTag];
-//        
-//    } else if ([[self.uploads allKeys] containsObject: request.requestTag]) {
-//        
-//        failureCallback = (self.uploads)[request.requestTag][@"failure"];
-//        if (failureCallback) failureCallback(error);
-//        
-//    }
-//    
-//}
-//
-//- (void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response
-//{
-////    [[POLYNetworking sharedNetwork] reportErrorWithMessage: [[NSString alloc] initWithData: response.body encoding: NSUTF8StringEncoding]];
-//    
-//    [self performPendingBlocksForRequestWithKey: request.requestTag];
-//    
-//    if ([[self.downloads allKeys] containsObject: request.requestTag]) {
-//        
-//        void (^successCallback)(NSData *data) = (self.downloads)[request.requestTag][@"success"];
-//        successCallback([response body]);
-//        
-//        [self.downloads removeObjectForKey: request.requestTag];
-//        
-//    } else if ([[self.uploads allKeys] containsObject: request.requestTag]) {
-//        
-//        void (^successCallback)(BOOL finished) = (self.uploads)[request.requestTag][@"success"];
-//        successCallback(YES);
-//        
-//        [self.uploads removeObjectForKey: request.requestTag];
-//        
-//    }
-//    
-//}
+- (id)cacheDownloadForKey:(id)key
+{
+    __block id obj;
+    dispatch_sync(_downloadsCacheQueue, ^{
+        obj = (self.downloads)[key];
+    });
+    return obj;
+}
+
+- (void)setDownloadCacheObject:(id)obj forKey:(id)key
+{
+    NSParameterAssert(obj != nil);
+    dispatch_barrier_async(_uploadsCacheQueue, ^{
+        (self.downloads)[key] = obj;
+    });
+}
+
+- (void)clearDownloadCacheObject:(id)key
+{
+    dispatch_barrier_async(_downloadsCacheQueue, ^{
+        [self.downloads removeObjectForKey:key];
+    });
+}
+
+- (NSString *) fileExtensionForMimeType:(NSString *)type
+{
+    CFStringRef mimeType = (__bridge CFStringRef)type;
+    CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mimeType, NULL);
+    CFStringRef extension = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassFilenameExtension);
+    
+    NSString *ext = (__bridge_transfer NSString *)extension;
+    
+    if (uti) CFRelease(uti);
+    
+    return ext;
+}
 
 @end
