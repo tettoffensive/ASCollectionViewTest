@@ -39,13 +39,7 @@ end
 
 target 'ChannelsTests', :exclusive => true do
   xcodeproj 'Channels/Channels'
-  pod 'FBSnapshotTestCase', '~>1.4'
-  # pod 'Expecta+Snapshots', '~> 1.2'
-  # pod 'OHHTTPStubs', '3.1.2'
-  # pod 'XCTest+OHHTTPStubSuiteCleanUp', '1.0.0'
-  # pod 'Specta'
-  # pod 'Expecta'
-  # pod 'OCMock', '2.2.4'
+  pod 'OHHTTPStubs'
 end
 
 target :POLYFoundation do
@@ -63,6 +57,5 @@ end
 
 target 'POLYFoundationTests', :exclusive => true do
   xcodeproj 'POLYFoundation/POLYFoundation'
-  # pod 'OHHTTPStubs', '3.1.2'
-  # pod 'XCTest+OHHTTPStubSuiteCleanUp', '1.0.0'
+  pod 'OHHTTPStubs'
 end

@@ -603,7 +603,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Stuart/Swipe/Swipe,
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/POLYFoundation/WebP",
 				);
@@ -630,7 +629,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Stuart/Swipe/Swipe,
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/POLYFoundation/WebP",
 				);
