@@ -20,8 +20,7 @@ def import_pods
   pod 'Bolts'
 
   # libextobjc
-  pod 'libextobjc/EXTKeyPathCoding', '0.4'
-  pod 'libextobjc/EXTScope', '0.4'
+  pod 'libextobjc/EXTScope'
 end
 
 target :Channels do

@@ -35,11 +35,9 @@ PODS:
   - FBSnapshotTestCase (1.8.1)
   - FLKAutoLayout (0.2.1)
   - KVOController (1.0.3)
-  - libextobjc/EXTKeyPathCoding (0.4):
+  - libextobjc/EXTScope (0.4.1):
     - libextobjc/RuntimeExtensions
-  - libextobjc/EXTScope (0.4):
-    - libextobjc/RuntimeExtensions
-  - libextobjc/RuntimeExtensions (0.4)
+  - libextobjc/RuntimeExtensions (0.4.1)
   - Mantle (2.0.4):
     - Mantle/extobjc (= 2.0.4)
   - Mantle/extobjc (2.0.4)
@@ -61,8 +59,7 @@ DEPENDENCIES:
   - FBSnapshotTestCase (~> 1.4)
   - FLKAutoLayout
   - KVOController
-  - libextobjc/EXTKeyPathCoding (= 0.4)
-  - libextobjc/EXTScope (= 0.4)
+  - libextobjc/EXTScope
   - Mantle
   - Mixpanel
   - ObjectiveSugar
@@ -78,7 +75,7 @@ SPEC CHECKSUMS:
   FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
   FLKAutoLayout: 9db6b30c2008d230da608e62c607b11c23b942e6
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
-  libextobjc: f2802d4262f6885570df9799747409ceb1de602c
+  libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Mantle: 6bee68168423948be0c0c5924832bf3af188e099
   Mixpanel: fd52e097ae0d27295d0595b2261c60b94d191fda
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
