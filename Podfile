@@ -17,6 +17,7 @@ def import_pods
   # Language Nicities
   pod 'KVOController'
   pod 'ObjectiveSugar'
+  pod 'Bolts'
 
   # libextobjc
   pod 'libextobjc/EXTKeyPathCoding', '0.4'
@@ -55,10 +56,14 @@ target :POLYFoundation do
   pod "AFNetworking", "~> 2.5.1"
   pod "AFNetworkActivityLogger"
   pod "SDWebImage"
+
+  # AWS - https://github.com/aws/aws-sdk-ios for avail packages
+  pod 'AWSCore'
+  pod 'AWSS3'
 end
 
 target 'POLYFoundationTests', :exclusive => true do
   xcodeproj 'POLYFoundation/POLYFoundation'
-  pod 'OHHTTPStubs', '3.1.2'
-  pod 'XCTest+OHHTTPStubSuiteCleanUp', '1.0.0'
+  # pod 'OHHTTPStubs', '3.1.2'
+  # pod 'XCTest+OHHTTPStubSuiteCleanUp', '1.0.0'
 end

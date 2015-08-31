@@ -52,6 +52,7 @@ code_sign_if_enabled() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework 'Pods-Channels/Bolts.framework'
   install_framework 'Pods-Channels/FLKAutoLayout.framework'
   install_framework 'Pods-Channels/KVOController.framework'
   install_framework 'Pods-Channels/Mantle.framework'
@@ -61,6 +62,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-Channels/pop.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework 'Pods-Channels/Bolts.framework'
   install_framework 'Pods-Channels/FLKAutoLayout.framework'
   install_framework 'Pods-Channels/KVOController.framework'
   install_framework 'Pods-Channels/Mantle.framework'

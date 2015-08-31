@@ -23,6 +23,15 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - AWSCore (2.2.4)
+  - AWSS3 (2.2.4):
+    - AWSCore (= 2.2.4)
+  - Bolts (1.2.1):
+    - Bolts/AppLinks (= 1.2.1)
+    - Bolts/Tasks (= 1.2.1)
+  - Bolts/AppLinks (1.2.1):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.2.1)
   - FBSnapshotTestCase (1.8.1)
   - FLKAutoLayout (0.2.1)
   - KVOController (1.0.3)
@@ -38,17 +47,17 @@ PODS:
     - Mixpanel/Mixpanel (= 2.8.3)
   - Mixpanel/Mixpanel (2.8.3)
   - ObjectiveSugar (1.1.0)
-  - OHHTTPStubs (3.1.2)
   - pop (1.0.7)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
-  - XCTest+OHHTTPStubSuiteCleanUp (1.0.0):
-    - OHHTTPStubs
 
 DEPENDENCIES:
   - AFNetworkActivityLogger
   - AFNetworking (~> 2.5.1)
+  - AWSCore
+  - AWSS3
+  - Bolts
   - FBSnapshotTestCase (~> 1.4)
   - FLKAutoLayout
   - KVOController
@@ -57,14 +66,15 @@ DEPENDENCIES:
   - Mantle
   - Mixpanel
   - ObjectiveSugar
-  - OHHTTPStubs (= 3.1.2)
   - pop (~> 1.0)
   - SDWebImage
-  - XCTest+OHHTTPStubSuiteCleanUp (= 1.0.0)
 
 SPEC CHECKSUMS:
   AFNetworkActivityLogger: 121486778117d53b3ab1c61d264b88081d0c3eee
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  AWSCore: 483fa0f25c8508e3364f818e9b941c6204619afa
+  AWSS3: da758d5a95e65bb9e6e718245c1a86b6f63de9ae
+  Bolts: 7686a5cb204d1ac54cee26f12d9b7622db3f80d1
   FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
   FLKAutoLayout: 9db6b30c2008d230da608e62c607b11c23b942e6
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
@@ -72,9 +82,7 @@ SPEC CHECKSUMS:
   Mantle: 6bee68168423948be0c0c5924832bf3af188e099
   Mixpanel: fd52e097ae0d27295d0595b2261c60b94d191fda
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
-  OHHTTPStubs: c93230597bc5c8b74bcfdb403cc8773515b8b08c
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
-  XCTest+OHHTTPStubSuiteCleanUp: 4469ec8863c6bc022c5089a9b94233eb3416c5ee
 
 COCOAPODS: 0.38.2
