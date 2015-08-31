@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		170C59411B90EFC900EBAAC1 /* POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 170C593C1B90EAE700EBAAC1 /* POLYFoundation.framework */; };
 		17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F31B8FDE9E00AAE2BF /* main.m */; };
 		17AC67F71B8FDE9E00AAE2BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F61B8FDE9E00AAE2BF /* AppDelegate.m */; };
 		17AC67FA1B8FDE9E00AAE2BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F91B8FDE9E00AAE2BF /* ViewController.m */; };
@@ -21,6 +20,7 @@
 		17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA7E1B910BE600070321 /* BaseViewController.m */; };
 		17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA811B910C1900070321 /* ListChannelsViewController.m */; };
 		32F083D01808C6D14E218036 /* Pods_Channels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		374CFB8A1B95043F003C87C0 /* POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 374CFB891B95043F003C87C0 /* POLYFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ADAA5F1B94E38B004EABD7 /* UserModel.m */; };
 /* End PBXBuildFile section */
@@ -36,7 +36,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		170C593C1B90EAE700EBAAC1 /* POLYFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = POLYFoundation.framework; path = "../../Library/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos/POLYFoundation.framework"; sourceTree = "<group>"; };
 		17A387781B8FE92A00702E85 /* Channels-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Channels-Prefix.pch"; sourceTree = "<group>"; };
 		17AC67EE1B8FDE9E00AAE2BF /* Channels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Channels.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17AC67F21B8FDE9E00AAE2BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,6 +61,7 @@
 		17D4CA7E1B910BE600070321 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		17D4CA801B910C1900070321 /* ListChannelsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListChannelsViewController.h; sourceTree = "<group>"; };
 		17D4CA811B910C1900070321 /* ListChannelsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListChannelsViewController.m; sourceTree = "<group>"; };
+		374CFB891B95043F003C87C0 /* POLYFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = POLYFoundation.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Channels-grpoiknujbrvelblxjwsqebvkanr/Build/Products/Debug-iphoneos/POLYFoundation.framework"; sourceTree = "<group>"; };
 		4EEAFA6384F410BFB8D50D6E /* Pods-ChannelsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelsTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ChannelsTests/Pods-ChannelsTests.release.xcconfig"; sourceTree = "<group>"; };
 		778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79D2A893B3A6CA08204C0F03 /* Pods-Channels.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.release.xcconfig"; sourceTree = "<group>"; };
@@ -79,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				170C59411B90EFC900EBAAC1 /* POLYFoundation.framework in Frameworks */,
+				374CFB8A1B95043F003C87C0 /* POLYFoundation.framework in Frameworks */,
 				32F083D01808C6D14E218036 /* Pods_Channels.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,7 +205,7 @@
 		2BD97E7D89FF9E5A050AE206 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				170C593C1B90EAE700EBAAC1 /* POLYFoundation.framework */,
+				374CFB891B95043F003C87C0 /* POLYFoundation.framework */,
 				778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */,
 				C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */,
 			);
@@ -487,6 +487,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -530,6 +531,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
