@@ -22,6 +22,7 @@
 		17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA811B910C1900070321 /* ListChannelsViewController.m */; };
 		32F083D01808C6D14E218036 /* Pods_Channels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ADAA5F1B94E38B004EABD7 /* UserModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,8 @@
 		778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79D2A893B3A6CA08204C0F03 /* Pods-Channels.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.release.xcconfig"; sourceTree = "<group>"; };
 		8D60F9D7FE4AD79B6B1A0A16 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		94ADAA5E1B94E38B004EABD7 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
+		94ADAA5F1B94E38B004EABD7 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		96A840B90001DBB7E2FA78B9 /* Pods-Channels.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.debug.xcconfig"; sourceTree = "<group>"; };
 		B12A9B8AFFEF85E509638F29 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Channels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +119,8 @@
 				17D4CA6E1B90FA7200070321 /* VideoModel.m */,
 				17D4CA701B90FA8200070321 /* ChannelModel.h */,
 				17D4CA711B90FA8200070321 /* ChannelModel.m */,
+				94ADAA5E1B94E38B004EABD7 /* UserModel.h */,
+				94ADAA5F1B94E38B004EABD7 /* UserModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -425,6 +430,7 @@
 				17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */,
 				17AC67FA1B8FDE9E00AAE2BF /* ViewController.m in Sources */,
 				17AC67F71B8FDE9E00AAE2BF /* AppDelegate.m in Sources */,
+				94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */,
 				17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */,
 				17D4CA6F1B90FA7200070321 /* VideoModel.m in Sources */,
 				17D4CA721B90FA8200070321 /* ChannelModel.m in Sources */,
