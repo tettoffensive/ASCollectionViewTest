@@ -38,8 +38,14 @@
         _downloads = [NSMutableDictionary new];
         _uploads = [NSMutableDictionary new];
         
+        _subpath = @"";
         _region = AWSRegionUSWest2;
         _baseURLString = @"http://cdn.joinswipe.com";
+        
+        AWSStaticCredentialsProvider *credentialsProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:accessKey secretKey:secretKey];
+        AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:_region credentialsProvider:credentialsProvider];
+        [AWSServiceManager defaultServiceManager].defaultServiceConfiguration = configuration;
+        
         _transferManager = [AWSS3TransferManager defaultS3TransferManager];
     }
     return self;
@@ -54,18 +60,23 @@
                     success:(void (^)(NSURL *))successBlock
                     failure:(void (^)(NSError *err))failureBlock
 {
+    NSParameterAssert(key);
+    NSParameterAssert(self.bucket);
+    NSParameterAssert(self.subpath);
+    
+    NSURL* fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:key]];
+    
     // Construct the download request.
     AWSS3TransferManagerDownloadRequest *downloadRequest = [AWSS3TransferManagerDownloadRequest new];
-    downloadRequest.bucket = self.bucket;
     [downloadRequest setBucket:self.bucket];
-    [downloadRequest setKey:key];
-    downloadRequest.downloadingFileURL = [self getURLForFileWithKey:key];
-    downloadRequest.downloadProgress = ^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
+    [downloadRequest setKey:[[self.subpath stringByAppendingString:@"/"] stringByAppendingString:key]];
+    [downloadRequest setDownloadingFileURL:fileURL];
+    [downloadRequest setDownloadProgress:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         CGFloat percentage = ((CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite);
         dispatch_async(dispatch_get_main_queue(), ^{
             if (progressBlock) progressBlock(percentage);
         });
-    };
+    }];
     
     [self setDownloadCacheObject:downloadRequest forKey:key];
     
@@ -119,9 +130,10 @@
                 if (progressBlock) progressBlock(progress);
             });
         } success:^(NSURL *downloadingFilePath) {
-            UIImage *image = [UIImage imageWithContentsOfFile:[downloadingFilePath absoluteString]];
+            NSData *data = [NSData dataWithContentsOfURL:downloadingFilePath];
+            UIImage *image = [UIImage imageWithData:data];
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (progressBlock) successBlock(image);
+                if (successBlock) successBlock(image);
             });
         } failure:^(NSError *err) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -141,11 +153,15 @@
                     success:(void (^)(BOOL finished, NSString *key))successBlock
                     failure:(void (^)(NSError *err))failureBlock
 {
+    NSParameterAssert(data);
+    NSParameterAssert(self.bucket);
+    NSParameterAssert(self.subpath);
+    
     // Build a key based off the content type
     NSString *key = [[NSUUID UUID] UUIDString];
     NSString *extension = [self fileExtensionForMimeType:contentType];
     if ([extension length] > 0) {
-        key = [key stringByAppendingString:extension];
+        key = [NSString stringWithFormat:@"%@.%@", key, extension];
     }
     
     // write data to disk
@@ -155,16 +171,17 @@
     NSURL* fileURL = [NSURL fileURLWithPath:filePath];
     
     AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+    [uploadRequest setContentType:contentType];
+    [uploadRequest setContentLength:@([data length])];
     [uploadRequest setBucket:self.bucket];
-    [uploadRequest setCacheControl:@"max-age=31536000"];
-    uploadRequest.key = key;
+    [uploadRequest setKey:[[self.subpath stringByAppendingString:@"/"] stringByAppendingString:key]];
     [uploadRequest setBody:fileURL];
-    uploadRequest.uploadProgress =  ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+    [uploadRequest setUploadProgress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         CGFloat percentage = ((CGFloat)totalBytesSent / (CGFloat)totalBytesExpectedToSend);
         dispatch_async(dispatch_get_main_queue(), ^{
-            progressBlock(percentage);
+            if (progressBlock) progressBlock(percentage);
         });
-    };
+    }];
     
     [self setUploadCacheObject:uploadRequest forKey:key];
     
@@ -181,7 +198,6 @@
                      case AWSS3TransferManagerErrorCancelled:
                      case AWSS3TransferManagerErrorPaused:
                          break;
-                         
                      default:
                          POLYLog(@"Error: %@", task.error);
                          break;
@@ -210,15 +226,15 @@
                 withContentType:@"video/mp4"
                        progress:^(CGFloat progress) {
                            dispatch_async(dispatch_get_main_queue(), ^{
-                               progressBlock(progress);
+                               if (progressBlock) progressBlock(progress);
                            });
                        } success:^(BOOL finished, NSString *key) {
                            dispatch_async(dispatch_get_main_queue(), ^{
-                               successBlock(finished, key);
+                               if (successBlock) successBlock(finished, key);
                            });
                        } failure:^(NSError *err) {
                            dispatch_async(dispatch_get_main_queue(), ^{
-                               failureBlock(err);
+                               if (failureBlock) failureBlock(err);
                            });
                        }];
 }
@@ -235,15 +251,15 @@
                 withContentType: @"image/jpeg"
                        progress:^(CGFloat progress) {
                            dispatch_async(dispatch_get_main_queue(), ^{
-                               progressBlock(progress);
+                               if (progressBlock) progressBlock(progress);
                            });
                        } success:^(BOOL finished, NSString *key) {
                            dispatch_async(dispatch_get_main_queue(), ^{
-                               successBlock(finished, key);
+                               if (successBlock) successBlock(finished, key);
                            });
                        } failure:^(NSError *err) {
                            dispatch_async(dispatch_get_main_queue(), ^{
-                               failureBlock(err);
+                               if (failureBlock) failureBlock(err);
                            });
                        }];
 }
