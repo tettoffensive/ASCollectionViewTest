@@ -7,8 +7,7 @@
 //
 
 @import POLYFoundation;
-@import MediaPlayer;
 
 @interface ChannelViewController : UIViewController
-@property MPMoviePlayerController *channelMoviePlayerController;
+
 @end
