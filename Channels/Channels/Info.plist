@@ -22,14 +22,23 @@
 	<string>BUNDLE_VERSION</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Geomanist-Bold.otf</string>
+		<string>Geomanist-ExtraLight.otf</string>
+		<string>Geomanist-Light.otf</string>
+		<string>Geomanist-Medium.otf</string>
+		<string>Geomanist-Regular.otf</string>
+		<string>Geomanist-Thin.otf</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
 	<key>UIStatusBarHidden</key>
-	<true/>
+	<false/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
