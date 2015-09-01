@@ -35,6 +35,7 @@ target :Channels do
   # Animation/Layout/UI
   pod 'pop', '~> 1.0'
   pod 'FLKAutoLayout'
+  pod 'PBJVision'
 end
 
 target 'ChannelsTests', :exclusive => true do

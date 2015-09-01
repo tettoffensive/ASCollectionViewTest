@@ -57,6 +57,7 @@ PODS:
   - OHHTTPStubs/NSURLSession (4.2.0):
     - OHHTTPStubs/Core
   - OHHTTPStubs/OHPathHelpers (4.2.0)
+  - PBJVision (0.4.2)
   - pop (1.0.7)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
@@ -75,6 +76,7 @@ DEPENDENCIES:
   - Mixpanel
   - ObjectiveSugar
   - OHHTTPStubs
+  - PBJVision
   - pop (~> 1.0)
   - SDWebImage
 
@@ -91,6 +93,7 @@ SPEC CHECKSUMS:
   Mixpanel: fd52e097ae0d27295d0595b2261c60b94d191fda
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
   OHHTTPStubs: f639130b83fb5f4f022d38f841141b0a6fa77249
+  PBJVision: fe43c9a58bb1c1277d16fd802fa836d25e034a45
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
 
