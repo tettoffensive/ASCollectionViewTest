@@ -31,6 +31,7 @@
     self.fileManager = [[POLYFileManager alloc] initWithAccessKey:CONFIG_AMAZON_S3_ACCESS_KEY
                                                     withSecretKey:CONFIG_AMAZON_S3_SECRET_KEY];
     [self.fileManager setBucket:@"swipe-admin"];
+    [self.fileManager setSubpath:@"test"];
 }
 
 - (void)tearDown
@@ -46,7 +47,7 @@
     __block XCTestExpectation *expectation = [self expectationWithDescription:@"testUploadImage"];
     __block XCTestExpectation *expectation2 = [self expectationWithDescription:@"testDownloadImage"];
     
-    AWSTask *task = [self.fileManager uploadImage:image progress:nil success:^(BOOL finished, NSString *key) {
+    [self.fileManager uploadImage:image progress:nil success:^(BOOL finished, NSString *key) {
         XCTAssert(finished,@"Upload Finished");
         XCTAssert([key length] > 0, @"Upload Has Key");
         [expectation fulfill];
