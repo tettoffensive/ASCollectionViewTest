@@ -12,6 +12,7 @@
 
 @interface POLYFileManager : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithAccessKey:(NSString *)accessKey
                     withSecretKey:(NSString *)secretKey NS_DESIGNATED_INITIALIZER;
 
