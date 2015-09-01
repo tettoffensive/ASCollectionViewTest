@@ -1,22 +1,22 @@
 //
-//  AppDelegate.m
+//  ChannelsAppDelegate.m
 //  Channels
 //
 //  Created by Stuart Tett on 8/27/15.
 //  Copyright (c) 2015 Complex Polygon. All rights reserved.
 //
 
-#import "AppDelegate.h"
-#import "ViewController.h"
+#import "ChannelsAppDelegate.h"
+#import "ChannelViewController.h"
+#import "ChannelsNavigationBar.h"
 
 @import POLYFoundation;
 
-@interface AppDelegate ()
+@interface ChannelsAppDelegate ()
 
 @end
 
-@implementation AppDelegate
-
+@implementation ChannelsAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -25,10 +25,12 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor blackColor];
     
-    _mainViewController = [[ViewController alloc] init];
-    self.window.rootViewController = self.mainViewController;
+    ChannelViewController *channelViewController = [[ChannelViewController alloc] init];
+    _navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[ChannelsNavigationBar class] toolbarClass:nil];
+    [_navigationController setViewControllers:@[channelViewController]];
     
-    self.window.backgroundColor = [UIColor magentaColor];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = _navigationController;
     [self.window makeKeyAndVisible];
     
     POLYNetworking *networking = [POLYNetworking sharedNetwork];

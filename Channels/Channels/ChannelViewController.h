@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Complex Polygon. All rights reserved.
 //
 
-#import "BaseViewController.h"
+@import POLYFoundation;
 
-@interface ChannelViewController : BaseViewController
+@interface ChannelViewController : UIViewController
 
 @end
