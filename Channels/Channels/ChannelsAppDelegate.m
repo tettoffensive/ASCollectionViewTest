@@ -9,6 +9,7 @@
 #import "ChannelsAppDelegate.h"
 #import "ChannelViewController.h"
 #import "ChannelsNavigationBar.h"
+#import "ChannelPlayerViewModel.h"
 
 @import POLYFoundation;
 
@@ -25,9 +26,18 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor blackColor];
     
-    ChannelViewController *channelViewController = [[ChannelViewController alloc] init];
+    ChannelPlayerViewModel *viewModel = [[ChannelPlayerViewModel alloc] init];
+    [viewModel updateTitle];
+    
+    ChannelViewController *channelViewController = [[ChannelViewController alloc] initWithViewModel:viewModel];
     _navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[ChannelsNavigationBar class] toolbarClass:nil];
     [_navigationController setViewControllers:@[channelViewController]];
+
+//    // demonstrate MVVMC
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC);
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^{
+//        [viewModel updateTitle];
+//    });
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = _navigationController;

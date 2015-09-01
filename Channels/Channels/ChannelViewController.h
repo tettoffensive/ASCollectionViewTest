@@ -8,6 +8,12 @@
 
 @import POLYFoundation;
 
+@class ChannelPlayerViewModel;
+
 @interface ChannelViewController : UIViewController
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithViewModel:(ChannelPlayerViewModel *)viewModel;
+
+@property (nonatomic, strong) ChannelPlayerViewModel *viewModel;
 
 @end

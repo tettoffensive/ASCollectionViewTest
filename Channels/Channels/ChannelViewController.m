@@ -8,8 +8,10 @@
 
 #import "ChannelViewController.h"
 #import "ChannelsInterface.h"
+#import "ChannelPlayerViewModel.h"
 
 @import MediaPlayer;
+@import KVOController.FBKVOController;
 
 @interface ChannelViewController ()
 /*!
@@ -20,10 +22,11 @@
 
 @implementation ChannelViewController
 
-- (instancetype)init
+- (instancetype)initWithViewModel:(ChannelPlayerViewModel *)viewModel
 {
     if (self = [super init]) {
-        self.title = @"Channel No. 1";
+        NSParameterAssert(viewModel);
+        [self reloadDataWithModel:viewModel]; // sets the view model
     }
     return self;
 }
@@ -31,6 +34,7 @@
 - (void)dealloc
 {
     [self unsubscribeFromNotifications];
+    [self.KVOControllerNonRetaining unobserveAll];
 }
 
 - (void)viewDidLoad
@@ -69,7 +73,7 @@
 
 - (void)loadMovie
 {
-    NSURL *movieURL = [NSURL URLWithString:@"http://channels-stage.videos.output.oregon.s3.amazonaws.com/y2T1waY0Smufhp8fQT4c91jE.m3u8"];
+    NSURL *movieURL = [NSURL URLWithString:@"http://channels-stage.videos.output.oregon.s3.amazonaws.com/7BE9A1E0-A430-45D1-8CC2-2D83253AEC69.m3u8"];
     [self.channelMoviePlayerController setContentURL:movieURL];
     [self.channelMoviePlayerController prepareToPlay];
     [self.view addSubview:self.channelMoviePlayerController.view];
@@ -117,6 +121,31 @@
 - (void)moviePlaybackStateChange:(NSNotification*)notification
 {
     
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - ViewModel Observing
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)setupObservers
+{
+    [self.KVOControllerNonRetaining observe:self.viewModel keyPath:@"title"
+                                    options:NSKeyValueObservingOptionNew
+                                      block:^(ChannelViewController *observer, ChannelPlayerViewModel *viewModel, NSDictionary *change) {
+                                          [observer reloadDataWithModel:viewModel];
+                                      }];
+    
+}
+
+- (void)reloadDataWithModel:(ChannelPlayerViewModel *)viewModel
+{
+    if (self.viewModel != viewModel) {
+        [self.KVOControllerNonRetaining unobserveAll];
+        self.viewModel = viewModel;
+        [self setupObservers];
+    }
+    
+    [self setTitle:self.viewModel.title];
 }
 
 @end

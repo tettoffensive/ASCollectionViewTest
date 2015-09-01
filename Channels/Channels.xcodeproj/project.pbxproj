@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F31B8FDE9E00AAE2BF /* main.m */; };
 		17AC67F71B8FDE9E00AAE2BF /* ChannelsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F61B8FDE9E00AAE2BF /* ChannelsAppDelegate.m */; };
 		17AC67FF1B8FDE9E00AAE2BF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17AC67FE1B8FDE9E00AAE2BF /* Images.xcassets */; };
@@ -44,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		178CB17F1B9660BA0010B097 /* ChannelPlayerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelPlayerViewModel.h; sourceTree = "<group>"; };
+		178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelPlayerViewModel.m; sourceTree = "<group>"; };
 		17A387781B8FE92A00702E85 /* Channels-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Channels-Prefix.pch"; sourceTree = "<group>"; };
 		17AC67EE1B8FDE9E00AAE2BF /* Channels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Channels.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17AC67F21B8FDE9E00AAE2BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -154,6 +157,8 @@
 		17A3877C1B8FEA9F00702E85 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				178CB17F1B9660BA0010B097 /* ChannelPlayerViewModel.h */,
+				178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -478,6 +483,7 @@
 				37A8261C1B96218100707AC9 /* ChannelsInterface.m in Sources */,
 				94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */,
 				17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */,
+				178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */,
 				17D4CA6F1B90FA7200070321 /* VideoModel.m in Sources */,
 				17D4CA721B90FA8200070321 /* ChannelModel.m in Sources */,
 			);

@@ -11,7 +11,7 @@
 
 @interface ChannelModel : MTLModel
 
-@property (nonatomic, copy, readonly) NSString *title;
+@property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, copy, readonly) NSArray<VideoModel *> *videos;
 
 @end
