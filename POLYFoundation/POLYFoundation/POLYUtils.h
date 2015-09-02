@@ -42,25 +42,25 @@
  *  It'll be easier to turn off logs when deploying to production.
  */
 #define POLYLog(format...) __POLYDebug(__FILE__, __LINE__, format)
-void __POLYDebug(const char *fileName, int lineNumber, NSString *fmt, ...);
-void __POLYDebugPrint(const char *fileName, int lineNumber, NSString *logMsg);
+extern void __POLYDebug(const char *fileName, int lineNumber, NSString *fmt, ...);
+extern void __POLYDebugPrint(const char *fileName, int lineNumber, NSString *logMsg);
 
-void POLYDispatch(dispatch_block_t block);
-void POLYDispatchAfter(NSTimeInterval seconds, dispatch_block_t block);
-void POLYDispatchBackground(dispatch_block_t block);
-void POLYDispatchBackgroundAfter(NSTimeInterval seconds, dispatch_block_t block);
+extern void POLYDispatch(dispatch_block_t block);
+extern void POLYDispatchAfter(NSTimeInterval seconds, dispatch_block_t block);
+extern void POLYDispatchBackground(dispatch_block_t block);
+extern void POLYDispatchBackgroundAfter(NSTimeInterval seconds, dispatch_block_t block);
 
-double screenWidth();
-double screenHeight();
+extern double screenWidth();
+extern double screenHeight();
 
-CGSize resizeWidthWhilePreservingAspectRatio(CGSize currentSize, CGFloat newSize);
-CGSize resizeHeightWhilePreservingAspectRatio(CGSize currentSize, CGFloat newSize);
-CGFloat saturate(CGFloat x);
-CGFloat smoothstep(CGFloat edge0, CGFloat edge1, CGFloat x);
-CGFloat smootherstep(CGFloat edge0, CGFloat edge1, CGFloat x);
-CGFloat lerp( CGFloat a, CGFloat b, CGFloat fraction );
-CGFloat fit(CGFloat s, CGFloat oldmin, CGFloat oldmax, CGFloat newmin, CGFloat newmax);
-CGFloat degreesToRadians(CGFloat degrees);
-CGFloat radiansToDegrees(CGFloat radians);
-UIImage *takeScreenshotOfView(UIView *view);
-BOOL is_iphone5();
+extern CGSize resizeWidthWhilePreservingAspectRatio(CGSize currentSize, CGFloat newSize);
+extern CGSize resizeHeightWhilePreservingAspectRatio(CGSize currentSize, CGFloat newSize);
+extern CGFloat saturate(CGFloat x);
+extern CGFloat smoothstep(CGFloat edge0, CGFloat edge1, CGFloat x);
+extern CGFloat smootherstep(CGFloat edge0, CGFloat edge1, CGFloat x);
+extern CGFloat lerp( CGFloat a, CGFloat b, CGFloat fraction );
+extern CGFloat fit(CGFloat s, CGFloat oldmin, CGFloat oldmax, CGFloat newmin, CGFloat newmax);
+extern CGFloat degreesToRadians(CGFloat degrees);
+extern CGFloat radiansToDegrees(CGFloat radians);
+extern UIImage *takeScreenshotOfView(UIView *view);
+extern BOOL is_iphone5();
