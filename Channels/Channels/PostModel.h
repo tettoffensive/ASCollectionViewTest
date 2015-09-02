@@ -6,11 +6,20 @@
 //  Copyright (c) 2015 Complex Polygon. All rights reserved.
 //
 
-#import <Mantle/Mantle.h>
+#import "BaseModel.h"
 
-@interface PostModel : MTLModel
+@interface PostModel : BaseModel
 
-@property (nonatomic, copy, readonly) NSURL *URL;
-@property (nonatomic, copy, readonly) NSURL *thumbnailURL;
+@property (readonly)                    NSInteger postID;
+@property (readonly)                    NSInteger channelID;
+@property (readonly)                    NSInteger userID;
+@property (readonly)                    NSInteger type;
+@property (nonatomic, copy, readonly)   NSString *mediaKey;
+@property (nonatomic, copy, readonly)   NSString *mediaURLString;
+@property (nonatomic, copy, readonly)   NSString *mediaThumbnailURLString;
+@property (readonly)                    BOOL mediaEncoded;
+
+@property (nonatomic, copy, readonly)   NSURL *URL;
+@property (nonatomic, copy, readonly)   NSURL *thumbnailURL;
 
 @end

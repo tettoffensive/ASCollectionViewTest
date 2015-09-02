@@ -29,19 +29,6 @@
     return @{@"userID": @"user_id"};
 }
 
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionary
-{
-    UserModel *userModel = [MTLJSONAdapter modelOfClass:UserModel.class fromJSONDictionary:dictionary error:nil];
-    return userModel;
-}
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary error:(NSError **)error
-{
-    self = [super initWithDictionary:dictionary error:error];
-    if (self == nil) return nil;    
-    return self;
-}
-
 #pragma ------------------------------------------------------------------------------------------------------
 #pragma mark - Api - Current User (only call on these set of methods for current user session)
 #pragma ------------------------------------------------------------------------------------------------------

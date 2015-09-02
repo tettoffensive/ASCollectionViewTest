@@ -6,14 +6,13 @@
 //  Copyright (c) 2015 Complex Polygon. All rights reserved.
 //
 
-#import <Mantle/Mantle.h>
+#import "BaseModel.h"
 
-@interface UserModel : MTLModel<MTLJSONSerializing>
+@interface UserModel : BaseModel
 
 @property (readonly) NSInteger userID;
 
 + (instancetype)currentUser;
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionary;
 
 // Methods for current user session
 

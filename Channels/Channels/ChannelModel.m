@@ -10,4 +10,9 @@
 
 @implementation ChannelModel
 
++ (NSDictionary *)JSONKeyPathsByPropertyKey
+{
+    return @{@"channelID": @"id", @"title": @"title"};
+}
+
 @end

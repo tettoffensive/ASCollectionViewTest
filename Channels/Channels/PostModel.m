@@ -10,4 +10,17 @@
 
 @implementation PostModel
 
++ (NSDictionary *)JSONKeyPathsByPropertyKey
+{
+    return @{@"postID": @"id",
+             @"channelID": @"channel_id",
+             @"userID":@"user_id",
+             @"type":@"type",
+             @"mediaKey":@"media_key",
+             @"mediaEncoded":@"media_encoded",
+             @"mediaURLString":@"media_url",
+             @"mediaThumbnailURLString":@"media_thumbnail_url",
+             };
+}
+
 @end

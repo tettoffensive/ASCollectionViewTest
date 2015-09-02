@@ -6,12 +6,15 @@
 //  Copyright (c) 2015 Complex Polygon. All rights reserved.
 //
 
-#import <Mantle/Mantle.h>
+#import "BaseModel.h"
+
 @class PostModel;
 
-@interface ChannelModel : MTLModel
+@interface ChannelModel : BaseModel
 
-@property (nonatomic, copy, readonly) NSString *channelName;
+@property (readonly) NSInteger channelID;
+
+@property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, copy, readonly) NSArray<PostModel *> *channelPosts;
 
 @end
