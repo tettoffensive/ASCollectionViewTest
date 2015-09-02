@@ -97,27 +97,30 @@
 
 - (void)movieDurationAvailable:(NSNotification*)notification
 {
-    
+    POLYLog(@"%d",self.channelMoviePlayerController.duration);
 }
 
 - (void)movieReadyForDisplay:(NSNotification*)notification
 {
-    
+    POLYLog(@"%@",self.channelMoviePlayerController.readyForDisplay ? @"YES" : @"NO");
 }
 
 - (void)movieLoadStateDidChange:(NSNotification*)notification
 {
-    
+    // Network Load State of the movie player (Unknown, Playable, PlaythroughOK, Stalled)
+    POLYLog(@"%u",self.channelMoviePlayerController.loadState);
 }
 
 - (void)movieNowPlayingDidChange:(NSNotification*)notification
 {
-    
+    // Posted when the currently playing movie has changed. There is no userInfo dictionary.
+    POLYLog(@"%@", self.channelMoviePlayerController.contentURL);
 }
 
 - (void)moviePlaybackStateChange:(NSNotification*)notification
 {
-    
+    // Stopped, Playing, Paused, Interrupted, Seeking Forward, Seeking Backward
+    POLYLog(@"%u",self.channelMoviePlayerController.playbackState);
 }
 
 #pragma -------------------------------------------------------------------------------------------
