@@ -12,7 +12,7 @@
 		17AC67F71B8FDE9E00AAE2BF /* ChannelsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F61B8FDE9E00AAE2BF /* ChannelsAppDelegate.m */; };
 		17AC67FF1B8FDE9E00AAE2BF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17AC67FE1B8FDE9E00AAE2BF /* Images.xcassets */; };
 		17AC680E1B8FDE9E00AAE2BF /* ChannelsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC680D1B8FDE9E00AAE2BF /* ChannelsTests.m */; };
-		17D4CA6F1B90FA7200070321 /* VideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA6E1B90FA7200070321 /* VideoModel.m */; };
+		17D4CA6F1B90FA7200070321 /* PostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA6E1B90FA7200070321 /* PostModel.m */; };
 		17D4CA721B90FA8200070321 /* ChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA711B90FA8200070321 /* ChannelModel.m */; };
 		17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA741B910B2200070321 /* ChannelViewController.m */; };
 		17D4CA781B910B3F00070321 /* PostingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA771B910B3F00070321 /* PostingViewController.m */; };
@@ -57,8 +57,8 @@
 		17AC68071B8FDE9E00AAE2BF /* ChannelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChannelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17AC680C1B8FDE9E00AAE2BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17AC680D1B8FDE9E00AAE2BF /* ChannelsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChannelsTests.m; sourceTree = "<group>"; };
-		17D4CA6D1B90FA7200070321 /* VideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoModel.h; sourceTree = "<group>"; };
-		17D4CA6E1B90FA7200070321 /* VideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoModel.m; sourceTree = "<group>"; };
+		17D4CA6D1B90FA7200070321 /* PostModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostModel.h; sourceTree = "<group>"; };
+		17D4CA6E1B90FA7200070321 /* PostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostModel.m; sourceTree = "<group>"; };
 		17D4CA701B90FA8200070321 /* ChannelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelModel.h; sourceTree = "<group>"; };
 		17D4CA711B90FA8200070321 /* ChannelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelModel.m; sourceTree = "<group>"; };
 		17D4CA731B910B2200070321 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
@@ -137,8 +137,8 @@
 		17A3877A1B8FEA5600702E85 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				17D4CA6D1B90FA7200070321 /* VideoModel.h */,
-				17D4CA6E1B90FA7200070321 /* VideoModel.m */,
+				17D4CA6D1B90FA7200070321 /* PostModel.h */,
+				17D4CA6E1B90FA7200070321 /* PostModel.m */,
 				17D4CA701B90FA8200070321 /* ChannelModel.h */,
 				17D4CA711B90FA8200070321 /* ChannelModel.m */,
 				94ADAA5E1B94E38B004EABD7 /* UserModel.h */,
@@ -484,7 +484,7 @@
 				94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */,
 				17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */,
 				178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */,
-				17D4CA6F1B90FA7200070321 /* VideoModel.m in Sources */,
+				17D4CA6F1B90FA7200070321 /* PostModel.m in Sources */,
 				17D4CA721B90FA8200070321 /* ChannelModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

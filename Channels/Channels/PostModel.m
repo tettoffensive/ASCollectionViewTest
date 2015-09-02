@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Complex Polygon. All rights reserved.
 //
 
-#import "VideoModel.h"
+#import "PostModel.h"
 
-@implementation VideoModel
+@implementation PostModel
 
 @end

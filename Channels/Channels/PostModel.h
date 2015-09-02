@@ -8,7 +8,7 @@
 
 #import <Mantle/Mantle.h>
 
-@interface VideoModel : MTLModel
+@interface PostModel : MTLModel
 
 @property (nonatomic, copy, readonly) NSURL *URL;
 @property (nonatomic, copy, readonly) NSURL *thumbnailURL;
