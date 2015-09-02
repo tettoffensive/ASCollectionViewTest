@@ -30,6 +30,8 @@
 		37A8262D1B96227F00707AC9 /* Geomanist-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826241B96227F00707AC9 /* Geomanist-Thin.otf */; settings = {ASSET_TAGS = (); }; };
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		948E679E1B97B7720093AC17 /* POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 948E679D1B97B7720093AC17 /* POLYFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 943FD81C1B97A0AE003B3745 /* ChannelsNetworking.m */; settings = {ASSET_TAGS = (); }; };
+		943FD8211B97A88A003B3745 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 943FD8201B97A88A003B3745 /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
 		94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ADAA5F1B94E38B004EABD7 /* UserModel.m */; };
 		A02FBCF208B27B15C5A4368E /* Pods_Channels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -89,6 +91,11 @@
 		79D2A893B3A6CA08204C0F03 /* Pods-Channels.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.release.xcconfig"; sourceTree = "<group>"; };
 		8D60F9D7FE4AD79B6B1A0A16 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		948E679D1B97B7720093AC17 /* POLYFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = POLYFoundation.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Channels-bmrdppgbyouavbgfjlnhohbijqnr/Build/Products/Debug-iphoneos/POLYFoundation.framework"; sourceTree = "<group>"; };
+		943FD81B1B97A0AE003B3745 /* ChannelsNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsNetworking.h; sourceTree = "<group>"; };
+		943FD81C1B97A0AE003B3745 /* ChannelsNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsNetworking.m; sourceTree = "<group>"; };
+		943FD81E1B97A650003B3745 /* Models.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Models.h; sourceTree = "<group>"; };
+		943FD81F1B97A88A003B3745 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
+		943FD8201B97A88A003B3745 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		94ADAA5E1B94E38B004EABD7 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		94ADAA5F1B94E38B004EABD7 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		96A840B90001DBB7E2FA78B9 /* Pods-Channels.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.debug.xcconfig"; sourceTree = "<group>"; };
@@ -138,6 +145,9 @@
 		17A3877A1B8FEA5600702E85 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				943FD81E1B97A650003B3745 /* Models.h */,
+				943FD81F1B97A88A003B3745 /* BaseModel.h */,
+				943FD8201B97A88A003B3745 /* BaseModel.m */,
 				17D4CA6D1B90FA7200070321 /* PostModel.h */,
 				17D4CA6E1B90FA7200070321 /* PostModel.m */,
 				17D4CA701B90FA8200070321 /* ChannelModel.h */,
@@ -198,6 +208,7 @@
 				17A3877C1B8FEA9F00702E85 /* ViewModels */,
 				17A3877A1B8FEA5600702E85 /* Models */,
 				17A3877B1B8FEA6700702E85 /* Views */,
+				943FD81A1B97A098003B3745 /* Utilites */,
 				17A387791B8FE9AF00702E85 /* Controllers */,
 				17AC67FE1B8FDE9E00AAE2BF /* Images.xcassets */,
 				17AC67F11B8FDE9E00AAE2BF /* Supporting Files */,
@@ -255,6 +266,15 @@
 				37A826241B96227F00707AC9 /* Geomanist-Thin.otf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		943FD81A1B97A098003B3745 /* Utilites */ = {
+			isa = PBXGroup;
+			children = (
+				943FD81B1B97A0AE003B3745 /* ChannelsNetworking.h */,
+				943FD81C1B97A0AE003B3745 /* ChannelsNetworking.m */,
+			);
+			name = Utilites;
 			sourceTree = "<group>";
 		};
 		97C6C37E8C94702B0BCB8744 /* Pods */ = {
@@ -476,6 +496,7 @@
 			files = (
 				17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */,
 				17D4CA781B910B3F00070321 /* PostingViewController.m in Sources */,
+				943FD8211B97A88A003B3745 /* BaseModel.m in Sources */,
 				37A826131B96137A00707AC9 /* ChannelsAnimator.m in Sources */,
 				17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */,
 				37A826161B961C8500707AC9 /* ChannelsTitleSelectionViewController.m in Sources */,
@@ -486,6 +507,7 @@
 				94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */,
 				17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */,
 				178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */,
+				943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */,
 				17D4CA6F1B90FA7200070321 /* PostModel.m in Sources */,
 				17D4CA721B90FA8200070321 /* ChannelModel.m in Sources */,
 			);
