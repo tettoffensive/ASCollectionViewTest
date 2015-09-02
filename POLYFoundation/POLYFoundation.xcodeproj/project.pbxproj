@@ -18,6 +18,8 @@
 		1716742F1B9121550099FBA6 /* POLYFoundation-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 1716742E1B9121550099FBA6 /* POLYFoundation-Prefix.pch */; };
 		1716743E1B9123CD0099FBA6 /* POLYDate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1716743C1B9123CD0099FBA6 /* POLYDate.h */; };
 		1716743F1B9123CD0099FBA6 /* POLYDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1716743D1B9123CD0099FBA6 /* POLYDate.m */; };
+		17188D9D1B977C1300762C92 /* POLYViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 17188D9B1B977C1300762C92 /* POLYViewModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		17188D9E1B977C1300762C92 /* POLYViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 17188D9C1B977C1300762C92 /* POLYViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		172D74FB1B90E01E00FC8137 /* POLYNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 172D74F91B90E01E00FC8137 /* POLYNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		172D74FC1B90E01E00FC8137 /* POLYNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 172D74FA1B90E01E00FC8137 /* POLYNetworking.m */; };
 		17A3878D1B90D1AF00702E85 /* POLYFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 17A3878C1B90D1AF00702E85 /* POLYFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,6 +66,8 @@
 		1716742E1B9121550099FBA6 /* POLYFoundation-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "POLYFoundation-Prefix.pch"; sourceTree = "<group>"; };
 		1716743C1B9123CD0099FBA6 /* POLYDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYDate.h; sourceTree = "<group>"; };
 		1716743D1B9123CD0099FBA6 /* POLYDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYDate.m; sourceTree = "<group>"; };
+		17188D9B1B977C1300762C92 /* POLYViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYViewModel.h; sourceTree = "<group>"; };
+		17188D9C1B977C1300762C92 /* POLYViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYViewModel.m; sourceTree = "<group>"; };
 		172D74F91B90E01E00FC8137 /* POLYNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYNetworking.h; sourceTree = "<group>"; };
 		172D74FA1B90E01E00FC8137 /* POLYNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYNetworking.m; sourceTree = "<group>"; };
 		17A387871B90D1AF00702E85 /* POLYFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = POLYFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,6 +186,8 @@
 				172D74F91B90E01E00FC8137 /* POLYNetworking.h */,
 				172D74FA1B90E01E00FC8137 /* POLYNetworking.m */,
 				17A3878A1B90D1AF00702E85 /* Supporting Files */,
+				17188D9B1B977C1300762C92 /* POLYViewModel.h */,
+				17188D9C1B977C1300762C92 /* POLYViewModel.m */,
 			);
 			path = POLYFoundation;
 			sourceTree = "<group>";
@@ -279,6 +285,7 @@
 				17A8B6921B912C5B0094D2C9 /* UIView+UIQueryAdditions.h in Headers */,
 				17D4CA7B1B910B7B00070321 /* POLYViewController.h in Headers */,
 				1716743E1B9123CD0099FBA6 /* POLYDate.h in Headers */,
+				17188D9D1B977C1300762C92 /* POLYViewModel.h in Headers */,
 				171674251B911F110099FBA6 /* POLYImageManager.h in Headers */,
 				17A8B6901B912C5B0094D2C9 /* UIQuery.h in Headers */,
 				1716742C1B9120F30099FBA6 /* POLYUtils.h in Headers */,
@@ -480,6 +487,7 @@
 				17A8B68F1B912C5B0094D2C9 /* UIColor+UIQueryAdditions.m in Sources */,
 				171674281B911F110099FBA6 /* POLYVideoManager.m in Sources */,
 				17A8B6931B912C5B0094D2C9 /* UIView+UIQueryAdditions.m in Sources */,
+				17188D9E1B977C1300762C92 /* POLYViewModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

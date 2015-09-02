@@ -6,12 +6,11 @@
 //  Copyright © 2015 Complex Polygon. All rights reserved.
 //
 
-@import Foundation;
+@import POLYFoundation;
 
-@interface ChannelPlayerViewModel : NSObject
+@interface ChannelPlayerViewModel : POLYViewModel
 
 @property (nonatomic, copy, readonly) NSString *channelTitle;
-@property (nonatomic, readonly) NSArray *keys;
 
 - (void)updateChannelTitle;
 

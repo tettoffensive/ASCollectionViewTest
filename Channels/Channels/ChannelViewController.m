@@ -11,7 +11,6 @@
 #import "ChannelPlayerViewModel.h"
 
 @import MediaPlayer;
-@import KVOController.FBKVOController;
 
 @interface ChannelViewController ()
 /*!
@@ -22,11 +21,10 @@
 
 @implementation ChannelViewController
 
-- (instancetype)initWithViewModel:(ChannelPlayerViewModel *)viewModel
+- (instancetype)initWithViewModel:(POLYViewModel *)viewModel
 {
-    if (self = [super init]) {
-        NSParameterAssert(viewModel);
-        [self reloadDataWithModel:viewModel]; // sets the view model
+    if (self = [super initWithViewModel:viewModel]) {
+        NSParameterAssert([viewModel isKindOfClass:[ChannelPlayerViewModel class]]);
     }
     return self;
 }
@@ -34,7 +32,6 @@
 - (void)dealloc
 {
     [self unsubscribeFromNotifications];
-    [self.KVOControllerNonRetaining unobserveAll];
 }
 
 - (void)viewDidLoad
@@ -124,28 +121,14 @@
 }
 
 #pragma -------------------------------------------------------------------------------------------
-#pragma mark - ViewModel Observing
+#pragma mark - ViewModel
 #pragma -------------------------------------------------------------------------------------------
 
-- (void)setupObservers
+- (void)reloadData
 {
-    [self.KVOControllerNonRetaining observe:self.viewModel keyPaths:self.viewModel.keys
-                                    options:NSKeyValueObservingOptionNew
-                                      block:^(ChannelViewController *observer, ChannelPlayerViewModel *viewModel, NSDictionary *change) {
-                                          [observer reloadDataWithModel:viewModel];
-                                      }];
-}
-
-- (void)reloadDataWithModel:(ChannelPlayerViewModel *)viewModel
-{
-    if (self.viewModel != viewModel) {
-        // set or change to new view model
-        [self.KVOControllerNonRetaining unobserveAll];
-        self.viewModel = viewModel;
-        [self setupObservers];
+    if ([self.viewModel isKindOfClass:[ChannelPlayerViewModel class]]) {
+        [self setTitle:((ChannelPlayerViewModel*)self.viewModel).channelTitle];
     }
-    
-    [self setTitle:self.viewModel.channelTitle];
 }
 
 @end
