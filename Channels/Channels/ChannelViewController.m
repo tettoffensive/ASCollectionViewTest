@@ -129,7 +129,7 @@
 
 - (void)setupObservers
 {
-    [self.KVOControllerNonRetaining observe:self.viewModel keyPath:@"title"
+    [self.KVOControllerNonRetaining observe:self.viewModel keyPath:@"channelTitle"
                                     options:NSKeyValueObservingOptionNew
                                       block:^(ChannelViewController *observer, ChannelPlayerViewModel *viewModel, NSDictionary *change) {
                                           [observer reloadDataWithModel:viewModel];
@@ -140,12 +140,13 @@
 - (void)reloadDataWithModel:(ChannelPlayerViewModel *)viewModel
 {
     if (self.viewModel != viewModel) {
+        // set or change to new view model
         [self.KVOControllerNonRetaining unobserveAll];
         self.viewModel = viewModel;
         [self setupObservers];
     }
     
-    [self setTitle:self.viewModel.title];
+    [self setTitle:self.viewModel.channelTitle];
 }
 
 @end

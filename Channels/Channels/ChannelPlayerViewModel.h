@@ -10,8 +10,8 @@
 
 @interface ChannelPlayerViewModel : NSObject
 
-@property (nonatomic, copy, readonly) NSString *title;
+@property (nonatomic, copy, readonly) NSString *channelTitle;
 
-- (void)updateTitle;
+- (void)updateChannelTitle;
 
 @end

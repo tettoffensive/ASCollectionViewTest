@@ -27,7 +27,7 @@
     self.window.backgroundColor = [UIColor blackColor];
     
     ChannelPlayerViewModel *viewModel = [[ChannelPlayerViewModel alloc] init];
-    [viewModel updateTitle];
+    [viewModel updateChannelTitle]; // just for demo purposes to generate random title name
     
     ChannelViewController *channelViewController = [[ChannelViewController alloc] initWithViewModel:viewModel];
     _navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[ChannelsNavigationBar class] toolbarClass:nil];
@@ -36,7 +36,7 @@
 //    // demonstrate MVVMC
 //    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC);
 //    dispatch_after(popTime, dispatch_get_main_queue(), ^{
-//        [viewModel updateTitle];
+//        [viewModel updateChannelTitle];
 //    });
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

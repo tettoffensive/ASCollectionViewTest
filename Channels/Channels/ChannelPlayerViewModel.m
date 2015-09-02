@@ -10,12 +10,12 @@
 
 @implementation ChannelPlayerViewModel
 
-- (void)updateTitle
+- (void)updateChannelTitle
 {
     NSString *randomChannelString = [[[NSUUID UUID] UUIDString] substringToIndex:3];
-    [self willChangeValueForKey:@"title"];
-    _title = [@"Channel " stringByAppendingString:randomChannelString];
-    [self didChangeValueForKey:@"title"];
+    [self willChangeValueForKey:@"channelTitle"];
+    _channelTitle = [@"Channel " stringByAppendingString:randomChannelString];
+    [self didChangeValueForKey:@"channelTitle"];
 }
 
 @end
