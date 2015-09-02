@@ -6,8 +6,16 @@
 //  Copyright (c) 2015 Complex Polygon. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
-@interface POLYViewController : UIViewController
+@class POLYViewModel;
+
+@interface POLYViewController<ViewModelType:POLYViewModel *> : UIViewController
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithViewModel:(ViewModelType)viewModel;
+- (void)reloadData;
+
+@property (nonatomic, strong) ViewModelType viewModel;
 
 @end

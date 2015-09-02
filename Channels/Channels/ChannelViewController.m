@@ -11,22 +11,23 @@
 #import "ChannelPlayerViewModel.h"
 
 @import MediaPlayer;
-@import KVOController.FBKVOController;
 
 @interface ChannelViewController ()
 /*!
  *  Player responsible for playing the current channel's stream
  */
 @property (nonatomic) MPMoviePlayerController *channelMoviePlayerController;
+@property (nonatomic) NSUInteger index;
+@property (nonatomic) NSUInteger count;
+
 @end
 
 @implementation ChannelViewController
 
-- (instancetype)initWithViewModel:(ChannelPlayerViewModel *)viewModel
+- (instancetype)initWithViewModel:(POLYViewModel *)viewModel
 {
-    if (self = [super init]) {
-        NSParameterAssert(viewModel);
-        [self reloadDataWithModel:viewModel]; // sets the view model
+    if (self = [super initWithViewModel:viewModel]) {
+        NSParameterAssert([viewModel isKindOfClass:[ChannelPlayerViewModel class]]);
     }
     return self;
 }
@@ -34,7 +35,6 @@
 - (void)dealloc
 {
     [self unsubscribeFromNotifications];
-    [self.KVOControllerNonRetaining unobserveAll];
 }
 
 - (void)viewDidLoad
@@ -46,6 +46,11 @@
     self.view.backgroundColor = [ChannelsInterface viewBackgroundColor];
     
     [self loadMovie];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self pauseMovie];
 }
 
 - (void)setNavigationBarAppearance
@@ -66,18 +71,10 @@
         [player setRepeatMode:MPMovieRepeatModeOne];
         [player setScalingMode:MPMovieScalingModeAspectFill];
         [player.view setFrame:self.view.bounds];
+        [self.view addSubview:player.view];
         [self subscribeToNotificationsForPlayer:player];
         player;
     }) : _channelMoviePlayerController;
-}
-
-- (void)loadMovie
-{
-    NSURL *movieURL = [NSURL URLWithString:@"http://channels-stage.videos.output.oregon.s3.amazonaws.com/7BE9A1E0-A430-45D1-8CC2-2D83253AEC69.m3u8"];
-    [self.channelMoviePlayerController setContentURL:movieURL];
-    [self.channelMoviePlayerController prepareToPlay];
-    [self.view addSubview:self.channelMoviePlayerController.view];
-    [self.channelMoviePlayerController play];
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -100,52 +97,87 @@
 
 - (void)movieDurationAvailable:(NSNotification*)notification
 {
-    
+    POLYLog(@"%d",self.channelMoviePlayerController.duration);
 }
 
 - (void)movieReadyForDisplay:(NSNotification*)notification
 {
-    
+    POLYLog(@"%@",self.channelMoviePlayerController.readyForDisplay ? @"YES" : @"NO");
 }
 
 - (void)movieLoadStateDidChange:(NSNotification*)notification
 {
-    
+    // Network Load State of the movie player (Unknown, Playable, PlaythroughOK, Stalled)
+    POLYLog(@"%u",self.channelMoviePlayerController.loadState);
 }
 
 - (void)movieNowPlayingDidChange:(NSNotification*)notification
 {
+    // Posted when the currently playing movie has changed. There is no userInfo dictionary.
+    POLYLog(@"%@", self.channelMoviePlayerController.contentURL);
+    
     
 }
 
 - (void)moviePlaybackStateChange:(NSNotification*)notification
 {
+    // Stopped, Playing, Paused, Interrupted, Seeking Forward, Seeking Backward
+    POLYLog(@"%u",self.channelMoviePlayerController.playbackState);
     
-}
-
-#pragma -------------------------------------------------------------------------------------------
-#pragma mark - ViewModel Observing
-#pragma -------------------------------------------------------------------------------------------
-
-- (void)setupObservers
-{
-    [self.KVOControllerNonRetaining observe:self.viewModel keyPaths:self.viewModel.keys
-                                    options:NSKeyValueObservingOptionNew
-                                      block:^(ChannelViewController *observer, ChannelPlayerViewModel *viewModel, NSDictionary *change) {
-                                          [observer reloadDataWithModel:viewModel];
-                                      }];
-}
-
-- (void)reloadDataWithModel:(ChannelPlayerViewModel *)viewModel
-{
-    if (self.viewModel != viewModel) {
-        // set or change to new view model
-        [self.KVOControllerNonRetaining unobserveAll];
-        self.viewModel = viewModel;
-        [self setupObservers];
+    switch (self.channelMoviePlayerController.playbackState) {
+        case MPMoviePlaybackStatePaused:
+        case MPMoviePlaybackStateStopped: {
+            self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+            [self loadMovie];
+            break;
+        }
+        case MPMoviePlaybackStatePlaying: {
+            break;
+        }
+        case MPMoviePlaybackStateInterrupted: {
+            break;
+        }
+        case MPMoviePlaybackStateSeekingForward: {
+            break;
+        }
+        case MPMoviePlaybackStateSeekingBackward: {
+            break;
+        }
+        default: {
+            break;
+        }
     }
-    
-    [self setTitle:self.viewModel.channelTitle];
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - ViewModel
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)reloadData
+{
+    if ([self.viewModel isKindOfClass:[ChannelPlayerViewModel class]]) {
+        ChannelPlayerViewModel *viewModel = (ChannelPlayerViewModel*)self.viewModel;
+        [self setTitle:viewModel.channelTitle];
+        [self setCount:[viewModel.channelPosts count]];
+    }
+}
+
+- (void)loadMovie
+{
+    if ([self.viewModel isKindOfClass:[ChannelPlayerViewModel class]]) {
+        ChannelPlayerViewModel *viewModel = (ChannelPlayerViewModel*)self.viewModel;
+        NSURL *movieURL = [NSURL URLWithString:viewModel.channelPosts[self.index]];
+        if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.contentURL.absoluteString]) {
+            [self.channelMoviePlayerController setContentURL:movieURL];
+            [self.channelMoviePlayerController prepareToPlay];
+        }
+        [self.channelMoviePlayerController play];
+    }
+}
+
+- (void)pauseMovie
+{
+    [self.channelMoviePlayerController pause];
 }
 
 @end

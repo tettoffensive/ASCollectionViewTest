@@ -285,13 +285,11 @@
 
 void __POLYDebug(const char *fileName, int lineNumber, NSString *fmt, ...)
 {
-#if CONFIG_ENABLE_LOGS
     va_list args;
     va_start(args, fmt);
     NSString *logMsg = [[NSString alloc] initWithFormat:fmt arguments:args];
     __POLYDebugPrint(fileName, lineNumber, logMsg);
     va_end(args);
-#endif
 }
 
 void __POLYDebugPrint(const char *fileName, int lineNumber, NSString *logMsg)
