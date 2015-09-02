@@ -7,22 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		170C59411B90EFC900EBAAC1 /* POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 170C593C1B90EAE700EBAAC1 /* POLYFoundation.framework */; };
+		178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F31B8FDE9E00AAE2BF /* main.m */; };
-		17AC67F71B8FDE9E00AAE2BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F61B8FDE9E00AAE2BF /* AppDelegate.m */; };
-		17AC67FA1B8FDE9E00AAE2BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F91B8FDE9E00AAE2BF /* ViewController.m */; };
+		17AC67F71B8FDE9E00AAE2BF /* ChannelsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F61B8FDE9E00AAE2BF /* ChannelsAppDelegate.m */; };
 		17AC67FF1B8FDE9E00AAE2BF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17AC67FE1B8FDE9E00AAE2BF /* Images.xcassets */; };
-		17AC68021B8FDE9E00AAE2BF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17AC68001B8FDE9E00AAE2BF /* LaunchScreen.xib */; };
 		17AC680E1B8FDE9E00AAE2BF /* ChannelsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC680D1B8FDE9E00AAE2BF /* ChannelsTests.m */; };
-		17D4CA6F1B90FA7200070321 /* VideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA6E1B90FA7200070321 /* VideoModel.m */; };
+		17D4CA6F1B90FA7200070321 /* PostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA6E1B90FA7200070321 /* PostModel.m */; };
 		17D4CA721B90FA8200070321 /* ChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA711B90FA8200070321 /* ChannelModel.m */; };
 		17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA741B910B2200070321 /* ChannelViewController.m */; };
 		17D4CA781B910B3F00070321 /* PostingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA771B910B3F00070321 /* PostingViewController.m */; };
 		17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA7E1B910BE600070321 /* BaseViewController.m */; };
 		17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA811B910C1900070321 /* ListChannelsViewController.m */; };
-		32F083D01808C6D14E218036 /* Pods_Channels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		17DB0DAB1B9520AF00B4510C /* POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17DB0DAA1B9520AF00B4510C /* POLYFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */; settings = {ASSET_TAGS = (); }; };
+		37A826131B96137A00707AC9 /* ChannelsAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A826121B96137A00707AC9 /* ChannelsAnimator.m */; settings = {ASSET_TAGS = (); }; };
+		37A826161B961C8500707AC9 /* ChannelsTitleSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A826151B961C8500707AC9 /* ChannelsTitleSelectionViewController.m */; settings = {ASSET_TAGS = (); }; };
+		37A8261C1B96218100707AC9 /* ChannelsInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A8261B1B96218100707AC9 /* ChannelsInterface.m */; settings = {ASSET_TAGS = (); }; };
+		37A826271B96227F00707AC9 /* Geomanist-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A8261E1B96227F00707AC9 /* Geomanist-Bold.otf */; settings = {ASSET_TAGS = (); }; };
+		37A826291B96227F00707AC9 /* Geomanist-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826201B96227F00707AC9 /* Geomanist-ExtraLight.otf */; settings = {ASSET_TAGS = (); }; };
+		37A8262A1B96227F00707AC9 /* Geomanist-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826211B96227F00707AC9 /* Geomanist-Light.otf */; settings = {ASSET_TAGS = (); }; };
+		37A8262B1B96227F00707AC9 /* Geomanist-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826221B96227F00707AC9 /* Geomanist-Medium.otf */; settings = {ASSET_TAGS = (); }; };
+		37A8262C1B96227F00707AC9 /* Geomanist-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826231B96227F00707AC9 /* Geomanist-Regular.otf */; settings = {ASSET_TAGS = (); }; };
+		37A8262D1B96227F00707AC9 /* Geomanist-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826241B96227F00707AC9 /* Geomanist-Thin.otf */; settings = {ASSET_TAGS = (); }; };
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ADAA5F1B94E38B004EABD7 /* UserModel.m */; };
+		A02FBCF208B27B15C5A4368E /* Pods_Channels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,22 +45,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		170C593C1B90EAE700EBAAC1 /* POLYFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = POLYFoundation.framework; path = "../../Library/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos/POLYFoundation.framework"; sourceTree = "<group>"; };
+		178CB17F1B9660BA0010B097 /* ChannelPlayerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelPlayerViewModel.h; sourceTree = "<group>"; };
+		178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelPlayerViewModel.m; sourceTree = "<group>"; };
 		17A387781B8FE92A00702E85 /* Channels-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Channels-Prefix.pch"; sourceTree = "<group>"; };
 		17AC67EE1B8FDE9E00AAE2BF /* Channels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Channels.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17AC67F21B8FDE9E00AAE2BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17AC67F31B8FDE9E00AAE2BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		17AC67F51B8FDE9E00AAE2BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		17AC67F61B8FDE9E00AAE2BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		17AC67F81B8FDE9E00AAE2BF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		17AC67F91B8FDE9E00AAE2BF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		17AC67F51B8FDE9E00AAE2BF /* ChannelsAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChannelsAppDelegate.h; sourceTree = "<group>"; };
+		17AC67F61B8FDE9E00AAE2BF /* ChannelsAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChannelsAppDelegate.m; sourceTree = "<group>"; };
 		17AC67FE1B8FDE9E00AAE2BF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		17AC68011B8FDE9E00AAE2BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		17AC68071B8FDE9E00AAE2BF /* ChannelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChannelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17AC680C1B8FDE9E00AAE2BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17AC680D1B8FDE9E00AAE2BF /* ChannelsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChannelsTests.m; sourceTree = "<group>"; };
-		17D4CA6D1B90FA7200070321 /* VideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoModel.h; sourceTree = "<group>"; };
-		17D4CA6E1B90FA7200070321 /* VideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoModel.m; sourceTree = "<group>"; };
+		17D4CA6D1B90FA7200070321 /* PostModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostModel.h; sourceTree = "<group>"; };
+		17D4CA6E1B90FA7200070321 /* PostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostModel.m; sourceTree = "<group>"; };
 		17D4CA701B90FA8200070321 /* ChannelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelModel.h; sourceTree = "<group>"; };
 		17D4CA711B90FA8200070321 /* ChannelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelModel.m; sourceTree = "<group>"; };
 		17D4CA731B910B2200070321 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
@@ -62,6 +69,21 @@
 		17D4CA7E1B910BE600070321 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		17D4CA801B910C1900070321 /* ListChannelsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListChannelsViewController.h; sourceTree = "<group>"; };
 		17D4CA811B910C1900070321 /* ListChannelsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListChannelsViewController.m; sourceTree = "<group>"; };
+		17DB0DAA1B9520AF00B4510C /* POLYFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = POLYFoundation.framework; path = "../../Library/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos/POLYFoundation.framework"; sourceTree = "<group>"; };
+		371BF09E1B962C3C004D54D1 /* ChannelsNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsNavigationBar.h; sourceTree = "<group>"; };
+		371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsNavigationBar.m; sourceTree = "<group>"; };
+		37A826111B96137A00707AC9 /* ChannelsAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsAnimator.h; sourceTree = "<group>"; };
+		37A826121B96137A00707AC9 /* ChannelsAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsAnimator.m; sourceTree = "<group>"; };
+		37A826141B961C8500707AC9 /* ChannelsTitleSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsTitleSelectionViewController.h; sourceTree = "<group>"; };
+		37A826151B961C8500707AC9 /* ChannelsTitleSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsTitleSelectionViewController.m; sourceTree = "<group>"; };
+		37A8261A1B96218100707AC9 /* ChannelsInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsInterface.h; sourceTree = "<group>"; };
+		37A8261B1B96218100707AC9 /* ChannelsInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsInterface.m; sourceTree = "<group>"; };
+		37A8261E1B96227F00707AC9 /* Geomanist-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Bold.otf"; sourceTree = "<group>"; };
+		37A826201B96227F00707AC9 /* Geomanist-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-ExtraLight.otf"; sourceTree = "<group>"; };
+		37A826211B96227F00707AC9 /* Geomanist-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Light.otf"; sourceTree = "<group>"; };
+		37A826221B96227F00707AC9 /* Geomanist-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Medium.otf"; sourceTree = "<group>"; };
+		37A826231B96227F00707AC9 /* Geomanist-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Regular.otf"; sourceTree = "<group>"; };
+		37A826241B96227F00707AC9 /* Geomanist-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Thin.otf"; sourceTree = "<group>"; };
 		4EEAFA6384F410BFB8D50D6E /* Pods-ChannelsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelsTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ChannelsTests/Pods-ChannelsTests.release.xcconfig"; sourceTree = "<group>"; };
 		778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79D2A893B3A6CA08204C0F03 /* Pods-Channels.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.release.xcconfig"; sourceTree = "<group>"; };
@@ -79,8 +101,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				170C59411B90EFC900EBAAC1 /* POLYFoundation.framework in Frameworks */,
-				32F083D01808C6D14E218036 /* Pods_Channels.framework in Frameworks */,
+				A02FBCF208B27B15C5A4368E /* Pods_Channels.framework in Frameworks */,
+				17DB0DAB1B9520AF00B4510C /* POLYFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,10 +122,10 @@
 			children = (
 				17D4CA7D1B910BE600070321 /* BaseViewController.h */,
 				17D4CA7E1B910BE600070321 /* BaseViewController.m */,
-				17AC67F81B8FDE9E00AAE2BF /* ViewController.h */,
-				17AC67F91B8FDE9E00AAE2BF /* ViewController.m */,
 				17D4CA731B910B2200070321 /* ChannelViewController.h */,
 				17D4CA741B910B2200070321 /* ChannelViewController.m */,
+				37A826141B961C8500707AC9 /* ChannelsTitleSelectionViewController.h */,
+				37A826151B961C8500707AC9 /* ChannelsTitleSelectionViewController.m */,
 				17D4CA761B910B3F00070321 /* PostingViewController.h */,
 				17D4CA771B910B3F00070321 /* PostingViewController.m */,
 				17D4CA801B910C1900070321 /* ListChannelsViewController.h */,
@@ -115,8 +137,8 @@
 		17A3877A1B8FEA5600702E85 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				17D4CA6D1B90FA7200070321 /* VideoModel.h */,
-				17D4CA6E1B90FA7200070321 /* VideoModel.m */,
+				17D4CA6D1B90FA7200070321 /* PostModel.h */,
+				17D4CA6E1B90FA7200070321 /* PostModel.m */,
 				17D4CA701B90FA8200070321 /* ChannelModel.h */,
 				17D4CA711B90FA8200070321 /* ChannelModel.m */,
 				94ADAA5E1B94E38B004EABD7 /* UserModel.h */,
@@ -135,6 +157,8 @@
 		17A3877C1B8FEA9F00702E85 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				178CB17F1B9660BA0010B097 /* ChannelPlayerViewModel.h */,
+				178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -162,14 +186,19 @@
 		17AC67F01B8FDE9E00AAE2BF /* Channels */ = {
 			isa = PBXGroup;
 			children = (
-				17AC67F51B8FDE9E00AAE2BF /* AppDelegate.h */,
-				17AC67F61B8FDE9E00AAE2BF /* AppDelegate.m */,
+				17AC67F51B8FDE9E00AAE2BF /* ChannelsAppDelegate.h */,
+				17AC67F61B8FDE9E00AAE2BF /* ChannelsAppDelegate.m */,
+				37A8261A1B96218100707AC9 /* ChannelsInterface.h */,
+				37A8261B1B96218100707AC9 /* ChannelsInterface.m */,
+				37A826111B96137A00707AC9 /* ChannelsAnimator.h */,
+				37A826121B96137A00707AC9 /* ChannelsAnimator.m */,
+				371BF09E1B962C3C004D54D1 /* ChannelsNavigationBar.h */,
+				371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */,
 				17A3877C1B8FEA9F00702E85 /* ViewModels */,
 				17A3877A1B8FEA5600702E85 /* Models */,
 				17A3877B1B8FEA6700702E85 /* Views */,
 				17A387791B8FE9AF00702E85 /* Controllers */,
 				17AC67FE1B8FDE9E00AAE2BF /* Images.xcassets */,
-				17AC68001B8FDE9E00AAE2BF /* LaunchScreen.xib */,
 				17AC67F11B8FDE9E00AAE2BF /* Supporting Files */,
 			);
 			path = Channels;
@@ -178,6 +207,7 @@
 		17AC67F11B8FDE9E00AAE2BF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				37A826301B96229300707AC9 /* Fonts */,
 				17A387781B8FE92A00702E85 /* Channels-Prefix.pch */,
 				17AC67F21B8FDE9E00AAE2BF /* Info.plist */,
 				17AC67F31B8FDE9E00AAE2BF /* main.m */,
@@ -205,11 +235,24 @@
 		2BD97E7D89FF9E5A050AE206 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				170C593C1B90EAE700EBAAC1 /* POLYFoundation.framework */,
+				17DB0DAA1B9520AF00B4510C /* POLYFoundation.framework */,
 				778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */,
 				C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		37A826301B96229300707AC9 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				37A8261E1B96227F00707AC9 /* Geomanist-Bold.otf */,
+				37A826201B96227F00707AC9 /* Geomanist-ExtraLight.otf */,
+				37A826211B96227F00707AC9 /* Geomanist-Light.otf */,
+				37A826221B96227F00707AC9 /* Geomanist-Medium.otf */,
+				37A826231B96227F00707AC9 /* Geomanist-Regular.otf */,
+				37A826241B96227F00707AC9 /* Geomanist-Thin.otf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		97C6C37E8C94702B0BCB8744 /* Pods */ = {
@@ -275,7 +318,7 @@
 		17AC67E61B8FDE9E00AAE2BF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Complex Polygon";
 				TargetAttributes = {
 					17AC67ED1B8FDE9E00AAE2BF = {
@@ -312,8 +355,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17AC68021B8FDE9E00AAE2BF /* LaunchScreen.xib in Resources */,
+				37A826271B96227F00707AC9 /* Geomanist-Bold.otf in Resources */,
+				37A8262C1B96227F00707AC9 /* Geomanist-Regular.otf in Resources */,
+				37A8262A1B96227F00707AC9 /* Geomanist-Light.otf in Resources */,
+				37A8262B1B96227F00707AC9 /* Geomanist-Medium.otf in Resources */,
 				17AC67FF1B8FDE9E00AAE2BF /* Images.xcassets in Resources */,
+				37A8262D1B96227F00707AC9 /* Geomanist-Thin.otf in Resources */,
+				37A826291B96227F00707AC9 /* Geomanist-ExtraLight.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,13 +474,17 @@
 			files = (
 				17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */,
 				17D4CA781B910B3F00070321 /* PostingViewController.m in Sources */,
+				37A826131B96137A00707AC9 /* ChannelsAnimator.m in Sources */,
 				17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */,
+				37A826161B961C8500707AC9 /* ChannelsTitleSelectionViewController.m in Sources */,
+				371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */,
 				17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */,
-				17AC67FA1B8FDE9E00AAE2BF /* ViewController.m in Sources */,
-				17AC67F71B8FDE9E00AAE2BF /* AppDelegate.m in Sources */,
+				17AC67F71B8FDE9E00AAE2BF /* ChannelsAppDelegate.m in Sources */,
+				37A8261C1B96218100707AC9 /* ChannelsInterface.m in Sources */,
 				94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */,
 				17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */,
-				17D4CA6F1B90FA7200070321 /* VideoModel.m in Sources */,
+				178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */,
+				17D4CA6F1B90FA7200070321 /* PostModel.m in Sources */,
 				17D4CA721B90FA8200070321 /* ChannelModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -455,17 +507,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		17AC68001B8FDE9E00AAE2BF /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				17AC68011B8FDE9E00AAE2BF /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		17AC680F1B8FDE9E00AAE2BF /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -487,7 +528,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -530,6 +573,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -552,18 +596,18 @@
 			baseConfigurationReference = 96A840B90001DBB7E2FA78B9 /* Pods-Channels.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/Stuart/Channels/POLYFoundation/build/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphonesimulator",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Channels/Channels-Prefix.pch";
 				INFOPLIST_FILE = Channels/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ComplexPolygon.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -573,18 +617,18 @@
 			baseConfigurationReference = 79D2A893B3A6CA08204C0F03 /* Pods-Channels.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/Stuart/Channels/POLYFoundation/build/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphonesimulator",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Channels/Channels-Prefix.pch";
 				INFOPLIST_FILE = Channels/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ComplexPolygon.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -594,16 +638,14 @@
 			baseConfigurationReference = E11531D5AFF4817BD81B7302 /* Pods-ChannelsTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ChannelsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ComplexPolygon.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Channels.app/Channels";
 			};
@@ -614,12 +656,10 @@
 			baseConfigurationReference = 4EEAFA6384F410BFB8D50D6E /* Pods-ChannelsTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ChannelsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ComplexPolygon.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Channels.app/Channels";
 			};

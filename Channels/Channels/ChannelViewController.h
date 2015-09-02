@@ -6,8 +6,14 @@
 //  Copyright (c) 2015 Complex Polygon. All rights reserved.
 //
 
-#import "BaseViewController.h"
+@import POLYFoundation;
 
-@interface ChannelViewController : BaseViewController
+@class ChannelPlayerViewModel;
+
+@interface ChannelViewController : UIViewController
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithViewModel:(ChannelPlayerViewModel *)viewModel;
+
+@property (nonatomic, strong) ChannelPlayerViewModel *viewModel;
 
 @end

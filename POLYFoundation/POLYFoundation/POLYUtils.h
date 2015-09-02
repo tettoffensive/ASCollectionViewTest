@@ -24,6 +24,7 @@
 + (NSString *)sha1:(NSString*)input;
 
 // Images
++ (UIImage *)imageWithColor:(UIColor *)color andSize:(CGSize)size;
 + (NSData *)dataFromRedrawnImage:(UIImage *)image;
 + (UIImage *)imageResizedAtWidth:(CGFloat)width image:(UIImage *)image;
 + (UIImage *)imageResizedForThumbnail:(UIImage *)image;

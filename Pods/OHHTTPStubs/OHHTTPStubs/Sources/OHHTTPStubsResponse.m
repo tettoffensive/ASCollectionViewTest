@@ -29,7 +29,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Imports
 
-#import "OHHTTPStubsResponse.h"
+#import <OHHTTPStubs/OHHTTPStubsResponse.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Defines & Constants
@@ -53,7 +53,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 +(instancetype)responseWithData:(NSData*)data
                      statusCode:(int)statusCode
-                        headers:(NSDictionary*)httpHeaders
+                        headers:(nullable NSDictionary*)httpHeaders
 {
     OHHTTPStubsResponse* response = [[self alloc] initWithData:data
                                                     statusCode:statusCode
@@ -66,7 +66,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 +(instancetype)responseWithFileAtPath:(NSString *)filePath
                            statusCode:(int)statusCode
-                              headers:(NSDictionary *)httpHeaders
+                              headers:(nullable NSDictionary *)httpHeaders
 {
     OHHTTPStubsResponse* response = [[self alloc] initWithFileAtPath:filePath
                                                           statusCode:statusCode
@@ -88,47 +88,63 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 -(instancetype)responseTime:(NSTimeInterval)responseTime
 {
-    self.responseTime = responseTime;
+    _responseTime = responseTime;
     return self;
 }
 
 -(instancetype)requestTime:(NSTimeInterval)requestTime responseTime:(NSTimeInterval)responseTime
 {
-    self.requestTime = requestTime;
-    self.responseTime = responseTime;
+    _requestTime = requestTime;
+    _responseTime = responseTime;
     return self;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Initializers
 
+-(instancetype)init
+{
+    self = [super init];
+    return self;
+}
+
 -(instancetype)initWithInputStream:(NSInputStream*)inputStream
                           dataSize:(unsigned long long)dataSize
                         statusCode:(int)statusCode
-                           headers:(NSDictionary*)httpHeaders
+                           headers:(nullable NSDictionary*)httpHeaders
 {
     self = [super init];
     if (self)
     {
-        self.inputStream = inputStream;
-        self.dataSize = dataSize;
-        self.statusCode = statusCode;
+        _inputStream = inputStream;
+        _dataSize = dataSize;
+        _statusCode = statusCode;
         NSMutableDictionary * headers = [NSMutableDictionary dictionaryWithDictionary:httpHeaders];
         static NSString *const ContentLengthHeader = @"Content-Length";
         if (!headers[ContentLengthHeader])
         {
-            headers[ContentLengthHeader] = [NSString stringWithFormat:@"%llu",self.dataSize];
+            headers[ContentLengthHeader] = [NSString stringWithFormat:@"%llu",_dataSize];
         }
-        self.httpHeaders = [NSDictionary dictionaryWithDictionary:headers];
+        _httpHeaders = [NSDictionary dictionaryWithDictionary:headers];
     }
     return self;
 }
 
 -(instancetype)initWithFileAtPath:(NSString*)filePath
                        statusCode:(int)statusCode
-                          headers:(NSDictionary*)httpHeaders
+                          headers:(nullable NSDictionary*)httpHeaders
 {
-    NSInputStream* inputStream = [NSInputStream inputStreamWithFileAtPath:filePath];
+    NSInputStream* inputStream;
+    if (filePath)
+    {
+        inputStream = [NSInputStream inputStreamWithFileAtPath:filePath];
+    }
+    else
+    {
+        NSLog(@"%s: nil file path. Returning empty data", __PRETTY_FUNCTION__);
+        inputStream = [NSInputStream inputStreamWithData:[NSData data]];
+    }
+    
     NSDictionary* attributes = [NSFileManager.defaultManager attributesOfItemAtPath:filePath error:nil];
     unsigned long long fileSize = [[attributes valueForKey:NSFileSize] unsignedLongLongValue];
     self = [self initWithInputStream:inputStream
@@ -140,7 +156,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 
 -(instancetype)initWithData:(NSData*)data
                  statusCode:(int)statusCode
-                    headers:(NSDictionary*)httpHeaders
+                    headers:(nullable NSDictionary*)httpHeaders
 {
     NSInputStream* inputStream = [NSInputStream inputStreamWithData:data?:[NSData data]];
     self = [self initWithInputStream:inputStream
@@ -154,7 +170,7 @@ const double OHHTTPStubsDownloadSpeedWifi   =- 12000 / 8; // kbps -> KB/s
 {
     self = [super init];
     if (self) {
-        self.error = error;
+        _error = error;
     }
     return self;
 }

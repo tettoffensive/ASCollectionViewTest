@@ -7,9 +7,11 @@
 //
 
 #import <Mantle/Mantle.h>
+@class PostModel;
 
 @interface ChannelModel : MTLModel
 
-@property (nonatomic, copy, readonly) NSArray* videos;
+@property (nonatomic, copy, readonly) NSString *channelName;
+@property (nonatomic, copy, readonly) NSArray<PostModel *> *channelPosts;
 
 @end

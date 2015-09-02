@@ -52,18 +52,24 @@ code_sign_if_enabled() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework 'Pods-POLYFoundation/Bolts.framework'
   install_framework 'Pods-POLYFoundation/KVOController.framework'
   install_framework 'Pods-POLYFoundation/ObjectiveSugar.framework'
   install_framework 'Pods-POLYFoundation/libextobjc.framework'
   install_framework 'Pods-POLYFoundation/AFNetworkActivityLogger.framework'
   install_framework 'Pods-POLYFoundation/AFNetworking.framework'
+  install_framework 'Pods-POLYFoundation/AWSCore.framework'
+  install_framework 'Pods-POLYFoundation/AWSS3.framework'
   install_framework 'Pods-POLYFoundation/SDWebImage.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework 'Pods-POLYFoundation/Bolts.framework'
   install_framework 'Pods-POLYFoundation/KVOController.framework'
   install_framework 'Pods-POLYFoundation/ObjectiveSugar.framework'
   install_framework 'Pods-POLYFoundation/libextobjc.framework'
   install_framework 'Pods-POLYFoundation/AFNetworkActivityLogger.framework'
   install_framework 'Pods-POLYFoundation/AFNetworking.framework'
+  install_framework 'Pods-POLYFoundation/AWSCore.framework'
+  install_framework 'Pods-POLYFoundation/AWSS3.framework'
   install_framework 'Pods-POLYFoundation/SDWebImage.framework'
 fi

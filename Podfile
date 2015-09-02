@@ -17,10 +17,10 @@ def import_pods
   # Language Nicities
   pod 'KVOController'
   pod 'ObjectiveSugar'
+  pod 'Bolts'
 
   # libextobjc
-  pod 'libextobjc/EXTKeyPathCoding', '0.4'
-  pod 'libextobjc/EXTScope', '0.4'
+  pod 'libextobjc/EXTScope'
 end
 
 target :Channels do
@@ -35,17 +35,12 @@ target :Channels do
   # Animation/Layout/UI
   pod 'pop', '~> 1.0'
   pod 'FLKAutoLayout'
+  pod 'PBJVision'
 end
 
 target 'ChannelsTests', :exclusive => true do
   xcodeproj 'Channels/Channels'
-  pod 'FBSnapshotTestCase', '~>1.4'
-  # pod 'Expecta+Snapshots', '~> 1.2'
-  # pod 'OHHTTPStubs', '3.1.2'
-  # pod 'XCTest+OHHTTPStubSuiteCleanUp', '1.0.0'
-  # pod 'Specta'
-  # pod 'Expecta'
-  # pod 'OCMock', '2.2.4'
+  pod 'OHHTTPStubs'
 end
 
 target :POLYFoundation do
@@ -55,10 +50,13 @@ target :POLYFoundation do
   pod "AFNetworking", "~> 2.5.1"
   pod "AFNetworkActivityLogger"
   pod "SDWebImage"
+
+  # AWS - https://github.com/aws/aws-sdk-ios for avail packages
+  pod 'AWSCore'
+  pod 'AWSS3'
 end
 
 target 'POLYFoundationTests', :exclusive => true do
   xcodeproj 'POLYFoundation/POLYFoundation'
-  pod 'OHHTTPStubs', '3.1.2'
-  pod 'XCTest+OHHTTPStubSuiteCleanUp', '1.0.0'
+  pod 'OHHTTPStubs'
 end

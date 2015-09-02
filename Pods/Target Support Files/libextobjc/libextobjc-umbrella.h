@@ -1,6 +1,5 @@
 #import <UIKit/UIKit.h>
 
-#import "EXTKeyPathCoding.h"
 #import "EXTScope.h"
 #import "metamacros.h"
 #import "EXTRuntimeExtensions.h"

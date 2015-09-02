@@ -16,8 +16,6 @@
 		1716742C1B9120F30099FBA6 /* POLYUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1716742A1B9120F30099FBA6 /* POLYUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1716742D1B9120F30099FBA6 /* POLYUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1716742B1B9120F30099FBA6 /* POLYUtils.m */; };
 		1716742F1B9121550099FBA6 /* POLYFoundation-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 1716742E1B9121550099FBA6 /* POLYFoundation-Prefix.pch */; };
-		1716743A1B9122620099FBA6 /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 171674381B9122620099FBA6 /* AWSRuntime.framework */; };
-		1716743B1B9122620099FBA6 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 171674391B9122620099FBA6 /* AWSS3.framework */; };
 		1716743E1B9123CD0099FBA6 /* POLYDate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1716743C1B9123CD0099FBA6 /* POLYDate.h */; };
 		1716743F1B9123CD0099FBA6 /* POLYDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1716743D1B9123CD0099FBA6 /* POLYDate.m */; };
 		172D74FB1B90E01E00FC8137 /* POLYNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 172D74F91B90E01E00FC8137 /* POLYNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,8 +62,6 @@
 		1716742A1B9120F30099FBA6 /* POLYUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYUtils.h; sourceTree = "<group>"; };
 		1716742B1B9120F30099FBA6 /* POLYUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYUtils.m; sourceTree = "<group>"; };
 		1716742E1B9121550099FBA6 /* POLYFoundation-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "POLYFoundation-Prefix.pch"; sourceTree = "<group>"; };
-		171674381B9122620099FBA6 /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSRuntime.framework; sourceTree = "<group>"; };
-		171674391B9122620099FBA6 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSS3.framework; sourceTree = "<group>"; };
 		1716743C1B9123CD0099FBA6 /* POLYDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYDate.h; sourceTree = "<group>"; };
 		1716743D1B9123CD0099FBA6 /* POLYDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYDate.m; sourceTree = "<group>"; };
 		172D74F91B90E01E00FC8137 /* POLYNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYNetworking.h; sourceTree = "<group>"; };
@@ -107,8 +103,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				17A8B66D1B9127050094D2C9 /* WebP.framework in Frameworks */,
-				1716743B1B9122620099FBA6 /* AWSS3.framework in Frameworks */,
-				1716743A1B9122620099FBA6 /* AWSRuntime.framework in Frameworks */,
 				7FF2496B24D5ABD3C09980BB /* Pods_POLYFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,8 +244,6 @@
 		74BB5513AEEE24D18DFA3565 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				171674381B9122620099FBA6 /* AWSRuntime.framework */,
-				171674391B9122620099FBA6 /* AWSS3.framework */,
 				469D7124D47E8B15DE3CDE28 /* Pods_POLYFoundation.framework */,
 				B6D02FBCC7B6856712480888 /* Pods_POLYFoundationTests.framework */,
 			);
@@ -531,6 +523,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -578,6 +571,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -606,9 +600,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Stuart/Swipe/Swipe,
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/POLYFoundation/WebP",
 				);
@@ -632,9 +626,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Stuart/Swipe/Swipe,
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/POLYFoundation/WebP",
 				);
@@ -655,10 +649,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A8AA1FFE1080EFADE5FEAA45 /* Pods-POLYFoundationTests.debug.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -673,10 +664,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 456F835DDD01F1CCDCA0B80D /* Pods-POLYFoundationTests.release.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = POLYFoundationTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

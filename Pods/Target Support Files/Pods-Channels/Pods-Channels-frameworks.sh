@@ -52,20 +52,24 @@ code_sign_if_enabled() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework 'Pods-Channels/Bolts.framework'
   install_framework 'Pods-Channels/FLKAutoLayout.framework'
   install_framework 'Pods-Channels/KVOController.framework'
   install_framework 'Pods-Channels/Mantle.framework'
   install_framework 'Pods-Channels/Mixpanel.framework'
   install_framework 'Pods-Channels/ObjectiveSugar.framework'
+  install_framework 'Pods-Channels/PBJVision.framework'
   install_framework 'Pods-Channels/libextobjc.framework'
   install_framework 'Pods-Channels/pop.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework 'Pods-Channels/Bolts.framework'
   install_framework 'Pods-Channels/FLKAutoLayout.framework'
   install_framework 'Pods-Channels/KVOController.framework'
   install_framework 'Pods-Channels/Mantle.framework'
   install_framework 'Pods-Channels/Mixpanel.framework'
   install_framework 'Pods-Channels/ObjectiveSugar.framework'
+  install_framework 'Pods-Channels/PBJVision.framework'
   install_framework 'Pods-Channels/libextobjc.framework'
   install_framework 'Pods-Channels/pop.framework'
 fi
