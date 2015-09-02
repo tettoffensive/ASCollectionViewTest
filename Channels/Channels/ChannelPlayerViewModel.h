@@ -11,6 +11,7 @@
 @interface ChannelPlayerViewModel : NSObject
 
 @property (nonatomic, copy, readonly) NSString *channelTitle;
+@property (nonatomic, readonly) NSArray *keys;
 
 - (void)updateChannelTitle;
 

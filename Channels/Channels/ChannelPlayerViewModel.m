@@ -18,4 +18,9 @@
     [self didChangeValueForKey:@"channelTitle"];
 }
 
+- (NSArray *)keys
+{
+    return @[@"channelTitle"];
+}
+
 @end
