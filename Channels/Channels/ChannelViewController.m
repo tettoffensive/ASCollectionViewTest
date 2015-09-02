@@ -17,6 +17,9 @@
  *  Player responsible for playing the current channel's stream
  */
 @property (nonatomic) MPMoviePlayerController *channelMoviePlayerController;
+@property (nonatomic) NSUInteger index;
+@property (nonatomic) NSUInteger count;
+
 @end
 
 @implementation ChannelViewController
@@ -45,6 +48,11 @@
     [self loadMovie];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self pauseMovie];
+}
+
 - (void)setNavigationBarAppearance
 {
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -63,18 +71,10 @@
         [player setRepeatMode:MPMovieRepeatModeOne];
         [player setScalingMode:MPMovieScalingModeAspectFill];
         [player.view setFrame:self.view.bounds];
+        [self.view addSubview:player.view];
         [self subscribeToNotificationsForPlayer:player];
         player;
     }) : _channelMoviePlayerController;
-}
-
-- (void)loadMovie
-{
-    NSURL *movieURL = [NSURL URLWithString:@"http://channels-stage.videos.output.oregon.s3.amazonaws.com/7BE9A1E0-A430-45D1-8CC2-2D83253AEC69.m3u8"];
-    [self.channelMoviePlayerController setContentURL:movieURL];
-    [self.channelMoviePlayerController prepareToPlay];
-    [self.view addSubview:self.channelMoviePlayerController.view];
-    [self.channelMoviePlayerController play];
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -115,12 +115,38 @@
 {
     // Posted when the currently playing movie has changed. There is no userInfo dictionary.
     POLYLog(@"%@", self.channelMoviePlayerController.contentURL);
+    
+    
 }
 
 - (void)moviePlaybackStateChange:(NSNotification*)notification
 {
     // Stopped, Playing, Paused, Interrupted, Seeking Forward, Seeking Backward
     POLYLog(@"%u",self.channelMoviePlayerController.playbackState);
+    
+    switch (self.channelMoviePlayerController.playbackState) {
+        case MPMoviePlaybackStatePaused:
+        case MPMoviePlaybackStateStopped: {
+            self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+            [self loadMovie];
+            break;
+        }
+        case MPMoviePlaybackStatePlaying: {
+            break;
+        }
+        case MPMoviePlaybackStateInterrupted: {
+            break;
+        }
+        case MPMoviePlaybackStateSeekingForward: {
+            break;
+        }
+        case MPMoviePlaybackStateSeekingBackward: {
+            break;
+        }
+        default: {
+            break;
+        }
+    }
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -130,8 +156,28 @@
 - (void)reloadData
 {
     if ([self.viewModel isKindOfClass:[ChannelPlayerViewModel class]]) {
-        [self setTitle:((ChannelPlayerViewModel*)self.viewModel).channelTitle];
+        ChannelPlayerViewModel *viewModel = (ChannelPlayerViewModel*)self.viewModel;
+        [self setTitle:viewModel.channelTitle];
+        [self setCount:[viewModel.channelPosts count]];
     }
+}
+
+- (void)loadMovie
+{
+    if ([self.viewModel isKindOfClass:[ChannelPlayerViewModel class]]) {
+        ChannelPlayerViewModel *viewModel = (ChannelPlayerViewModel*)self.viewModel;
+        NSURL *movieURL = [NSURL URLWithString:viewModel.channelPosts[self.index]];
+        if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.contentURL.absoluteString]) {
+            [self.channelMoviePlayerController setContentURL:movieURL];
+            [self.channelMoviePlayerController prepareToPlay];
+        }
+        [self.channelMoviePlayerController play];
+    }
+}
+
+- (void)pauseMovie
+{
+    [self.channelMoviePlayerController pause];
 }
 
 @end

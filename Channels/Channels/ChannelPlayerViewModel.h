@@ -10,7 +10,8 @@
 
 @interface ChannelPlayerViewModel : POLYViewModel
 
-@property (nonatomic, copy, readonly) NSString *channelTitle;
+@property (nonatomic, copy, readonly) NSString  *channelTitle;
+@property (nonatomic, copy, readonly) NSArray   *channelPosts;
 
 - (void)updateChannelTitle;
 
