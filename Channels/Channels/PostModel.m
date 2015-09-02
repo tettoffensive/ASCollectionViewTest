@@ -23,4 +23,14 @@
              };
 }
 
+- (NSURL *)URL
+{
+    return [NSURL URLWithString:self.mediaURLString];
+}
+
+- (NSURL *)thumbnailURL
+{
+    return [NSURL URLWithString:self.mediaThumbnailURLString];
+}
+
 @end
