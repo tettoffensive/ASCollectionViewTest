@@ -18,7 +18,6 @@
 		17D4CA781B910B3F00070321 /* PostingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA771B910B3F00070321 /* PostingViewController.m */; };
 		17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA7E1B910BE600070321 /* BaseViewController.m */; };
 		17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA811B910C1900070321 /* ListChannelsViewController.m */; };
-		17DB0DAB1B9520AF00B4510C /* POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17DB0DAA1B9520AF00B4510C /* POLYFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */; settings = {ASSET_TAGS = (); }; };
 		37A826131B96137A00707AC9 /* ChannelsAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A826121B96137A00707AC9 /* ChannelsAnimator.m */; settings = {ASSET_TAGS = (); }; };
 		37A826161B961C8500707AC9 /* ChannelsTitleSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A826151B961C8500707AC9 /* ChannelsTitleSelectionViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -30,6 +29,7 @@
 		37A8262C1B96227F00707AC9 /* Geomanist-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826231B96227F00707AC9 /* Geomanist-Regular.otf */; settings = {ASSET_TAGS = (); }; };
 		37A8262D1B96227F00707AC9 /* Geomanist-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826241B96227F00707AC9 /* Geomanist-Thin.otf */; settings = {ASSET_TAGS = (); }; };
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		948E679E1B97B7720093AC17 /* POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 948E679D1B97B7720093AC17 /* POLYFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ADAA5F1B94E38B004EABD7 /* UserModel.m */; };
 		A02FBCF208B27B15C5A4368E /* Pods_Channels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -69,7 +69,6 @@
 		17D4CA7E1B910BE600070321 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		17D4CA801B910C1900070321 /* ListChannelsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListChannelsViewController.h; sourceTree = "<group>"; };
 		17D4CA811B910C1900070321 /* ListChannelsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListChannelsViewController.m; sourceTree = "<group>"; };
-		17DB0DAA1B9520AF00B4510C /* POLYFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = POLYFoundation.framework; path = "../../Library/Developer/Xcode/DerivedData/Channels-gtqfdtofjptjyddzlcsmzkppvsqf/Build/Products/Debug-iphoneos/POLYFoundation.framework"; sourceTree = "<group>"; };
 		371BF09E1B962C3C004D54D1 /* ChannelsNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsNavigationBar.h; sourceTree = "<group>"; };
 		371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsNavigationBar.m; sourceTree = "<group>"; };
 		37A826111B96137A00707AC9 /* ChannelsAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsAnimator.h; sourceTree = "<group>"; };
@@ -88,6 +87,7 @@
 		778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79D2A893B3A6CA08204C0F03 /* Pods-Channels.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.release.xcconfig"; sourceTree = "<group>"; };
 		8D60F9D7FE4AD79B6B1A0A16 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		948E679D1B97B7720093AC17 /* POLYFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = POLYFoundation.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Channels-bmrdppgbyouavbgfjlnhohbijqnr/Build/Products/Debug-iphoneos/POLYFoundation.framework"; sourceTree = "<group>"; };
 		94ADAA5E1B94E38B004EABD7 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		94ADAA5F1B94E38B004EABD7 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		96A840B90001DBB7E2FA78B9 /* Pods-Channels.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.debug.xcconfig"; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A02FBCF208B27B15C5A4368E /* Pods_Channels.framework in Frameworks */,
-				17DB0DAB1B9520AF00B4510C /* POLYFoundation.framework in Frameworks */,
+				948E679E1B97B7720093AC17 /* POLYFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,7 +235,7 @@
 		2BD97E7D89FF9E5A050AE206 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				17DB0DAA1B9520AF00B4510C /* POLYFoundation.framework */,
+				948E679D1B97B7720093AC17 /* POLYFoundation.framework */,
 				778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */,
 				C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */,
 			);
