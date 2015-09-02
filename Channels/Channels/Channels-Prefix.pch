@@ -9,4 +9,8 @@
 #ifndef Channels_Channels_Prefix_pch
 #define Channels_Channels_Prefix_pch
 
+#ifdef __OBJC__
+#import "ChannelsConfig.h"
+#endif
+
 #endif
