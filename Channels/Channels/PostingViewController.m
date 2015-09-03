@@ -11,6 +11,7 @@
 #import <POP/POP.h>
 #import "ChannelRecordVideoButton.h"
 #import "ChannelsPostManager.h"
+@import MediaPlayer;
 
 static const double kMAX_VIDEO_DURATION = 6.0f;
 static const NSString *kPBJVisionVideoCapturedDurationKey       = @"PBJVisionVideoCapturedDurationKey";
@@ -18,16 +19,22 @@ static const NSString *kPBJVisionVideoPathKey                   = @"PBJVisionVid
 static const NSString *kPBJVisionVideoThumbnailArrayKey         = @"PBJVisionVideoThumbnailArrayKey";
 static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVideoThumbnailKey";
 
-@interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate>
+@interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate, UIAlertViewDelegate>
 {
     NSTimer *_videoDurationTimer;
     CFTimeInterval _startTime;
     
+    UIButton *_closeButton;
     UIButton *_flashButton;
     UIButton *_switchCameraButton;
     
     PBJVision *_vision;
 }
+
+/*!
+ *  Player responsible for playing the current channel's stream
+ */
+@property (nonatomic) MPMoviePlayerController *channelMoviePlayerController;
 
 @property (nonatomic, assign) BOOL recording;
 
@@ -70,6 +77,34 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [self setup];
 }
 
+- (void)loadMoviePlayer
+{
+    NSURL *movieURL = [NSURL fileURLWithPath:[_currentVideo objectForKey:kPBJVisionVideoPathKey] isDirectory:NO];
+    if (movieURL.absoluteString.length > 0) {
+        [self.channelMoviePlayerController setContentURL:movieURL];
+        [self.channelMoviePlayerController play];
+        [self.view bringSubviewToFront:self.channelMoviePlayerController.view];
+        [self.view bringSubviewToFront:_closeButton];
+    }
+}
+
+- (MPMoviePlayerController *)channelMoviePlayerController
+{
+    return !_channelMoviePlayerController ? _channelMoviePlayerController =
+    ({
+        MPMoviePlayerController *player = [[MPMoviePlayerController alloc] init];
+        [player setFullscreen:NO];
+        [player setMovieSourceType:MPMovieSourceTypeStreaming];
+        [player setControlStyle:MPMovieControlStyleNone];
+        [player setRepeatMode:MPMovieRepeatModeNone];
+        [player setScalingMode:MPMovieScalingModeAspectFill];
+        [player.view setFrame:self.view.bounds];
+        [self.view addSubview:player.view];
+        [self subscribeToNotificationsForPlayer:player];
+        player;
+    }) : _channelMoviePlayerController;
+}
+
 - (void)setupCameraControls
 {
     // New Record Button
@@ -80,10 +115,10 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [self.view addSubview:_recordVideoButton];
     
     // Close Button
-    UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f, 60.0f)];
-    [closeButton setImage:[UIImage imageNamed:@"Close Button"] forState:UIControlStateNormal];
-    [closeButton addTarget:self action:@selector(dismissPostingViewController) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:closeButton];
+    _closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f, 60.0f)];
+    [_closeButton setImage:[UIImage imageNamed:@"Close Button"] forState:UIControlStateNormal];
+    [_closeButton addTarget:self action:@selector(dismissPostingViewController) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_closeButton];
     
     // Flash Button
     UIImage *flashIcon = [UIImage imageNamed:@"Flash Off"];
@@ -127,6 +162,10 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    
+    if (self.channelMoviePlayerController.contentURL.absoluteString.length > 0) {
+        [self.channelMoviePlayerController stop];
+    }
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -140,7 +179,7 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     _vision.cameraMode = PBJCameraModeVideo;
     _vision.cameraOrientation = PBJCameraOrientationPortrait;
     _vision.focusMode = PBJFocusModeContinuousAutoFocus;
-    _vision.outputFormat = PBJOutputFormatStandard;
+    _vision.outputFormat = PBJOutputFormatPreset;
     [_vision startPreview];
 }
 
@@ -155,10 +194,10 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     }
     
     _currentVideo = [videoDict copy];
-    
     double videoDuration = [[_currentVideo objectForKey:kPBJVisionVideoCapturedDurationKey] doubleValue];
     if (videoDuration >= 1.0) {
-        [self uploadVideo:_currentVideo];
+        [self loadMoviePlayer];
+        [self showconfirmUploadDialog];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc]
                                   initWithTitle:@"Oops..."
@@ -168,6 +207,31 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
                                   otherButtonTitles:@"OK", nil];
         
         [alertView show];
+    }
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Confirm Upload Alert View
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)showconfirmUploadDialog
+{
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:@"Confirm Upload"
+                              message:@"Do you want to upload this video?"
+                              delegate:self
+                              cancelButtonTitle:@"NO"
+                              otherButtonTitles:@"YES", nil];
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.cancelButtonIndex) {
+        [self.channelMoviePlayerController stop];
+        [self.channelMoviePlayerController.view removeFromSuperview];
+    } else if (buttonIndex == alertView.firstOtherButtonIndex) {
+        [self uploadVideo:_currentVideo];
     }
 }
 
@@ -254,6 +318,93 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
         _switchCameraButton.tag = PostingViewCameraModeBack;
         _vision.cameraDevice = PBJCameraDeviceBack;
     }
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - MPMoviePlayerController Notifications
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)unsubscribeFromNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)subscribeToNotificationsForPlayer:(MPMoviePlayerController*)player
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieDurationAvailable:)    name:MPMovieDurationAvailableNotification              object:player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieReadyForDisplay:)      name:MPMoviePlayerReadyForDisplayDidChangeNotification object:player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieLoadStateDidChange:)   name:MPMoviePlayerLoadStateDidChangeNotification       object:player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieNowPlayingDidChange:)  name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackStateChange:)  name:MPMoviePlayerPlaybackStateDidChangeNotification   object:player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackDidFinish:)    name:MPMoviePlayerPlaybackDidFinishNotification        object:player];
+}
+
+- (void)movieDurationAvailable:(NSNotification*)notification
+{
+    POLYLog(@"%d",self.channelMoviePlayerController.duration);
+}
+
+- (void)movieReadyForDisplay:(NSNotification*)notification
+{
+    POLYLog(@"%@",self.channelMoviePlayerController.readyForDisplay ? @"YES" : @"NO");
+}
+
+- (void)movieLoadStateDidChange:(NSNotification*)notification
+{
+    // Network Load State of the movie player (Unknown, Playable, PlaythroughOK, Stalled)
+    POLYLog(@"%u",self.channelMoviePlayerController.loadState);
+}
+
+- (void)movieNowPlayingDidChange:(NSNotification*)notification
+{
+    // Posted when the currently playing movie has changed. There is no userInfo dictionary.
+    POLYLog(@"%@", self.channelMoviePlayerController.contentURL);
+    
+    
+}
+
+- (void)moviePlaybackDidFinish:(NSNotification*)notification
+{
+    POLYLog(@"%@", self.channelMoviePlayerController);
+    [self loadMoviePlayer];
+}
+
+- (void)moviePlaybackStateChange:(NSNotification*)notification
+{
+    // Stopped, Playing, Paused, Interrupted, Seeking Forward, Seeking Backward
+    POLYLog(@"%u",self.channelMoviePlayerController.playbackState);
+    
+    switch (self.channelMoviePlayerController.playbackState) {
+        case MPMoviePlaybackStatePaused:
+        case MPMoviePlaybackStateStopped: {
+            break;
+        }
+        case MPMoviePlaybackStatePlaying: {
+            break;
+        }
+        case MPMoviePlaybackStateInterrupted: {
+            break;
+        }
+        case MPMoviePlaybackStateSeekingForward: {
+            break;
+        }
+        case MPMoviePlaybackStateSeekingBackward: {
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+}
+
+- (void)playMovie
+{
+    [self.channelMoviePlayerController play];
+}
+
+- (void)pauseMovie
+{
+    [self.channelMoviePlayerController pause];
 }
 
 @end
