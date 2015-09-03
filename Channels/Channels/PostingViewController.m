@@ -12,7 +12,12 @@
 #import "ChannelRecordVideoButton.h"
 #import "ChannelsPostManager.h"
 
-@interface PostingViewController () <PBJVisionDelegate>
+static const NSString *kPBJVisionVideoCapturedDurationKey       = @"PBJVisionVideoCapturedDurationKey";
+static const NSString *kPBJVisionVideoPathKey                   = @"PBJVisionVideoPathKey";
+static const NSString *kPBJVisionVideoThumbnailArrayKey         = @"PBJVisionVideoThumbnailArrayKey";
+static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVideoThumbnailKey";
+
+@interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate>
 {
     UIView *_recordVideoButtonStatusView;
 }
@@ -21,8 +26,6 @@
 
 @property (nonatomic, strong) UIView *previewView;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
-
-@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGestureRecognizer;
 
 @property (nonatomic, copy) NSString *captureSessionPreset;
 
@@ -52,15 +55,12 @@
     _previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [_previewView.layer addSublayer:_previewLayer];
     
-    _longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestureRecognizer:)];
-    _longPressGestureRecognizer.minimumPressDuration = 1.0;
-    
     // New Record Button
     ChannelRecordVideoButton *recordVideoButton = [[ChannelRecordVideoButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 80.0f)];
+    recordVideoButton.delegate = self;
     [recordVideoButton setCenter:self.view.center];
     [recordVideoButton setFrame:CGRectOffset(recordVideoButton.frame, 0.0f, self.view.bounds.size.height / 2.0f - 60.0f)];
     [self.view addSubview:recordVideoButton];
-    [recordVideoButton addGestureRecognizer:_longPressGestureRecognizer];
     
     // Close Button
     UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f, 60.0f)];
@@ -92,6 +92,10 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Video Capture
+#pragma -------------------------------------------------------------------------------------------
+
 - (void)setup
 {
     PBJVision *vision = [PBJVision sharedInstance];
@@ -103,42 +107,6 @@
     [vision startPreview];
 }
 
-- (void)handleLongPressGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
-{
-    switch (gestureRecognizer.state) {
-        case UIGestureRecognizerStateBegan:
-        {
-            if (!_recording) {
-                _recording = YES;
-                [[PBJVision sharedInstance] startVideoCapture];
-            } else {
-                _recording = YES;
-                [[PBJVision sharedInstance] resumeVideoCapture];
-            }
-            break;
-        }
-        case UIGestureRecognizerStateEnded:
-        {
-            _recording = NO;
-            [[PBJVision sharedInstance] endVideoCapture];
-            break;
-        }
-        case UIGestureRecognizerStateCancelled:
-        {
-            _recording = NO;
-            break;
-        }
-        case UIGestureRecognizerStateFailed:
-        {
-            _recording = NO;
-            [[PBJVision sharedInstance] pauseVideoCapture];
-            break;
-        }
-        default:
-            break;
-    }
-}
-
 - (void)vision:(PBJVision *)vision capturedVideo:(NSDictionary *)videoDict error:(NSError *)error
 {
     if (error && [error.domain isEqual:PBJVisionErrorDomain] && error.code == PBJVisionErrorCancelled) {
@@ -148,14 +116,39 @@
         NSLog(@"encounted an error in video capture (%@)", error);
         return;
     }
-
+    
     _currentVideo = [videoDict copy];
     [self uploadVideo:_currentVideo];
 }
 
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Upload Videos
+#pragma -------------------------------------------------------------------------------------------
+
 - (void)uploadVideo:(NSDictionary *)videoDictionary
 {
     [[ChannelsPostManager sharedInstance] uploadVideo:_currentVideo];
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Record Button Delegate Methods
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)didStartRecording
+{
+    if (!_recording) {
+        _recording = YES;
+        [[PBJVision sharedInstance] startVideoCapture];
+    } else {
+        _recording = YES;
+        [[PBJVision sharedInstance] resumeVideoCapture];
+    }
+}
+
+- (void)didEndRecording
+{
+    _recording = NO;
+    [[PBJVision sharedInstance] endVideoCapture];
 }
 
 @end
