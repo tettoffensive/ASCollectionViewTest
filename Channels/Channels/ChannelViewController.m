@@ -49,7 +49,7 @@
     
     [self loadMovie];
     
-    UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
+    UIImage *postButtonImage = [UIImage imageNamed:@"Post Button"];
     _postButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
     [_postButton setCenter:self.view.center];
     [_postButton setFrame:CGRectOffset(_postButton.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
