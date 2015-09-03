@@ -7,26 +7,52 @@
 //
 
 #import "ChannelPlayerViewModel.h"
+#import "ChannelsNetworking.h"
 
 @implementation ChannelPlayerViewModel
 
-- (NSArray *)channelPosts
+- (void)updatePosts
 {
-    return @[@"http://channels-stage.videos.output.oregon.s3.amazonaws.com/7BE9A1E0-A430-45D1-8CC2-2D83253AEC69.m3u8",
-             @"http://channels-stage.videos.output.oregon.s3.amazonaws.com/410A2517-FC16-42C5-8DD2-A5CCE2BD393E.m3u8"];
+    ChannelsNetworking *networking = [ChannelsNetworking sharedInstance];
+    __weak __typeof(self)weakSelf = self;
+    [networking channelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
+        ChannelModel *channelModel = channels[0];
+        [self updateChannelTitleWithString:channelModel.title];
+        if (channelModel) {
+            [networking postsForChannelID:channelModel.channelID withSuccess:^(NSArray<PostModel *> *posts) {
+                __strong __typeof(weakSelf)strongSelf = weakSelf;
+                [strongSelf updateChannelPostsWithArray:[posts map:^id(PostModel *post) {
+                    return post.mediaURLString;
+                }]];
+            } andFailure:^(NSError *error) {
+                POLYLog(@"Error : %@", error);
+            }];
+        }
+    } andFailure:^(NSError *error) {
+        POLYLog(@"Fetch Channel Error : %@", error);
+    }];
 }
 
-- (void)updateChannelTitle
+- (void)updateChannelTitleWithString:(NSString *)title
 {
-    NSString *randomChannelString = [[[NSUUID UUID] UUIDString] substringToIndex:3];
-    [self willChangeValueForKey:@"channelTitle"];
-    _channelTitle = [@"Channel " stringByAppendingString:randomChannelString];
+    [self willChangeValueForKey:@"channelTitle"]; // willChange/didChange for KVO when changing ivars (since these are readonly properties)
+    _channelTitle = title;
     [self didChangeValueForKey:@"channelTitle"];
 }
 
+- (void)updateChannelPostsWithArray:(NSArray*)posts
+{
+    [self willChangeValueForKey:@"channelPosts"];
+    _channelPosts = posts;
+    [self didChangeValueForKey:@"channelPosts"];
+}
+
+
+
 - (NSArray *)keys
 {
-    return @[@"channelTitle"];
+    return @[@"channelTitle",
+             @"channelPosts"];
 }
 
 @end

@@ -169,6 +169,10 @@
         ChannelPlayerViewModel *viewModel = (ChannelPlayerViewModel*)self.viewModel;
         [self setTitle:viewModel.channelTitle];
         [self setCount:[viewModel.channelPosts count]];
+        
+        if (self.channelMoviePlayerController.loadState == MPMovieLoadStateUnknown) {
+            [self loadMovie];
+        }
     }
 }
 
@@ -181,7 +185,9 @@
             [self.channelMoviePlayerController setContentURL:movieURL];
             [self.channelMoviePlayerController prepareToPlay];
         }
-        [self.channelMoviePlayerController play];
+        if ([self.channelMoviePlayerController.contentURL.absoluteString length] > 0) {
+            [self.channelMoviePlayerController play];
+        }
     }
 }
 
