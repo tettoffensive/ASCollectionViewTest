@@ -7,6 +7,7 @@
 //
 
 #import "PostModel.h"
+#import "ChannelsNetworking.h"
 
 @implementation PostModel
 
@@ -15,7 +16,6 @@
     return @{@"postID": @"id",
              @"channelID": @"channel_id",
              @"userID":@"user_id",
-             @"type":@"type",
              @"mediaKey":@"media_key",
              @"mediaEncoded":@"media_encoded",
              @"mediaURLString":@"media_url",
@@ -31,6 +31,29 @@
 - (NSURL *)thumbnailURL
 {
     return [NSURL URLWithString:self.mediaThumbnailURLString];
+}
+
+- (void)setChannelID:(NSInteger)channelID
+{
+    _channelID = channelID;
+}
+
+#pragma ------------------------------------------------------------------------------------------------------
+#pragma mark - Network Calls
+#pragma ------------------------------------------------------------------------------------------------------
+
+/*
+    PostModel *newPostModel = [PostModel new];
+    newPostModel.channelID = XXXX; // Must be a valid channel id
+    [newPostModel createPostWithSuccess:xxxx andFailure:xxxx];
+*/
+- (void)createPostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
+{
+    [[ChannelsNetworking sharedInstance] createPostForChannelID:self.channelID withMediaKey:self.mediaKey success:^{
+        if (success) success();
+    } andFailure:^(NSError *error) {
+        if (failure) failure(error);
+    }];
 }
 
 @end
