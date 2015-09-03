@@ -138,6 +138,10 @@
     switch (self.channelMoviePlayerController.playbackState) {
         case MPMoviePlaybackStatePaused:
         case MPMoviePlaybackStateStopped: {
+            if (self.count - self.index < 3) {
+                // make a call to reload the posts if we are close to the last post
+                [self.viewModel updatePosts];
+            }
             self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
             [self loadMovie];
             break;
@@ -168,6 +172,9 @@
 {
     [self setTitle:self.viewModel.channelTitle];
     [self setCount:[self.viewModel.channelPosts count]];
+    if (self.index >= self.count) {
+        self.index = 0;
+    }
     
     if (self.channelMoviePlayerController.loadState == MPMovieLoadStateUnknown) {
         [self loadMovie];
