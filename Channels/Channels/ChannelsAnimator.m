@@ -17,7 +17,12 @@
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
+    UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIViewController* fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    [[transitionContext containerView] addSubview:toViewController.view];
     
+    // NOTE: If no custom animation need, the following must still be called to let context know the transition has completed.
+    [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
 }
 
 @end

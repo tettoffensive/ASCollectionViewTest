@@ -5,9 +5,6 @@
       location = "group:Channels/Channels.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:POLYFoundation/POLYFoundation.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
