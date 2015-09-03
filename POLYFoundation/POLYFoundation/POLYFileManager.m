@@ -174,7 +174,11 @@
     [uploadRequest setContentType:contentType];
     [uploadRequest setContentLength:@([data length])];
     [uploadRequest setBucket:self.bucket];
-    [uploadRequest setKey:[[self.subpath stringByAppendingString:@"/"] stringByAppendingString:key]];
+    if (self.subpath.length == 0) {
+        [uploadRequest setKey:key];
+    } else {
+        [uploadRequest setKey:[[self.subpath stringByAppendingString:@"/"] stringByAppendingString:key]];
+    }
     [uploadRequest setBody:fileURL];
     [uploadRequest setUploadProgress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         CGFloat percentage = ((CGFloat)totalBytesSent / (CGFloat)totalBytesExpectedToSend);

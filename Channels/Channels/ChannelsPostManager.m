@@ -51,15 +51,8 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
 
 - (void)uploadVideo:(NSDictionary *)videoDictionary
 {
-    //NSLog(@"Dict %@", videoDictionary);
-    // PBJVisionVideoCapturedDurationKey
     // PBJVisionVideoPathKey
-    // PBJVisionVideoThumbnailArrayKey
-    // PBJVisionVideoThumbnailKey
-    
-    
     NSData *videoData = [NSData dataWithContentsOfFile:[videoDictionary objectForKey:@"PBJVisionVideoPathKey"]];
-    
     [self.fileManager uploadVideoData:videoData
                              progress:^(CGFloat progress) {
                                  NSLog(@"Video Upload Progress: %.2f", progress);
@@ -73,8 +66,8 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
                                      
                                      ChannelModel *channel = [channels objectAtIndex:0];
                                      NSInteger channelID = channel.channelID;
+                                     NSLog(@"CHANNEL ID %li", channelID);
                                      
-                                     // Call createPostWithSuccess
                                      PostModel *post = [PostModel new];
                                      [post setMediaKey:[[NSUUID UUID] UUIDString]];
                                      [post setChannelID:channelID];
