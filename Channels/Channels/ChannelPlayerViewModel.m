@@ -43,7 +43,12 @@
 - (void)updateChannelPostsWithArray:(NSArray*)posts
 {
     [self willChangeValueForKey:@"channelPosts"];
-    _channelPosts = posts;
+    if (_channelPosts && [_channelPosts count] > 0) {
+        posts = [posts relativeComplement:_channelPosts];
+        _channelPosts = [_channelPosts unionWithArray:posts];
+    } else {
+        _channelPosts = posts;
+    }
     [self didChangeValueForKey:@"channelPosts"];
 }
 
