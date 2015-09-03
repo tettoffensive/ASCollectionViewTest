@@ -21,15 +21,18 @@
 @property (nonatomic) MPMoviePlayerController *channelMoviePlayerController;
 @property (nonatomic) NSUInteger index;
 @property (nonatomic) NSUInteger count;
+@property (nonatomic, strong) UIButton *postButton;
 
 @end
 
 @implementation ChannelViewController
 
-- (instancetype)initWithViewModel:(POLYViewModel *)viewModel
+@dynamic viewModel; // required for covariant return type: https://en.wikipedia.org/wiki/Covariant_return_type
+
+- (instancetype)initWithViewModel:(ChannelPlayerViewModel *)viewModel
 {
     if (self = [super initWithViewModel:viewModel]) {
-        NSParameterAssert([viewModel isKindOfClass:[ChannelPlayerViewModel class]]);
+
     }
     return self;
 }
@@ -44,30 +47,28 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [self setNavigationBarAppearance];
-    self.view.backgroundColor = [ChannelsInterface viewBackgroundColor];
-    
     [self loadMovie];
     
-    UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
-    UIButton *postButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
-    [postButton setCenter:self.view.center];
-    [postButton setFrame:CGRectOffset(postButton.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
-    [postButton setImage:postButtonImage forState:UIControlStateNormal];
-    [self.view addSubview:postButton];
-    [postButton addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
+    UIImage *postButtonImage = [UIImage imageNamed:@"Post Button"];
+    _postButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
+    [_postButton setCenter:self.view.center];
+    [_postButton setFrame:CGRectOffset(_postButton.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
+    [_postButton setImage:postButtonImage forState:UIControlStateNormal];
+    [self.view addSubview:_postButton];
+    [_postButton addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.view bringSubviewToFront:_postButton];
+    [self playMovie];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     [self pauseMovie];
-}
-
-- (void)setNavigationBarAppearance
-{
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    [self setNeedsStatusBarAppearanceUpdate]; // Ask the system to re-query our -preferredStatusBarStyle.
 }
 
 - (MPMoviePlayerController *)channelMoviePlayerController
@@ -165,30 +166,29 @@
 
 - (void)reloadData
 {
-    if ([self.viewModel isKindOfClass:[ChannelPlayerViewModel class]]) {
-        ChannelPlayerViewModel *viewModel = (ChannelPlayerViewModel*)self.viewModel;
-        [self setTitle:viewModel.channelTitle];
-        [self setCount:[viewModel.channelPosts count]];
-        
-        if (self.channelMoviePlayerController.loadState == MPMovieLoadStateUnknown) {
-            [self loadMovie];
-        }
+    [self setTitle:self.viewModel.channelTitle];
+    [self setCount:[self.viewModel.channelPosts count]];
+    
+    if (self.channelMoviePlayerController.loadState == MPMovieLoadStateUnknown) {
+        [self loadMovie];
     }
 }
 
 - (void)loadMovie
 {
-    if ([self.viewModel isKindOfClass:[ChannelPlayerViewModel class]]) {
-        ChannelPlayerViewModel *viewModel = (ChannelPlayerViewModel*)self.viewModel;
-        NSURL *movieURL = [NSURL URLWithString:viewModel.channelPosts[self.index]];
-        if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.contentURL.absoluteString]) {
-            [self.channelMoviePlayerController setContentURL:movieURL];
-            [self.channelMoviePlayerController prepareToPlay];
-        }
-        if ([self.channelMoviePlayerController.contentURL.absoluteString length] > 0) {
-            [self.channelMoviePlayerController play];
-        }
+    NSURL *movieURL = [NSURL URLWithString:self.viewModel.channelPosts[self.index]];
+    if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.contentURL.absoluteString]) {
+        [self.channelMoviePlayerController setContentURL:movieURL];
+        [self.channelMoviePlayerController prepareToPlay];
     }
+    if ([self.channelMoviePlayerController.contentURL.absoluteString length] > 0) {
+        [self.channelMoviePlayerController play];
+    }
+}
+
+- (void)playMovie
+{
+    [self.channelMoviePlayerController play];
 }
 
 - (void)pauseMovie

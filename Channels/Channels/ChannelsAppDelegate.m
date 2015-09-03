@@ -11,9 +11,16 @@
 #import "ChannelsNavigationBar.h"
 #import "ChannelPlayerViewModel.h"
 
+#import "Utils.h"
 #import "POLYUtils.h"
 #import "POLYViewModel.h"
 #import "POLYNetworking.h"
+#import "POLYNetworking.h"
+
+void uncaughtExceptionHandler(NSException *exception) {
+    SPLog(@"CRASH: %@", exception);
+    SPLog(@"Stack Trace: %@", [exception callStackSymbols]);
+}
 
 @interface ChannelsAppDelegate ()
 
@@ -23,6 +30,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
     [application setStatusBarHidden:YES];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -38,9 +47,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = _navigationController;
     [self.window makeKeyAndVisible];
-    
-    POLYNetworking *networking = [POLYNetworking sharedNetwork];
-    NSLog(@"network %@",[networking description]);
     
     return YES;
 }
