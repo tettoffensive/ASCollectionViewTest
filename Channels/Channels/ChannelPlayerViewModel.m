@@ -19,7 +19,7 @@
         ChannelModel *channelModel = channels[0];
         [self updateChannelTitleWithString:channelModel.title];
         if (channelModel) {
-            [networking postsForChannelID:channelModel.channelID withSuccess:^(NSArray<PostModel *> *posts) {
+            [channelModel fetchPostsWithSuccess:^(NSArray<PostModel *> *posts) {
                 __strong __typeof(weakSelf)strongSelf = weakSelf;
                 [strongSelf updateChannelPostsWithArray:[posts map:^id(PostModel *post) {
                     return post.mediaURLString;
