@@ -81,7 +81,7 @@
         [value.KVOController observe:self keyPaths:@[@"count",@"index"] options:NSKeyValueObservingOptionNew block:^(UILabel *observer, id object, NSDictionary *change) {
             [value setText:[self trackerString]];
         }];
-//        [value applyScrimShadow];
+        [value applyScrimShadow];
         value;
     }) : _postTrackerLabel;
 }
