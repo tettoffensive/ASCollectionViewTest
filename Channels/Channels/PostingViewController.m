@@ -21,7 +21,12 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 @interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate>
 {
     NSTimer *_videoDurationTimer;
-    CFTimeInterval startTime;
+    CFTimeInterval _startTime;
+    
+    UIButton *_flashButton;
+    UIButton *_switchCameraButton;
+    
+    PBJVision *_vision;
 }
 
 @property (nonatomic, assign) BOOL recording;
@@ -59,6 +64,14 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     _previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [_previewView.layer addSublayer:_previewLayer];
     
+    [self setupCameraControls];
+    
+    // Setup Video
+    [self setup];
+}
+
+- (void)setupCameraControls
+{
     // New Record Button
     _recordVideoButton = [[ChannelRecordVideoButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 80.0f)];
     _recordVideoButton.delegate = self;
@@ -72,8 +85,28 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [closeButton addTarget:self action:@selector(dismissPostingViewController) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeButton];
     
-    // Setup Video
-    [self setup];
+    // Flash Button
+    UIImage *flashIcon = [UIImage imageNamed:@"Flash Off"];
+    CGFloat buttonOffsetX = flashIcon.size.width;
+    _flashButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonOffsetX,
+                                                              _recordVideoButton.center.y - (flashIcon.size.height / 2.0),
+                                                              flashIcon.size.width,
+                                                              flashIcon.size.height)];
+    [_flashButton setImage:flashIcon forState:UIControlStateNormal];
+    [_flashButton addTarget:self action:@selector(flash) forControlEvents:UIControlEventTouchUpInside];
+    [_flashButton setTag:PostingViewFlashStateOff];
+    [self.view addSubview:_flashButton];
+    
+    // Switch Camera Button
+    UIImage *switchCameraIcon = [UIImage imageNamed:@"Switch Camera"];
+    _switchCameraButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - switchCameraIcon.size.width - buttonOffsetX,
+                                                                     _recordVideoButton.center.y - (switchCameraIcon.size.height / 2.0),
+                                                                     switchCameraIcon.size.width,
+                                                                     switchCameraIcon.size.height)];
+    [_switchCameraButton setImage:switchCameraIcon forState:UIControlStateNormal];
+    [_switchCameraButton addTarget:self action:@selector(switchCamera) forControlEvents:UIControlEventTouchUpInside];
+    [_switchCameraButton setTag:PostingViewCameraModeBack];
+    [self.view addSubview:_switchCameraButton];
 }
 
 - (void)dismissPostingViewController
@@ -102,13 +135,13 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 
 - (void)setup
 {
-    PBJVision *vision = [PBJVision sharedInstance];
-    vision.delegate = self;
-    vision.cameraMode = PBJCameraModeVideo;
-    vision.cameraOrientation = PBJCameraOrientationPortrait;
-    vision.focusMode = PBJFocusModeContinuousAutoFocus;
-    vision.outputFormat = PBJOutputFormatSquare;
-    [vision startPreview];
+    _vision = [PBJVision sharedInstance];
+    _vision.delegate = self;
+    _vision.cameraMode = PBJCameraModeVideo;
+    _vision.cameraOrientation = PBJCameraOrientationPortrait;
+    _vision.focusMode = PBJFocusModeContinuousAutoFocus;
+    _vision.outputFormat = PBJOutputFormatStandard;
+    [_vision startPreview];
 }
 
 - (void)vision:(PBJVision *)vision capturedVideo:(NSDictionary *)videoDict error:(NSError *)error
@@ -122,7 +155,20 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     }
     
     _currentVideo = [videoDict copy];
-    [self uploadVideo:_currentVideo];
+    
+    double videoDuration = [[_currentVideo objectForKey:kPBJVisionVideoCapturedDurationKey] doubleValue];
+    if (videoDuration >= 1.0) {
+        [self uploadVideo:_currentVideo];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Oops..."
+                                  message:@"Video must be at least one second long."
+                                  delegate:self
+                                  cancelButtonTitle:nil
+                                  otherButtonTitles:@"OK", nil];
+        
+        [alertView show];
+    }
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -165,12 +211,12 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
                                                          selector:@selector(checkVideoDuration)
                                                          userInfo:nil
                                                           repeats:YES];
-    startTime = CACurrentMediaTime();
+    _startTime = CACurrentMediaTime();
 }
 
 - (void)checkVideoDuration
 {
-    CFTimeInterval currentTime = CACurrentMediaTime() - startTime;
+    CFTimeInterval currentTime = CACurrentMediaTime() - _startTime;
     if (currentTime >= kMAX_VIDEO_DURATION) {
         [_recordVideoButton stopRecording];
     }
@@ -180,6 +226,34 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 {
     [_videoDurationTimer invalidate];
     _videoDurationTimer = nil;
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Camera Controls
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)flash
+{
+    if (_flashButton.tag == PostingViewFlashStateOff) {
+        _flashButton.tag = PostingViewFlashStateOn;
+        [_flashButton setImage:[UIImage imageNamed:@"Flash On"] forState:UIControlStateNormal];
+        _vision.flashMode = PBJFlashModeOn;
+    } else {
+        _flashButton.tag = PostingViewFlashStateOff;
+        [_flashButton setImage:[UIImage imageNamed:@"Flash Off"] forState:UIControlStateNormal];
+        _vision.flashMode = PBJFlashModeOff;
+    }
+}
+
+- (void)switchCamera
+{
+    if (_switchCameraButton.tag == PostingViewCameraModeBack) {
+        _switchCameraButton.tag = PostingViewCameraModeFront;
+        _vision.cameraDevice = PBJCameraDeviceFront;
+    } else {
+        _switchCameraButton.tag = PostingViewCameraModeBack;
+        _vision.cameraDevice = PBJCameraDeviceBack;
+    }
 }
 
 @end

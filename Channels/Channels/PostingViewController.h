@@ -8,6 +8,18 @@
 
 #import "BaseViewController.h"
 
+typedef NS_ENUM(NSInteger, PostingViewFlashState)
+{
+    PostingViewFlashStateOff = 0,
+    PostingViewFlashStateOn
+};
+
+typedef NS_ENUM(NSInteger, PostingViewCameraMode)
+{
+    PostingViewCameraModeBack = 0,
+    PostingViewCameraModeFront
+};
+
 @interface PostingViewController : BaseViewController
 
 @end
