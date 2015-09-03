@@ -156,10 +156,12 @@
     NSParameterAssert(data);
     NSParameterAssert(self.bucket);
     NSParameterAssert(self.subpath);
+
     
     // Build a key based off the content type
     NSString *key = [[NSUUID UUID] UUIDString];
     NSString *extension = [self fileExtensionForMimeType:contentType];
+    NSString *mediaKey = [key copy];
     if ([extension length] > 0) {
         key = [NSString stringWithFormat:@"%@.%@", key, extension];
     }
@@ -213,7 +215,7 @@
              if(failureBlock) failureBlock(task.error);
          }
          
-         if(successBlock) successBlock(YES,key);
+         if(successBlock) successBlock(YES, mediaKey);
          
          return nil;
      }];

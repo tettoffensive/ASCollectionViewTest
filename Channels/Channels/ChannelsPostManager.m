@@ -69,7 +69,7 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
                                      NSLog(@"CHANNEL ID %li", channelID);
                                      
                                      PostModel *post = [PostModel new];
-                                     [post setMediaKey:[[NSUUID UUID] UUIDString]];
+                                     [post setMediaKey:key];
                                      [post setChannelID:channelID];
                                      [post createPostWithSuccess:^{
                                          NSLog(@"Successfully Created Post");
