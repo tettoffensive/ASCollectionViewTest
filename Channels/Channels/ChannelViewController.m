@@ -138,13 +138,16 @@
 
 - (void)moviePlaybackDidFinish:(NSNotification*)notification
 {
-    POLYLog(@"%@", self.channelMoviePlayerController);
-    if (self.count - self.index < 3) {
-        // make a call to reload the posts if we are close to the last post
-        [self.viewModel updatePosts];
+    MPMovieFinishReason reason = (MPMovieFinishReason)[[notification.userInfo objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] unsignedIntegerValue];
+    
+    if (reason != MPMovieFinishReasonUserExited) {
+        if (self.count - self.index < 3) {
+            // make a call to reload the posts if we are close to the last post
+            [self.viewModel updatePosts];
+        }
+        self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+        [self loadMovie];
     }
-    self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
-    [self loadMovie];
 }
 
 - (void)moviePlaybackStateChange:(NSNotification*)notification
