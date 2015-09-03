@@ -13,6 +13,6 @@
 @property (nonatomic, copy, readonly) NSString  *channelTitle;
 @property (nonatomic, copy, readonly) NSArray   *channelPosts;
 
-- (void)updateChannelTitle;
+- (void)updatePosts;
 
 @end
