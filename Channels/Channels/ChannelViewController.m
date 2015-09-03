@@ -60,6 +60,7 @@
 {
     [super viewWillAppear:animated];
     [self.view bringSubviewToFront:_postButton];
+    [self playMovie];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -187,6 +188,11 @@
             [self.channelMoviePlayerController play];
         }
     }
+}
+
+- (void)playMovie
+{
+    [self.channelMoviePlayerController play];
 }
 
 - (void)pauseMovie
