@@ -6,6 +6,11 @@
 //  Copyright (c) 2015 Complex Polygon. All rights reserved.
 //
 
+/*
+ General Notes: Video uploads will need to be uploaded into the "channels-stage.videos.input.oregon" bucket. We'll need to change "stage" to "production" when
+ we release the app.
+*/
+
 #import "BaseModel.h"
 
 @interface PostModel : BaseModel
