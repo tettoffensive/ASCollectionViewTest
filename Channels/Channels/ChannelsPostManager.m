@@ -8,8 +8,8 @@
 
 #import "ChannelsPostManager.h"
 #import "ChannelsConfig.h"
-
 #import "POLYFoundation.h"
+
 
 @interface ChannelsPostManager()
 
@@ -35,8 +35,8 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
     if (self) {
         _fileManager = [[POLYFileManager alloc] initWithAccessKey:CONFIG_AMAZON_S3_ACCESS_KEY
                                                         withSecretKey:CONFIG_AMAZON_S3_SECRET_KEY];
-        [_fileManager setBucket:@"swipe-admin"];
-        [_fileManager setSubpath:@"test"];
+        [_fileManager setBucket:@"channels-stage.videos.input.oregon"];
+//        [_fileManager setSubpath:@"test"];
     }
     return self;
 }
@@ -61,6 +61,10 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
                              } success:^(BOOL finished, NSString *key) {
                                  NSLog(@"Finished %@", finished == YES ? @"YES" : @"NO");
                                  NSLog(@"Success %@", key);
+                                 
+                                 // Call createPostWithSuccess
+                                 
+                                 
                              } failure:^(NSError *err) {
                                  NSLog(@"Failure %@", [err description]);
                              }];

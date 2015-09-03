@@ -18,7 +18,7 @@
 @property (readonly)                    NSInteger postID;
 @property (readonly)                    NSInteger channelID;
 @property (readonly)                    NSInteger userID;
-@property (nonatomic, copy, readonly)   NSString *mediaKey; // Must be in a UUID format.
+@property (nonatomic, copy)             NSString *mediaKey; // Must be in a UUID format.
 @property (nonatomic, copy, readonly)   NSString *mediaURLString;
 @property (nonatomic, copy, readonly)   NSString *mediaThumbnailURLString;
 @property (readonly)                    BOOL mediaEncoded;

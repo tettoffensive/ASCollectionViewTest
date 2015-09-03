@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ChannelRecordVideoButtonDelegate
+
+@required
+- (void)didStartRecording;
+- (void)didEndRecording;
+
+@end
+
 @interface ChannelRecordVideoButton : UIView
+
+@property (nonatomic, assign) id <ChannelRecordVideoButtonDelegate> delegate;
 
 @end
