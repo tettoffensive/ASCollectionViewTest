@@ -176,6 +176,7 @@
     [uploadRequest setContentType:contentType];
     [uploadRequest setContentLength:@([data length])];
     [uploadRequest setBucket:self.bucket];
+    [uploadRequest setACL:AWSS3ObjectCannedACLPublicRead];
     if (self.subpath.length == 0) {
         [uploadRequest setKey:key];
     } else {
