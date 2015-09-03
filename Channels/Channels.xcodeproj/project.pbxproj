@@ -21,6 +21,7 @@
 		1718B7D71B97E03F005F1071 /* POLYNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7C91B97E03F005F1071 /* POLYNetworking.m */; settings = {ASSET_TAGS = (); }; };
 		1718B7D81B97E03F005F1071 /* POLYViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7CB1B97E03F005F1071 /* POLYViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		1718B7DA1B97E0F0005F1071 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1718B7D91B97E0F0005F1071 /* WebP.framework */; settings = {ASSET_TAGS = (); }; };
+		1786D30C1B99017600F7EF72 /* UIView+POLYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1786D30B1B99017600F7EF72 /* UIView+POLYAdditions.m */; settings = {ASSET_TAGS = (); }; };
 		178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F31B8FDE9E00AAE2BF /* main.m */; };
 		17AC67F71B8FDE9E00AAE2BF /* ChannelsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F61B8FDE9E00AAE2BF /* ChannelsAppDelegate.m */; };
@@ -93,6 +94,8 @@
 		1718B7CA1B97E03F005F1071 /* POLYViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POLYViewModel.h; path = ../../POLYFoundation/POLYFoundation/POLYViewModel.h; sourceTree = "<group>"; };
 		1718B7CB1B97E03F005F1071 /* POLYViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POLYViewModel.m; path = ../../POLYFoundation/POLYFoundation/POLYViewModel.m; sourceTree = "<group>"; };
 		1718B7D91B97E0F0005F1071 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = "<group>"; };
+		1786D30A1B99017600F7EF72 /* UIView+POLYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+POLYAdditions.h"; sourceTree = "<group>"; };
+		1786D30B1B99017600F7EF72 /* UIView+POLYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+POLYAdditions.m"; sourceTree = "<group>"; };
 		178CB17F1B9660BA0010B097 /* ChannelPlayerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelPlayerViewModel.h; sourceTree = "<group>"; };
 		178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelPlayerViewModel.m; sourceTree = "<group>"; };
 		17A387781B8FE92A00702E85 /* Channels-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Channels-Prefix.pch"; sourceTree = "<group>"; };
@@ -332,6 +335,8 @@
 				1718B7C91B97E03F005F1071 /* POLYNetworking.m */,
 				1718B7CA1B97E03F005F1071 /* POLYViewModel.h */,
 				1718B7CB1B97E03F005F1071 /* POLYViewModel.m */,
+				1786D30A1B99017600F7EF72 /* UIView+POLYAdditions.h */,
+				1786D30B1B99017600F7EF72 /* UIView+POLYAdditions.m */,
 			);
 			name = POLYFoundation;
 			sourceTree = "<group>";
@@ -605,6 +610,7 @@
 				37A826161B961C8500707AC9 /* ChannelsTitleSelectionViewController.m in Sources */,
 				1718B7CF1B97E03F005F1071 /* CGPointExtension.m in Sources */,
 				371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */,
+				1786D30C1B99017600F7EF72 /* UIView+POLYAdditions.m in Sources */,
 				17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */,
 				17AC67F71B8FDE9E00AAE2BF /* ChannelsAppDelegate.m in Sources */,
 				1718B7D21B97E03F005F1071 /* UIImage+WebP.m in Sources */,
