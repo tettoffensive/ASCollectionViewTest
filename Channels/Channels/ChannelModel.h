@@ -12,11 +12,12 @@
 
 @interface ChannelModel : BaseModel
 
-@property (readonly) NSInteger channelID;
+@property NSInteger channelID;
 
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, copy, readonly) NSArray<PostModel *> *channelPosts;
 
 + (void)fetchChannelsWithSuccess:(void(^)(NSArray<ChannelModel *> *channels))success andFailure:(void(^)(NSError *error))failure;
+- (void)fetchPostsWithSuccess:(void(^)(NSArray<PostModel *> *posts))success andFailure:(void(^)(NSError *error))failure;
 
 @end
