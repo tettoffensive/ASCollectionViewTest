@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "ChannelsInterface.h"
+#import "ChannelsAppDelegate.h"
 
 @implementation BaseViewController
 
@@ -19,6 +20,20 @@
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     [self setNeedsStatusBarAppearanceUpdate]; // Ask the system to re-query our -preferredStatusBarStyle.
+}
+
+// Please use this sparingly
+
+- (void)loadViewControllerInForeground:(UIViewController *)viewController
+{
+    ChannelsAppDelegate *appDelegate = (ChannelsAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate loadForegroundWindowWithViewController:viewController];
+}
+
+- (void)unloadViewController
+{
+    ChannelsAppDelegate *appDelegate = (ChannelsAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate unloadForegoundWindow];
 }
 
 @end

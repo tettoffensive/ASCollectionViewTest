@@ -13,5 +13,12 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *navigationController;
 
+@property (nonatomic) NSMutableArray *windows;
+@property (strong, nonatomic) UIWindow *foregroundWindow;
+
+- (void)loadForegroundWindowWithViewController:(UIViewController *)controller;
+- (void)unloadForegoundWindow;
+- (void)unloadAllForegroundWindows;
+
 @end
 

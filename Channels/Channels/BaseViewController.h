@@ -9,5 +9,6 @@
 #import "POLYViewController.h"
 
 @interface BaseViewController : POLYViewController
-
+- (void)loadViewControllerInForeground:(UIViewController *)viewController;
+- (void)unloadViewController;
 @end
