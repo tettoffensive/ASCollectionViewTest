@@ -79,7 +79,7 @@
         [player setFullscreen:NO];
         [player setMovieSourceType:MPMovieSourceTypeStreaming];
         [player setControlStyle:MPMovieControlStyleNone];
-        [player setRepeatMode:MPMovieRepeatModeOne];
+        [player setRepeatMode:MPMovieRepeatModeNone];
         [player setScalingMode:MPMovieScalingModeAspectFill];
         [player.view setFrame:self.view.bounds];
         [self.view addSubview:player.view];
@@ -104,6 +104,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieLoadStateDidChange:)   name:MPMoviePlayerLoadStateDidChangeNotification       object:player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieNowPlayingDidChange:)  name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackStateChange:)  name:MPMoviePlayerPlaybackStateDidChangeNotification   object:player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackDidFinish:)  name:MPMoviePlayerPlaybackDidFinishNotification   object:player];
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    [tapGestureRecognizer setNumberOfTapsRequired:1];
+    [tapGestureRecognizer setDelegate:self];
+    [player.view addGestureRecognizer:tapGestureRecognizer];
 }
 
 - (void)movieDurationAvailable:(NSNotification*)notification
@@ -130,6 +136,17 @@
     
 }
 
+- (void)moviePlaybackDidFinish:(NSNotification*)notification
+{
+    POLYLog(@"%@", self.channelMoviePlayerController);
+    if (self.count - self.index < 3) {
+        // make a call to reload the posts if we are close to the last post
+        [self.viewModel updatePosts];
+    }
+    self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+    [self loadMovie];
+}
+
 - (void)moviePlaybackStateChange:(NSNotification*)notification
 {
     // Stopped, Playing, Paused, Interrupted, Seeking Forward, Seeking Backward
@@ -138,12 +155,6 @@
     switch (self.channelMoviePlayerController.playbackState) {
         case MPMoviePlaybackStatePaused:
         case MPMoviePlaybackStateStopped: {
-            if (self.count - self.index < 3) {
-                // make a call to reload the posts if we are close to the last post
-                [self.viewModel updatePosts];
-            }
-            self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
-            [self loadMovie];
             break;
         }
         case MPMoviePlaybackStatePlaying: {
@@ -213,5 +224,23 @@
     PostingViewController *postViewController = [[PostingViewController alloc] initWithViewModel:postingViewModel];
     [self.navigationController presentViewController:postViewController animated:YES completion:NULL];
 }
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Gestures
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)handleTapGesture:(UITapGestureRecognizer *)tap
+{
+    if (tap.state == UIGestureRecognizerStateEnded) {
+        self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+        [self loadMovie];
+    }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES; // MPMoviePlayerController's view intercepts the tap gesture if we don't do this
+}
+
 
 @end

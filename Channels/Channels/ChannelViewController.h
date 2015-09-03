@@ -9,6 +9,6 @@
 #import "BaseViewController.h"
 #import "ChannelPlayerViewModel.h"
 
-@interface ChannelViewController : BaseViewController
+@interface ChannelViewController : BaseViewController<UIGestureRecognizerDelegate>
 @property (nonatomic, strong) ChannelPlayerViewModel *viewModel; // covariant return type: https://en.wikipedia.org/wiki/Covariant_return_type
 @end
