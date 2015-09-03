@@ -39,9 +39,6 @@
     self.window.rootViewController = _navigationController;
     [self.window makeKeyAndVisible];
     
-    POLYNetworking *networking = [POLYNetworking sharedNetwork];
-    NSLog(@"network %@",[networking description]);
-    
     return YES;
 }
 
