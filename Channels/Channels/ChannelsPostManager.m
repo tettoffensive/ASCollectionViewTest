@@ -10,6 +10,9 @@
 #import "ChannelsConfig.h"
 #import "POLYFoundation.h"
 
+#import "PostModel.h"
+#import "ChannelModel.h"
+
 
 @interface ChannelsPostManager()
 
@@ -53,18 +56,39 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
     // PBJVisionVideoPathKey
     // PBJVisionVideoThumbnailArrayKey
     // PBJVisionVideoThumbnailKey
+    
+    
     NSData *videoData = [NSData dataWithContentsOfFile:[videoDictionary objectForKey:@"PBJVisionVideoPathKey"]];
     
     [self.fileManager uploadVideoData:videoData
                              progress:^(CGFloat progress) {
                                  NSLog(@"Video Upload Progress: %.2f", progress);
                              } success:^(BOOL finished, NSString *key) {
+                                 
                                  NSLog(@"Finished %@", finished == YES ? @"YES" : @"NO");
                                  NSLog(@"Success %@", key);
                                  
-                                 // Call createPostWithSuccess
+                                 // Fetch Channel
+                                 [ChannelModel fetchChannelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
+                                     
+                                     ChannelModel *channel = [channels objectAtIndex:0];
+                                     NSInteger channelID = channel.channelID;
+                                     
+                                     // Call createPostWithSuccess
+                                     PostModel *post = [PostModel new];
+                                     [post setMediaKey:[[NSUUID UUID] UUIDString]];
+                                     [post setChannelID:channelID];
+                                     [post createPostWithSuccess:^{
+                                         NSLog(@"Successfully Created Post");
+                                     } andFailure:^(NSError *error) {
+                                         NSLog(@"Failed to Create Post");
+                                     }];
+                                     
+                                 } andFailure:^(NSError *error) {
+                                     NSLog(@"Failed to fetch channel");
+                                 }];
                                  
-                                 
+
                              } failure:^(NSError *err) {
                                  NSLog(@"Failure %@", [err description]);
                              }];
