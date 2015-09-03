@@ -9,6 +9,8 @@
 #import "ChannelViewController.h"
 #import "ChannelsInterface.h"
 #import "ChannelPlayerViewModel.h"
+#import "PostingViewController.h"
+#import "PostingViewModel.h"
 
 @import MediaPlayer;
 
@@ -46,6 +48,14 @@
     self.view.backgroundColor = [ChannelsInterface viewBackgroundColor];
     
     [self loadMovie];
+    
+    UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
+    UIButton *postButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
+    [postButton setCenter:self.view.center];
+    [postButton setFrame:CGRectOffset(postButton.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
+    [postButton setImage:postButtonImage forState:UIControlStateNormal];
+    [self.view addSubview:postButton];
+    [postButton addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -178,6 +188,17 @@
 - (void)pauseMovie
 {
     [self.channelMoviePlayerController pause];
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - ViewModel
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)showPostViewController
+{
+    PostingViewModel *postingViewModel = [[PostingViewModel alloc] init];
+    PostingViewController *postViewController = [[PostingViewController alloc] initWithViewModel:postingViewModel];
+    [self.navigationController presentViewController:postViewController animated:YES completion:NULL];
 }
 
 @end
