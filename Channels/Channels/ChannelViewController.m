@@ -27,10 +27,12 @@
 
 @implementation ChannelViewController
 
-- (instancetype)initWithViewModel:(POLYViewModel *)viewModel
+@dynamic viewModel; // required for covariant return type: https://en.wikipedia.org/wiki/Covariant_return_type
+
+- (instancetype)initWithViewModel:(ChannelPlayerViewModel *)viewModel
 {
     if (self = [super initWithViewModel:viewModel]) {
-        NSParameterAssert([viewModel isKindOfClass:[ChannelPlayerViewModel class]]);
+
     }
     return self;
 }
@@ -164,29 +166,23 @@
 
 - (void)reloadData
 {
-    if ([self.viewModel isKindOfClass:[ChannelPlayerViewModel class]]) {
-        ChannelPlayerViewModel *viewModel = (ChannelPlayerViewModel*)self.viewModel;
-        [self setTitle:viewModel.channelTitle];
-        [self setCount:[viewModel.channelPosts count]];
-        
-        if (self.channelMoviePlayerController.loadState == MPMovieLoadStateUnknown) {
-            [self loadMovie];
-        }
+    [self setTitle:self.viewModel.channelTitle];
+    [self setCount:[self.viewModel.channelPosts count]];
+    
+    if (self.channelMoviePlayerController.loadState == MPMovieLoadStateUnknown) {
+        [self loadMovie];
     }
 }
 
 - (void)loadMovie
 {
-    if ([self.viewModel isKindOfClass:[ChannelPlayerViewModel class]]) {
-        ChannelPlayerViewModel *viewModel = (ChannelPlayerViewModel*)self.viewModel;
-        NSURL *movieURL = [NSURL URLWithString:viewModel.channelPosts[self.index]];
-        if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.contentURL.absoluteString]) {
-            [self.channelMoviePlayerController setContentURL:movieURL];
-            [self.channelMoviePlayerController prepareToPlay];
-        }
-        if ([self.channelMoviePlayerController.contentURL.absoluteString length] > 0) {
-            [self.channelMoviePlayerController play];
-        }
+    NSURL *movieURL = [NSURL URLWithString:self.viewModel.channelPosts[self.index]];
+    if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.contentURL.absoluteString]) {
+        [self.channelMoviePlayerController setContentURL:movieURL];
+        [self.channelMoviePlayerController prepareToPlay];
+    }
+    if ([self.channelMoviePlayerController.contentURL.absoluteString length] > 0) {
+        [self.channelMoviePlayerController play];
     }
 }
 
