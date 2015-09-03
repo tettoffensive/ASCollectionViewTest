@@ -12,12 +12,17 @@
 #import "ChannelRecordVideoButton.h"
 #import "ChannelsPostManager.h"
 
+static const double kMAX_VIDEO_DURATION = 6.0f;
 static const NSString *kPBJVisionVideoCapturedDurationKey       = @"PBJVisionVideoCapturedDurationKey";
 static const NSString *kPBJVisionVideoPathKey                   = @"PBJVisionVideoPathKey";
 static const NSString *kPBJVisionVideoThumbnailArrayKey         = @"PBJVisionVideoThumbnailArrayKey";
 static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVideoThumbnailKey";
 
 @interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate>
+{
+    NSTimer *_videoDurationTimer;
+    CFTimeInterval startTime;
+}
 
 @property (nonatomic, assign) BOOL recording;
 
@@ -137,17 +142,44 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 {
     if (!_recording) {
         _recording = YES;
+        [self startTrackingVideoDuration];
         [[PBJVision sharedInstance] startVideoCapture];
-    } else {
-        _recording = YES;
-        [[PBJVision sharedInstance] resumeVideoCapture];
     }
 }
 
 - (void)didEndRecording
 {
     _recording = NO;
+    [self endTrackingVideoDuration];
     [[PBJVision sharedInstance] endVideoCapture];
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Video Duration Tracking
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)startTrackingVideoDuration
+{
+    _videoDurationTimer = [NSTimer scheduledTimerWithTimeInterval:0.005
+                                                           target:self
+                                                         selector:@selector(checkVideoDuration)
+                                                         userInfo:nil
+                                                          repeats:YES];
+    startTime = CACurrentMediaTime();
+}
+
+- (void)checkVideoDuration
+{
+    CFTimeInterval currentTime = CACurrentMediaTime() - startTime;
+    if (currentTime >= kMAX_VIDEO_DURATION) {
+        [_recordVideoButton stopRecording];
+    }
+}
+
+- (void)endTrackingVideoDuration
+{
+    [_videoDurationTimer invalidate];
+    _videoDurationTimer = nil;
 }
 
 @end

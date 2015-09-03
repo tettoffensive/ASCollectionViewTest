@@ -20,4 +20,6 @@
 
 @property (nonatomic, assign) id <ChannelRecordVideoButtonDelegate> delegate;
 
+- (void)stopRecording;
+
 @end

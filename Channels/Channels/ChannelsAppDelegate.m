@@ -11,15 +11,14 @@
 #import "ChannelsNavigationBar.h"
 #import "ChannelPlayerViewModel.h"
 
-#import "Utils.h"
 #import "POLYUtils.h"
 #import "POLYViewModel.h"
 #import "POLYNetworking.h"
 #import "POLYNetworking.h"
 
 void uncaughtExceptionHandler(NSException *exception) {
-    SPLog(@"CRASH: %@", exception);
-    SPLog(@"Stack Trace: %@", [exception callStackSymbols]);
+    POLYLog(@"CRASH: %@", exception);
+    POLYLog(@"Stack Trace: %@", [exception callStackSymbols]);
 }
 
 @interface ChannelsAppDelegate ()
