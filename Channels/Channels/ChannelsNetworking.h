@@ -6,7 +6,6 @@
 //  Copyright © 2015 Complex Polygon. All rights reserved.
 //
 
-#import <POLYFoundation/POLYFoundation.h>
 #import "Models.h"
 
 @interface ChannelsNetworking : NSObject

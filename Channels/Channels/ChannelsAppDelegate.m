@@ -11,7 +11,9 @@
 #import "ChannelsNavigationBar.h"
 #import "ChannelPlayerViewModel.h"
 
-@import POLYFoundation;
+#import "POLYUtils.h"
+#import "POLYViewModel.h"
+#import "POLYNetworking.h"
 
 @interface ChannelsAppDelegate ()
 

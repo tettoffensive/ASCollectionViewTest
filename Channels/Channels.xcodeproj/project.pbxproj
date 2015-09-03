@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1718B7CC1B97E03F005F1071 /* UIButton+UIQueryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7B11B97E03F005F1071 /* UIButton+UIQueryAdditions.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7CD1B97E03F005F1071 /* UIColor+UIQueryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7B31B97E03F005F1071 /* UIColor+UIQueryAdditions.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7CE1B97E03F005F1071 /* UIView+UIQueryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7B71B97E03F005F1071 /* UIView+UIQueryAdditions.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7CF1B97E03F005F1071 /* CGPointExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7B91B97E03F005F1071 /* CGPointExtension.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7D01B97E03F005F1071 /* POLYDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7BB1B97E03F005F1071 /* POLYDate.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7D11B97E03F005F1071 /* POLYUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7BD1B97E03F005F1071 /* POLYUtils.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7D21B97E03F005F1071 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7BF1B97E03F005F1071 /* UIImage+WebP.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7D31B97E03F005F1071 /* POLYFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7C11B97E03F005F1071 /* POLYFileManager.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7D41B97E03F005F1071 /* POLYImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7C31B97E03F005F1071 /* POLYImageManager.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7D51B97E03F005F1071 /* POLYVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7C51B97E03F005F1071 /* POLYVideoManager.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7D61B97E03F005F1071 /* POLYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7C71B97E03F005F1071 /* POLYViewController.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7D71B97E03F005F1071 /* POLYNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7C91B97E03F005F1071 /* POLYNetworking.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7D81B97E03F005F1071 /* POLYViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7CB1B97E03F005F1071 /* POLYViewModel.m */; settings = {ASSET_TAGS = (); }; };
+		1718B7DA1B97E0F0005F1071 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1718B7D91B97E0F0005F1071 /* WebP.framework */; settings = {ASSET_TAGS = (); }; };
 		178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F31B8FDE9E00AAE2BF /* main.m */; };
 		17AC67F71B8FDE9E00AAE2BF /* ChannelsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F61B8FDE9E00AAE2BF /* ChannelsAppDelegate.m */; };
@@ -29,7 +43,6 @@
 		37A8262C1B96227F00707AC9 /* Geomanist-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826231B96227F00707AC9 /* Geomanist-Regular.otf */; settings = {ASSET_TAGS = (); }; };
 		37A8262D1B96227F00707AC9 /* Geomanist-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826241B96227F00707AC9 /* Geomanist-Thin.otf */; settings = {ASSET_TAGS = (); }; };
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		948E679E1B97B7720093AC17 /* POLYFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 948E679D1B97B7720093AC17 /* POLYFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 943FD81C1B97A0AE003B3745 /* ChannelsNetworking.m */; settings = {ASSET_TAGS = (); }; };
 		943FD8211B97A88A003B3745 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 943FD8201B97A88A003B3745 /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
 		94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ADAA5F1B94E38B004EABD7 /* UserModel.m */; };
@@ -48,6 +61,35 @@
 
 /* Begin PBXFileReference section */
 		17188D9F1B97902000762C92 /* ChannelsConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsConfig.h; sourceTree = "<group>"; };
+		1718B7B01B97E03F005F1071 /* UIButton+UIQueryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+UIQueryAdditions.h"; path = "../../POLYFoundation/POLYFoundation/UIQuery/UIButton+UIQueryAdditions.h"; sourceTree = "<group>"; };
+		1718B7B11B97E03F005F1071 /* UIButton+UIQueryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+UIQueryAdditions.m"; path = "../../POLYFoundation/POLYFoundation/UIQuery/UIButton+UIQueryAdditions.m"; sourceTree = "<group>"; };
+		1718B7B21B97E03F005F1071 /* UIColor+UIQueryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+UIQueryAdditions.h"; path = "../../POLYFoundation/POLYFoundation/UIQuery/UIColor+UIQueryAdditions.h"; sourceTree = "<group>"; };
+		1718B7B31B97E03F005F1071 /* UIColor+UIQueryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+UIQueryAdditions.m"; path = "../../POLYFoundation/POLYFoundation/UIQuery/UIColor+UIQueryAdditions.m"; sourceTree = "<group>"; };
+		1718B7B41B97E03F005F1071 /* UIQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIQuery.h; path = ../../POLYFoundation/POLYFoundation/UIQuery/UIQuery.h; sourceTree = "<group>"; };
+		1718B7B51B97E03F005F1071 /* UIQueryShortcuts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIQueryShortcuts.h; path = ../../POLYFoundation/POLYFoundation/UIQuery/UIQueryShortcuts.h; sourceTree = "<group>"; };
+		1718B7B61B97E03F005F1071 /* UIView+UIQueryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+UIQueryAdditions.h"; path = "../../POLYFoundation/POLYFoundation/UIQuery/UIView+UIQueryAdditions.h"; sourceTree = "<group>"; };
+		1718B7B71B97E03F005F1071 /* UIView+UIQueryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+UIQueryAdditions.m"; path = "../../POLYFoundation/POLYFoundation/UIQuery/UIView+UIQueryAdditions.m"; sourceTree = "<group>"; };
+		1718B7B81B97E03F005F1071 /* CGPointExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CGPointExtension.h; path = ../../POLYFoundation/POLYFoundation/CGPointExtension.h; sourceTree = "<group>"; };
+		1718B7B91B97E03F005F1071 /* CGPointExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointExtension.m; path = ../../POLYFoundation/POLYFoundation/CGPointExtension.m; sourceTree = "<group>"; };
+		1718B7BA1B97E03F005F1071 /* POLYDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POLYDate.h; path = ../../POLYFoundation/POLYFoundation/POLYDate.h; sourceTree = "<group>"; };
+		1718B7BB1B97E03F005F1071 /* POLYDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POLYDate.m; path = ../../POLYFoundation/POLYFoundation/POLYDate.m; sourceTree = "<group>"; };
+		1718B7BC1B97E03F005F1071 /* POLYUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POLYUtils.h; path = ../../POLYFoundation/POLYFoundation/POLYUtils.h; sourceTree = "<group>"; };
+		1718B7BD1B97E03F005F1071 /* POLYUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POLYUtils.m; path = ../../POLYFoundation/POLYFoundation/POLYUtils.m; sourceTree = "<group>"; };
+		1718B7BE1B97E03F005F1071 /* UIImage+WebP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+WebP.h"; path = "../../POLYFoundation/POLYFoundation/WebP/UIImage+WebP.h"; sourceTree = "<group>"; };
+		1718B7BF1B97E03F005F1071 /* UIImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+WebP.m"; path = "../../POLYFoundation/POLYFoundation/WebP/UIImage+WebP.m"; sourceTree = "<group>"; };
+		1718B7C01B97E03F005F1071 /* POLYFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = POLYFileManager.h; path = ../../POLYFoundation/POLYFoundation/POLYFileManager.h; sourceTree = "<group>"; };
+		1718B7C11B97E03F005F1071 /* POLYFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = POLYFileManager.m; path = ../../POLYFoundation/POLYFoundation/POLYFileManager.m; sourceTree = "<group>"; };
+		1718B7C21B97E03F005F1071 /* POLYImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = POLYImageManager.h; path = ../../POLYFoundation/POLYFoundation/POLYImageManager.h; sourceTree = "<group>"; };
+		1718B7C31B97E03F005F1071 /* POLYImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POLYImageManager.m; path = ../../POLYFoundation/POLYFoundation/POLYImageManager.m; sourceTree = "<group>"; };
+		1718B7C41B97E03F005F1071 /* POLYVideoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = POLYVideoManager.h; path = ../../POLYFoundation/POLYFoundation/POLYVideoManager.h; sourceTree = "<group>"; };
+		1718B7C51B97E03F005F1071 /* POLYVideoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = POLYVideoManager.m; path = ../../POLYFoundation/POLYFoundation/POLYVideoManager.m; sourceTree = "<group>"; };
+		1718B7C61B97E03F005F1071 /* POLYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POLYViewController.h; path = ../../POLYFoundation/POLYFoundation/POLYViewController.h; sourceTree = "<group>"; };
+		1718B7C71B97E03F005F1071 /* POLYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POLYViewController.m; path = ../../POLYFoundation/POLYFoundation/POLYViewController.m; sourceTree = "<group>"; };
+		1718B7C81B97E03F005F1071 /* POLYNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POLYNetworking.h; path = ../../POLYFoundation/POLYFoundation/POLYNetworking.h; sourceTree = "<group>"; };
+		1718B7C91B97E03F005F1071 /* POLYNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POLYNetworking.m; path = ../../POLYFoundation/POLYFoundation/POLYNetworking.m; sourceTree = "<group>"; };
+		1718B7CA1B97E03F005F1071 /* POLYViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POLYViewModel.h; path = ../../POLYFoundation/POLYFoundation/POLYViewModel.h; sourceTree = "<group>"; };
+		1718B7CB1B97E03F005F1071 /* POLYViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POLYViewModel.m; path = ../../POLYFoundation/POLYFoundation/POLYViewModel.m; sourceTree = "<group>"; };
+		1718B7D91B97E0F0005F1071 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = "<group>"; };
 		178CB17F1B9660BA0010B097 /* ChannelPlayerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelPlayerViewModel.h; sourceTree = "<group>"; };
 		178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelPlayerViewModel.m; sourceTree = "<group>"; };
 		17A387781B8FE92A00702E85 /* Channels-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Channels-Prefix.pch"; sourceTree = "<group>"; };
@@ -90,12 +132,12 @@
 		778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79D2A893B3A6CA08204C0F03 /* Pods-Channels.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.release.xcconfig"; sourceTree = "<group>"; };
 		8D60F9D7FE4AD79B6B1A0A16 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		948E679D1B97B7720093AC17 /* POLYFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = POLYFoundation.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Channels-bmrdppgbyouavbgfjlnhohbijqnr/Build/Products/Debug-iphoneos/POLYFoundation.framework"; sourceTree = "<group>"; };
 		943FD81B1B97A0AE003B3745 /* ChannelsNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsNetworking.h; sourceTree = "<group>"; };
 		943FD81C1B97A0AE003B3745 /* ChannelsNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsNetworking.m; sourceTree = "<group>"; };
 		943FD81E1B97A650003B3745 /* Models.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Models.h; sourceTree = "<group>"; };
 		943FD81F1B97A88A003B3745 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		943FD8201B97A88A003B3745 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
+		948E679D1B97B7720093AC17 /* POLYFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = POLYFoundation.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Channels-bmrdppgbyouavbgfjlnhohbijqnr/Build/Products/Debug-iphoneos/POLYFoundation.framework"; sourceTree = "<group>"; };
 		94ADAA5E1B94E38B004EABD7 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		94ADAA5F1B94E38B004EABD7 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		96A840B90001DBB7E2FA78B9 /* Pods-Channels.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.debug.xcconfig"; sourceTree = "<group>"; };
@@ -109,8 +151,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1718B7DA1B97E0F0005F1071 /* WebP.framework in Frameworks */,
 				A02FBCF208B27B15C5A4368E /* Pods_Channels.framework in Frameworks */,
-				948E679E1B97B7720093AC17 /* POLYFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +239,34 @@
 		17AC67F01B8FDE9E00AAE2BF /* Channels */ = {
 			isa = PBXGroup;
 			children = (
+				1718B7B01B97E03F005F1071 /* UIButton+UIQueryAdditions.h */,
+				1718B7B11B97E03F005F1071 /* UIButton+UIQueryAdditions.m */,
+				1718B7B21B97E03F005F1071 /* UIColor+UIQueryAdditions.h */,
+				1718B7B31B97E03F005F1071 /* UIColor+UIQueryAdditions.m */,
+				1718B7B41B97E03F005F1071 /* UIQuery.h */,
+				1718B7B51B97E03F005F1071 /* UIQueryShortcuts.h */,
+				1718B7B61B97E03F005F1071 /* UIView+UIQueryAdditions.h */,
+				1718B7B71B97E03F005F1071 /* UIView+UIQueryAdditions.m */,
+				1718B7B81B97E03F005F1071 /* CGPointExtension.h */,
+				1718B7B91B97E03F005F1071 /* CGPointExtension.m */,
+				1718B7BA1B97E03F005F1071 /* POLYDate.h */,
+				1718B7BB1B97E03F005F1071 /* POLYDate.m */,
+				1718B7BC1B97E03F005F1071 /* POLYUtils.h */,
+				1718B7BD1B97E03F005F1071 /* POLYUtils.m */,
+				1718B7BE1B97E03F005F1071 /* UIImage+WebP.h */,
+				1718B7BF1B97E03F005F1071 /* UIImage+WebP.m */,
+				1718B7C01B97E03F005F1071 /* POLYFileManager.h */,
+				1718B7C11B97E03F005F1071 /* POLYFileManager.m */,
+				1718B7C21B97E03F005F1071 /* POLYImageManager.h */,
+				1718B7C31B97E03F005F1071 /* POLYImageManager.m */,
+				1718B7C41B97E03F005F1071 /* POLYVideoManager.h */,
+				1718B7C51B97E03F005F1071 /* POLYVideoManager.m */,
+				1718B7C61B97E03F005F1071 /* POLYViewController.h */,
+				1718B7C71B97E03F005F1071 /* POLYViewController.m */,
+				1718B7C81B97E03F005F1071 /* POLYNetworking.h */,
+				1718B7C91B97E03F005F1071 /* POLYNetworking.m */,
+				1718B7CA1B97E03F005F1071 /* POLYViewModel.h */,
+				1718B7CB1B97E03F005F1071 /* POLYViewModel.m */,
 				17AC67F51B8FDE9E00AAE2BF /* ChannelsAppDelegate.h */,
 				17AC67F61B8FDE9E00AAE2BF /* ChannelsAppDelegate.m */,
 				37A8261A1B96218100707AC9 /* ChannelsInterface.h */,
@@ -248,6 +318,7 @@
 		2BD97E7D89FF9E5A050AE206 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1718B7D91B97E0F0005F1071 /* WebP.framework */,
 				948E679D1B97B7720093AC17 /* POLYFoundation.framework */,
 				778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */,
 				C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */,
@@ -496,20 +567,33 @@
 			files = (
 				17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */,
 				17D4CA781B910B3F00070321 /* PostingViewController.m in Sources */,
+				1718B7D01B97E03F005F1071 /* POLYDate.m in Sources */,
 				943FD8211B97A88A003B3745 /* BaseModel.m in Sources */,
 				37A826131B96137A00707AC9 /* ChannelsAnimator.m in Sources */,
 				17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */,
 				37A826161B961C8500707AC9 /* ChannelsTitleSelectionViewController.m in Sources */,
+				1718B7CF1B97E03F005F1071 /* CGPointExtension.m in Sources */,
 				371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */,
 				17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */,
 				17AC67F71B8FDE9E00AAE2BF /* ChannelsAppDelegate.m in Sources */,
+				1718B7D21B97E03F005F1071 /* UIImage+WebP.m in Sources */,
 				37A8261C1B96218100707AC9 /* ChannelsInterface.m in Sources */,
 				94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */,
+				1718B7CC1B97E03F005F1071 /* UIButton+UIQueryAdditions.m in Sources */,
+				1718B7CD1B97E03F005F1071 /* UIColor+UIQueryAdditions.m in Sources */,
+				1718B7CE1B97E03F005F1071 /* UIView+UIQueryAdditions.m in Sources */,
 				17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */,
+				1718B7D11B97E03F005F1071 /* POLYUtils.m in Sources */,
+				1718B7D51B97E03F005F1071 /* POLYVideoManager.m in Sources */,
+				1718B7D31B97E03F005F1071 /* POLYFileManager.m in Sources */,
 				178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */,
 				943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */,
+				1718B7D71B97E03F005F1071 /* POLYNetworking.m in Sources */,
+				1718B7D81B97E03F005F1071 /* POLYViewModel.m in Sources */,
+				1718B7D41B97E03F005F1071 /* POLYImageManager.m in Sources */,
 				17D4CA6F1B90FA7200070321 /* PostModel.m in Sources */,
 				17D4CA721B90FA8200070321 /* ChannelModel.m in Sources */,
+				1718B7D61B97E03F005F1071 /* POLYViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

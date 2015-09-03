@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Complex Polygon. All rights reserved.
 //
 
-@import POLYFoundation;
+#import "POLYViewController.h"
 
 @interface BaseViewController : POLYViewController
 

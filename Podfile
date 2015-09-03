@@ -36,6 +36,15 @@ target :Channels do
   pod 'pop', '~> 1.0'
   pod 'FLKAutoLayout'
   pod 'PBJVision'
+
+  # Core
+  pod "AFNetworking", "~> 2.5.1"
+  pod "AFNetworkActivityLogger"
+  pod "SDWebImage"
+
+  # AWS - https://github.com/aws/aws-sdk-ios for avail packages
+  pod 'AWSCore'
+  pod 'AWSS3'
 end
 
 target 'ChannelsTests', :exclusive => true do
