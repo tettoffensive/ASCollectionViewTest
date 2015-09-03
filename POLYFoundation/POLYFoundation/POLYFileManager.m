@@ -156,10 +156,12 @@
     NSParameterAssert(data);
     NSParameterAssert(self.bucket);
     NSParameterAssert(self.subpath);
+
     
     // Build a key based off the content type
     NSString *key = [[NSUUID UUID] UUIDString];
     NSString *extension = [self fileExtensionForMimeType:contentType];
+    NSString *mediaKey = [key copy];
     if ([extension length] > 0) {
         key = [NSString stringWithFormat:@"%@.%@", key, extension];
     }
@@ -174,7 +176,12 @@
     [uploadRequest setContentType:contentType];
     [uploadRequest setContentLength:@([data length])];
     [uploadRequest setBucket:self.bucket];
-    [uploadRequest setKey:[[self.subpath stringByAppendingString:@"/"] stringByAppendingString:key]];
+    [uploadRequest setACL:AWSS3ObjectCannedACLPublicRead];
+    if (self.subpath.length == 0) {
+        [uploadRequest setKey:key];
+    } else {
+        [uploadRequest setKey:[[self.subpath stringByAppendingString:@"/"] stringByAppendingString:key]];
+    }
     [uploadRequest setBody:fileURL];
     [uploadRequest setUploadProgress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         CGFloat percentage = ((CGFloat)totalBytesSent / (CGFloat)totalBytesExpectedToSend);
@@ -209,7 +216,7 @@
              if(failureBlock) failureBlock(task.error);
          }
          
-         if(successBlock) successBlock(YES,key);
+         if(successBlock) successBlock(YES, mediaKey);
          
          return nil;
      }];

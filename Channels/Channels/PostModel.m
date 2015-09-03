@@ -40,7 +40,7 @@
 
 - (void)setMediaKey:(NSString *)mediaKey
 {
-    _mediaKey = [[NSUUID UUID] UUIDString];
+    _mediaKey = mediaKey;
 }
 
 #pragma ------------------------------------------------------------------------------------------------------
@@ -50,8 +50,8 @@
 /*
     PostModel *newPostModel = [PostModel new];
     newPostModel.channelID = XXXX; // Must be a valid channel id
+     mediaKey // Create new UUID
     [newPostModel createPostWithSuccess:xxxx andFailure:xxxx];
-    mediaKey // Create new UUID
 */
 - (void)createPostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
