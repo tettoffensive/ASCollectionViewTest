@@ -71,8 +71,6 @@
         for (NSDictionary *data in list) {
             PostModel *model = [PostModel modelWithDictionary:data];
             [mutableArray addObject:model];
-            
-            NSLog(@"%@", model);
         }
         
         if (success) {
@@ -86,11 +84,15 @@
     }];
 }
 
-- (void)postCreate
+- (void)createPostForChannelID:(NSInteger)channelID withMediaKey:(NSString *)mediaKey success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [self.api POST:@"test" parameters:@{} success:^(NSURLSessionDataTask *task, id responseObject) {
-        POLYLog(@"%@", responseObject);
+    [self.api POST:@"post/create" parameters:@{@"channelid":@(channelID),@"media_key":mediaKey} success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        if (success) success();
+        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        if (failure) failure(error);
         
     }];
 }
