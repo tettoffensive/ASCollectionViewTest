@@ -54,10 +54,15 @@
     [self animateRecordStatusButton:NO];
 }
 
-- (void)animateRecordStatusButton:(BOOL)scaleUp
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self animateRecordStatusButton:NO];
+}
+
+- (void)animateRecordStatusButton:(BOOL)start
 {
     CGSize size;
-    if (scaleUp) {
+    if (start) {
         CGFloat scale = 61.0 / 24.0;
         size = CGSizeMake(scale, scale);
     } else {
@@ -67,6 +72,13 @@
     POPBasicAnimation *scaleAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewScaleXY];
     scaleAnimation.toValue = [NSValue valueWithCGSize:size];
     scaleAnimation.duration = 0.25f;
+    scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+        if (start) {
+            [self.delegate didStartRecording];
+        } else {
+            [self.delegate didEndRecording];
+        }
+    };
     [_recordVideoButtonStatusView pop_addAnimation:scaleAnimation forKey:@"scaleAnim"];
 }
 
