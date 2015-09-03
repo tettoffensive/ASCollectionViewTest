@@ -13,8 +13,6 @@
 #import "ChannelsConfig.h"
 #endif
 
-#import "POLYUtils.h"
-#import "POLYDate.h"
-#import "CGPointExtension.h"
+#import "POLYFoundation.h"
 @import ObjectiveSugar;
 #endif

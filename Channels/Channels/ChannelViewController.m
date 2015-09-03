@@ -13,6 +13,7 @@
 #import "PostingViewModel.h"
 
 @import MediaPlayer;
+@import KVOController;
 
 @interface ChannelViewController ()
 /*!
@@ -22,6 +23,7 @@
 @property (nonatomic) NSUInteger index;
 @property (nonatomic) NSUInteger count;
 @property (nonatomic, strong) UIButton *postButton;
+@property (nonatomic, strong) UILabel  *postTrackerLabel;
 
 @end
 
@@ -47,15 +49,47 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [self loadMovie];
-    
-    UIImage *postButtonImage = [UIImage imageNamed:@"Post Button"];
-    _postButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
-    [_postButton setCenter:self.view.center];
-    [_postButton setFrame:CGRectOffset(_postButton.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
-    [_postButton setImage:postButtonImage forState:UIControlStateNormal];
-    [self.view addSubview:_postButton];
-    [_postButton addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.postButton];
+    [self.view addSubview:self.postTrackerLabel];
+}
+
+- (UIButton *)postButton
+{
+    return !_postButton ? _postButton =
+    ({
+        UIImage *postButtonImage = [UIImage imageNamed:@"Post Button"];
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
+        [button setCenter:self.view.center];
+        [button setFrame:CGRectOffset(button.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
+        [button setImage:postButtonImage forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
+        button;
+    }) : _postButton;
+}
+
+- (UILabel *)postTrackerLabel
+{
+    return !_postTrackerLabel ? _postTrackerLabel =
+    ({
+        UILabel *value = [UILabel new];
+        [value setFont:[ChannelsInterface boldFontOfSize:16]];
+        [value setTextColor:[UIColor whiteColor]];
+        [value setNumberOfLines:1];
+        [value setText:[self trackerString]];
+        [value setFrame:CGRectMake(0, 0, screenWidth(), 16)];
+        [value setFrame:CGRectOffset(value.frame, 10, screenHeight()-10.-value.frame.size.height)];
+        [value.KVOController observe:self keyPaths:@[@"count",@"index"] options:NSKeyValueObservingOptionNew block:^(UILabel *observer, id object, NSDictionary *change) {
+            [value setText:[self trackerString]];
+        }];
+//        [value applyScrimShadow];
+        value;
+    }) : _postTrackerLabel;
+}
+
+- (NSString *)trackerString
+{
+    NSUInteger index = MIN(self.index+1,self.count);
+    return [NSString stringWithFormat:@"%lu  /  %lu", index, self.count];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -83,6 +117,7 @@
         [player setScalingMode:MPMovieScalingModeAspectFill];
         [player.view setFrame:self.view.bounds];
         [self.view addSubview:player.view];
+        [self.view sendSubviewToBack:player.view];
         [self subscribeToNotificationsForPlayer:player];
         player;
     }) : _channelMoviePlayerController;
@@ -138,13 +173,16 @@
 
 - (void)moviePlaybackDidFinish:(NSNotification*)notification
 {
-    POLYLog(@"%@", self.channelMoviePlayerController);
-    if (self.count - self.index < 3) {
-        // make a call to reload the posts if we are close to the last post
-        [self.viewModel updatePosts];
+    MPMovieFinishReason reason = (MPMovieFinishReason)[[notification.userInfo objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] unsignedIntegerValue];
+    
+    if (reason != MPMovieFinishReasonUserExited) {
+        if (self.count - self.index < 3) {
+            // make a call to reload the posts if we are close to the last post
+            [self.viewModel updatePosts];
+        }
+        self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+        [self loadMovie];
     }
-    self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
-    [self loadMovie];
 }
 
 - (void)moviePlaybackStateChange:(NSNotification*)notification
@@ -194,7 +232,7 @@
 
 - (void)loadMovie
 {
-    NSURL *movieURL = [NSURL URLWithString:self.viewModel.channelPosts[self.index]];
+    NSURL *movieURL = ([self.viewModel.channelPosts count] > 0) ? [NSURL URLWithString:self.viewModel.channelPosts[self.index]] : nil;
     if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.contentURL.absoluteString]) {
         [self.channelMoviePlayerController setContentURL:movieURL];
         [self.channelMoviePlayerController prepareToPlay];
