@@ -86,7 +86,7 @@
 
 - (void)createPostForChannelID:(NSInteger)channelID withMediaKey:(NSString *)mediaKey success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [self.api POST:@"post/create" parameters:@{@"channelid":@(channelID),@"media_key":mediaKey} success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self.api POST:@"post/create" parameters:@{@"channel_id":@(channelID),@"media_key":mediaKey} success:^(NSURLSessionDataTask *task, id responseObject) {
         
         if (success) success();
         
