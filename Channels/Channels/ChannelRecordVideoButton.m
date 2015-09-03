@@ -76,4 +76,9 @@
     [_recordVideoButtonStatusView pop_addAnimation:scaleAnimation forKey:@"scaleAnim"];
 }
 
+- (void)stopRecording
+{
+    [self animateRecordStatusButton:NO];
+}
+
 @end
