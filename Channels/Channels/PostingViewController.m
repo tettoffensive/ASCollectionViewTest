@@ -18,9 +18,6 @@ static const NSString *kPBJVisionVideoThumbnailArrayKey         = @"PBJVisionVid
 static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVideoThumbnailKey";
 
 @interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate>
-{
-    UIView *_recordVideoButtonStatusView;
-}
 
 @property (nonatomic, assign) BOOL recording;
 
@@ -34,6 +31,8 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 @property (nonatomic) NSDictionary *additionalCompressionProperties;
 
 @property (nonatomic) NSDictionary *currentVideo;
+
+@property (nonatomic, strong) ChannelRecordVideoButton *recordVideoButton;
 
 @end
 
@@ -56,11 +55,11 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [_previewView.layer addSublayer:_previewLayer];
     
     // New Record Button
-    ChannelRecordVideoButton *recordVideoButton = [[ChannelRecordVideoButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 80.0f)];
-    recordVideoButton.delegate = self;
-    [recordVideoButton setCenter:self.view.center];
-    [recordVideoButton setFrame:CGRectOffset(recordVideoButton.frame, 0.0f, self.view.bounds.size.height / 2.0f - 60.0f)];
-    [self.view addSubview:recordVideoButton];
+    _recordVideoButton = [[ChannelRecordVideoButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 80.0f)];
+    _recordVideoButton.delegate = self;
+    [_recordVideoButton setCenter:self.view.center];
+    [_recordVideoButton setFrame:CGRectOffset(_recordVideoButton.frame, 0.0f, self.view.bounds.size.height / 2.0f - 60.0f)];
+    [self.view addSubview:_recordVideoButton];
     
     // Close Button
     UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f, 60.0f)];
