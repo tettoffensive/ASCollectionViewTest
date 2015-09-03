@@ -75,6 +75,11 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     
     // Setup Video
     [self setup];
+    
+    [self.view setY:screenHeight()];
+    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self.view setY:0.0f];
+    } completion:nil];
 }
 
 - (void)loadMoviePlayer
@@ -146,7 +151,13 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 
 - (void)dismissPostingViewController
 {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [self.view setY:screenHeight()];
+    } completion:^(BOOL finished) {
+        [self unloadViewController];
+    }];
+    
+    //[self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (BOOL)prefersStatusBarHidden
