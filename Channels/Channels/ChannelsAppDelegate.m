@@ -31,7 +31,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
-    [application setStatusBarHidden:YES];
+    //[application setStatusBarHidden:YES];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor blackColor];
