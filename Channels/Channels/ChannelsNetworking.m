@@ -136,7 +136,7 @@
 {
     [self.api POST:@"user/info" parameters:@{@"access_token":[[UserModel currentUser] accessToken]} success:^(NSURLSessionDataTask *task, id responseObject) {
         
-        NSDictionary *data = [responseObject objectForKey:@"data"];
+        // NSDictionary *data = [responseObject objectForKey:@"data"];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

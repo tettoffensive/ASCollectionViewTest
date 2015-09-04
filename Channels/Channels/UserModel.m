@@ -58,6 +58,8 @@ static UserModel *__currentUser = nil;
         
     } andFailure:^(NSError *error) {
         
+        if (failure) failure(error);
+        
     }];
 }
 
@@ -67,6 +69,7 @@ static UserModel *__currentUser = nil;
         
         NSString *accessToken = [responseData objectForKey:@"access_token"];
         [UserModel setProperty:accessToken forKey:@"userModelAccessToken"];
+        [UserModel setProperty:@(YES) forKey:@"userModelIsLoggedIn"];
         
         UserModel *userModel = [UserModel modelWithDictionary:[responseData objectForKey:@"user"]];
         [UserModel setProperty:@(userModel.userID) forKey:@"userModelUserID"];
@@ -92,12 +95,6 @@ static UserModel *__currentUser = nil;
 + (BOOL)isLoggedIn
 {
     return [[UserModel getPropertyForKey:@"userModelIsLoggedIn"] boolValue];
-}
-
-- (void)loginWithAccessToken:(NSString *)accessToken
-{
-    [UserModel setProperty:accessToken forKey:@"userModelAccessToken"];
-    [UserModel setProperty:@(YES) forKey:@"userModelIsLoggedIn"];
 }
 
 - (NSString *)accessToken
