@@ -16,9 +16,9 @@
 @property (nonatomic) NSMutableArray *windows;
 @property (strong, nonatomic) UIWindow *foregroundWindow;
 
-- (void)loadForegroundWindowWithViewController:(UIViewController *)controller;
-- (void)unloadForegoundWindow;
-- (void)unloadAllForegroundWindows;
+//- (void)loadForegroundWindowWithViewController:(UIViewController *)controller;
+//- (void)unloadForegoundWindow;
+//- (void)unloadAllForegroundWindows;
 
 @end
 

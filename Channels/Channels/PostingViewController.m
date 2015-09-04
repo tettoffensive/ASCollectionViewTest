@@ -151,13 +151,7 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 
 - (void)dismissPostingViewController
 {
-    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        [self.view setY:screenHeight()];
-    } completion:^(BOOL finished) {
-        [self unloadViewController];
-    }];
-    
-    //[self dismissViewControllerAnimated:YES completion:NULL];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -168,15 +162,13 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    
-    if (self.channelMoviePlayerController.contentURL.absoluteString.length > 0) {
-        [self.channelMoviePlayerController stop];
-    }
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -231,18 +223,19 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
                               initWithTitle:@"Confirm Upload"
                               message:@"Do you want to upload this video?"
                               delegate:self
-                              cancelButtonTitle:@"NO"
-                              otherButtonTitles:@"YES", nil];
+                              cancelButtonTitle:@"No"
+                              otherButtonTitles:@"Yes", nil];
     [alertView show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == alertView.cancelButtonIndex) {
-        [self.channelMoviePlayerController stop];
-        [self.channelMoviePlayerController.view removeFromSuperview];
-    } else if (buttonIndex == alertView.firstOtherButtonIndex) {
+    [self pauseMovie];
+    [self.channelMoviePlayerController.view removeFromSuperview];
+    
+    if (buttonIndex == alertView.firstOtherButtonIndex) {
         [self uploadVideo:_currentVideo];
+        [self dismissPostingViewController];
     }
 }
 
