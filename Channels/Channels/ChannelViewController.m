@@ -233,6 +233,9 @@
 - (void)loadMovie
 {
     NSURL *movieURL = ([self.viewModel.channelPosts count] > 0) ? [NSURL URLWithString:self.viewModel.channelPosts[self.index]] : nil;
+    
+    if (!movieURL) return;
+    
     if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.contentURL.absoluteString]) {
         [self.channelMoviePlayerController setContentURL:movieURL];
         [self.channelMoviePlayerController prepareToPlay];
