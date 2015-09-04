@@ -11,14 +11,19 @@
 @protocol ChannelRecordVideoButtonDelegate
 
 @required
-- (CGFloat)maxVideoDuration;
 - (void)didStartRecording;
 - (void)didEndRecording;
+
+@optional
+- (BOOL)videoHasMinimumLength;
+- (BOOL)checkIfVideoHasReachedMinimumLength;
+
 @end
 
 @interface ChannelRecordVideoButton : UIView
 
 @property (nonatomic, assign) id <ChannelRecordVideoButtonDelegate> delegate;
+@property (nonatomic, assign) CGFloat maxVideoDuration;
 
 - (void)stopRecording;
 

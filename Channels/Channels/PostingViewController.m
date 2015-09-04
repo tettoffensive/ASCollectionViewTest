@@ -14,7 +14,11 @@
 #import "ChannelsPostManager.h"
 @import MediaPlayer;
 
+
+static const CGFloat kMIN_VIDEO_DURATION = 1.0f;
 static const CGFloat kMAX_VIDEO_DURATION = 6.0f;
+// Note: Alse set maximumCaptureDuration property of PBJVision to set max video length
+
 static const NSString *kPBJVisionVideoCapturedDurationKey       = @"PBJVisionVideoCapturedDurationKey";
 static const NSString *kPBJVisionVideoPathKey                   = @"PBJVisionVideoPathKey";
 static const NSString *kPBJVisionVideoThumbnailArrayKey         = @"PBJVisionVideoThumbnailArrayKey";
@@ -23,7 +27,8 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 @interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate, UIAlertViewDelegate, PBJVideoPlayerControllerDelegate>
 {
     NSTimer *_videoDurationTimer;
-    CFTimeInterval _startTime;
+    BOOL _minimumVideoLengthReached;
+    BOOL _didRequestToEndRecording;
     
     UIButton *_closeButton;
     UIButton *_flashButton;
@@ -106,9 +111,11 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     // New Record Button
     _recordVideoButton = [[ChannelRecordVideoButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 120.0f, 120.0f)];
     _recordVideoButton.delegate = self;
+    _recordVideoButton.maxVideoDuration = kMAX_VIDEO_DURATION;
     [_recordVideoButton setCenter:self.view.center];
     [_recordVideoButton setFrame:CGRectOffset(_recordVideoButton.frame, 0.0f, self.view.bounds.size.height / 2.0f - 60.0f)];
     [self.view addSubview:_recordVideoButton];
+    
     
     // Close Button
     _closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f, 60.0f)];
@@ -142,7 +149,7 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 
 - (void)dismissPostingViewController
 {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    [self dismissViewControllerAnimated:NO completion:NULL];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -182,16 +189,21 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     _vision.cameraOrientation = PBJCameraOrientationPortrait;
     _vision.focusMode = PBJFocusModeContinuousAutoFocus;
     _vision.outputFormat = PBJOutputFormatPreset;
+    _vision.maximumCaptureDuration = CMTimeMake(6, 1); // Set Max Video Length Here
     [_vision startPreview];
 }
 
 - (void)vision:(PBJVision *)vision capturedVideo:(NSDictionary *)videoDict error:(NSError *)error
 {
+    // End Video Capture
+    _recording = NO;
+    [self endTrackingVideoDuration];
+    
     if (error && [error.domain isEqual:PBJVisionErrorDomain] && error.code == PBJVisionErrorCancelled) {
-        NSLog(@"recording session cancelled");
+        //NSLog(@"recording session cancelled");
         return;
     } else if (error) {
-        NSLog(@"encounted an error in video capture (%@)", error);
+        //NSLog(@"encounted an error in video capture (%@)", error);
         return;
     }
     
@@ -200,18 +212,9 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     if (videoDuration >= 1.0) {
         [self loadMoviePlayer];
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self showconfirmUploadDialog];
         });
-    } else {
-        UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Oops..."
-                                  message:@"Video must be at least one second long."
-                                  delegate:self
-                                  cancelButtonTitle:nil
-                                  otherButtonTitles:@"OK", nil];
-        
-        [alertView show];
     }
 }
 
@@ -260,6 +263,8 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 - (void)didStartRecording
 {
     if (!_recording) {
+        _minimumVideoLengthReached = NO;
+        _didRequestToEndRecording = NO;
         _recording = YES;
         [self startTrackingVideoDuration];
         [[PBJVision sharedInstance] startVideoCapture];
@@ -268,14 +273,21 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 
 - (void)didEndRecording
 {
-    _recording = NO;
-    [self endTrackingVideoDuration];
-    [[PBJVision sharedInstance] endVideoCapture];
+    if (_minimumVideoLengthReached) {
+        [[PBJVision sharedInstance] endVideoCapture];
+    } else {
+        _didRequestToEndRecording = YES;
+    }
 }
 
-- (CGFloat)maxVideoDuration
+- (BOOL)videoHasMinimumLength
 {
-    return kMAX_VIDEO_DURATION;
+    return kMIN_VIDEO_DURATION > 0.0f;
+}
+
+- (BOOL)checkIfVideoHasReachedMinimumLength
+{
+    return _minimumVideoLengthReached;
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -284,19 +296,24 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 
 - (void)startTrackingVideoDuration
 {
-    _videoDurationTimer = [NSTimer scheduledTimerWithTimeInterval:0.005
+    _videoDurationTimer = [NSTimer scheduledTimerWithTimeInterval:0.01
                                                            target:self
                                                          selector:@selector(checkVideoDuration)
                                                          userInfo:nil
                                                           repeats:YES];
-    _startTime = CACurrentMediaTime();
 }
 
 - (void)checkVideoDuration
 {
-    CFTimeInterval currentTime = CACurrentMediaTime() - _startTime;
-    if (currentTime >= kMAX_VIDEO_DURATION) {
-        [_recordVideoButton stopRecording];
+    if (_vision.capturedVideoSeconds < kMIN_VIDEO_DURATION) {
+        _minimumVideoLengthReached = NO;
+    } else {
+        [self endTrackingVideoDuration]; // Once Minimum Reached, no need to keep tracking
+        _minimumVideoLengthReached = YES;
+        if (_didRequestToEndRecording) {
+//            [self didEndRecording];
+            [_recordVideoButton stopRecording];
+        }
     }
 }
 

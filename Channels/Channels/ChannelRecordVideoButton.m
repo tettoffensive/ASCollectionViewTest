@@ -35,6 +35,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
+        self.maxVideoDuration = 0.0f;
         
         _recordVideoButton = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 70.0f, 70.0f)];
         [_recordVideoButton setBackgroundColor:[UIColor whiteColor]];
@@ -94,25 +95,17 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self animateRecordStatusButton:YES];
-    
-    if ([self hasMaxVideoLength]) {
-        _progressTimer = [NSTimer scheduledTimerWithTimeInterval:[self timerInterval]
-                                                          target:self
-                                                        selector:@selector(incrementSpin)
-                                                        userInfo:nil
-                                                         repeats:YES];
-    }
+    [self startRecording];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self animateRecordStatusButton:NO];
+    [self stopRecording];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self animateRecordStatusButton:NO];
+    [self stopRecording];
 }
 
 - (void)incrementSpin
@@ -125,7 +118,9 @@
 
 - (void)animateRecordStatusButton:(BOOL)start
 {
-    if (!start) [self resetProgressView];
+    if (start) {
+        [self.delegate didStartRecording];
+    }
     
     CGFloat scale = 60.0 / 24.0;
     CGSize size = start ? CGSizeMake(scale, scale) : CGSizeMake(1.0f, 1.0f);
@@ -133,9 +128,8 @@
     scaleAnimation.toValue = [NSValue valueWithCGSize:size];
     scaleAnimation.duration = 0.25f;
     scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-        if (start) {
-            [self.delegate didStartRecording];
-        } else {
+        if (!start) {
+            [self resetProgressView];
             [self.delegate didEndRecording];
         }
     };
@@ -150,9 +144,30 @@
     [_recordVideoButton pop_addAnimation:scaleAnimation2 forKey:@"scaleAnim"];
 }
 
+- (void)startRecording
+{
+    [self animateRecordStatusButton:YES];
+    
+    if ([self hasMaxVideoLength]) {
+        _progressTimer = [NSTimer scheduledTimerWithTimeInterval:[self timerInterval]
+                                                          target:self
+                                                        selector:@selector(incrementSpin)
+                                                        userInfo:nil
+                                                         repeats:YES];
+    }
+}
+
 - (void)stopRecording
 {
-    [self animateRecordStatusButton:NO];
+    if ([self.delegate videoHasMinimumLength]) {
+        if ([self.delegate checkIfVideoHasReachedMinimumLength]) {
+            [self animateRecordStatusButton:NO];
+        } else {
+            [self.delegate didEndRecording];
+        }
+    } else {
+        [self animateRecordStatusButton:NO];
+    }
 }
 
 - (void)resetProgressView
@@ -171,7 +186,7 @@
 
 - (CGFloat)timerInterval
 {
-    return [self.delegate maxVideoDuration] / 100.0f / [self timerPrecision];
+    return self.maxVideoDuration / 100.0f / [self timerPrecision];
 }
 
 - (CGFloat)incrementInterval
@@ -181,7 +196,7 @@
 
 - (BOOL)hasMaxVideoLength
 {
-    return [self.delegate maxVideoDuration] > 0.0f ? YES : NO;
+    return self.maxVideoDuration > 0.0f ? YES : NO;
 }
 
 @end
