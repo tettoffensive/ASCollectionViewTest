@@ -7,7 +7,7 @@ use_frameworks!
 
 workspace 'Channels'
 xcodeproj 'Channels/Channels'
-xcodeproj 'POLYFoundation/POLYFoundation'
+#xcodeproj 'POLYFoundation/POLYFoundation'
 
 # Allows per-dev overrides
 local_podfile = "Podfile.local"
@@ -33,9 +33,10 @@ target :Channels do
   pod 'Mixpanel'
 
   # Animation/Layout/UI
-  pod 'pop', '~> 1.0'
+  pod 'pop'
   pod 'FLKAutoLayout'
   pod 'PBJVision'
+  pod 'PBJVideoPlayer'
 
   # Core
   pod "AFNetworking", "~> 2.5.1"
@@ -45,6 +46,7 @@ target :Channels do
   # AWS - https://github.com/aws/aws-sdk-ios for avail packages
   pod 'AWSCore'
   pod 'AWSS3'
+  pod 'AWSCognito'
 end
 
 target 'ChannelsTests', :exclusive => true do
@@ -52,20 +54,20 @@ target 'ChannelsTests', :exclusive => true do
   pod 'OHHTTPStubs'
 end
 
-target :POLYFoundation do
-  xcodeproj 'POLYFoundation/POLYFoundation'
-  import_pods
-  # Core
-  pod "AFNetworking", "~> 2.5.1"
-  pod "AFNetworkActivityLogger"
-  pod "SDWebImage"
-
-  # AWS - https://github.com/aws/aws-sdk-ios for avail packages
-  pod 'AWSCore'
-  pod 'AWSS3'
-end
-
-target 'POLYFoundationTests', :exclusive => true do
-  xcodeproj 'POLYFoundation/POLYFoundation'
-  pod 'OHHTTPStubs'
-end
+#target :POLYFoundation do
+#  xcodeproj 'POLYFoundation/POLYFoundation'
+#  import_pods
+#  # Core
+#  pod "AFNetworking", "~> 2.5.1"
+#  pod "AFNetworkActivityLogger"
+#  pod "SDWebImage"
+#
+#  # AWS - https://github.com/aws/aws-sdk-ios for avail packages
+#  pod 'AWSCore'
+#  pod 'AWSS3'
+#end
+#
+#target 'POLYFoundationTests', :exclusive => true do
+#  xcodeproj 'POLYFoundation/POLYFoundation'
+#  pod 'OHHTTPStubs'
+#end

@@ -54,6 +54,7 @@ code_sign_if_enabled() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-Channels/AFNetworkActivityLogger.framework'
   install_framework 'Pods-Channels/AFNetworking.framework'
+  install_framework 'Pods-Channels/AWSCognito.framework'
   install_framework 'Pods-Channels/AWSCore.framework'
   install_framework 'Pods-Channels/AWSS3.framework'
   install_framework 'Pods-Channels/Bolts.framework'
@@ -62,6 +63,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-Channels/Mantle.framework'
   install_framework 'Pods-Channels/Mixpanel.framework'
   install_framework 'Pods-Channels/ObjectiveSugar.framework'
+  install_framework 'Pods-Channels/PBJVideoPlayer.framework'
   install_framework 'Pods-Channels/PBJVision.framework'
   install_framework 'Pods-Channels/SDWebImage.framework'
   install_framework 'Pods-Channels/libextobjc.framework'
@@ -70,6 +72,7 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-Channels/AFNetworkActivityLogger.framework'
   install_framework 'Pods-Channels/AFNetworking.framework'
+  install_framework 'Pods-Channels/AWSCognito.framework'
   install_framework 'Pods-Channels/AWSCore.framework'
   install_framework 'Pods-Channels/AWSS3.framework'
   install_framework 'Pods-Channels/Bolts.framework'
@@ -78,6 +81,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-Channels/Mantle.framework'
   install_framework 'Pods-Channels/Mixpanel.framework'
   install_framework 'Pods-Channels/ObjectiveSugar.framework'
+  install_framework 'Pods-Channels/PBJVideoPlayer.framework'
   install_framework 'Pods-Channels/PBJVision.framework'
   install_framework 'Pods-Channels/SDWebImage.framework'
   install_framework 'Pods-Channels/libextobjc.framework'
