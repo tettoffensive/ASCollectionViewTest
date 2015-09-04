@@ -44,7 +44,21 @@ static UserModel *__currentUser = nil;
 
 + (void)registerWithUsername:(NSString *)username password:(NSString *)password andEmail:(NSString *)email success:(void(^)(UserModel *userModel))success andFailure:(void(^)(NSError *error))failure
 {
-    
+    [[ChannelsNetworking sharedInstance] userRegisterWithUsername:username password:password andEmail:email success:^{
+        
+        [UserModel loginWithUsername:username andPassword:password success:^(UserModel *userModel) {
+            
+            if (success) success(userModel);
+            
+        } andFailure:^(NSError *error) {
+            
+            if (failure) failure(error);
+            
+        }];
+        
+    } andFailure:^(NSError *error) {
+        
+    }];
 }
 
 + (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password success:(void(^)(UserModel *userModel))success andFailure:(void(^)(NSError *error))failure
@@ -58,11 +72,11 @@ static UserModel *__currentUser = nil;
         [UserModel setProperty:@(userModel.userID) forKey:@"userModelUserID"];
         [UserModel setProperty:userModel.username forKey:@"userModelUsername"];
         
-        if (success) {
-            success([UserModel currentUser]);
-        }
+        if (success) success([UserModel currentUser]);
         
     } andFailure:^(NSError *error) {
+        
+        if (failure) failure(error);
         
     }];
 }

@@ -101,6 +101,19 @@
 #pragma mark - User Model
 #pragma ------------------------------------------------------------------------------------------------------
 
+- (void)userRegisterWithUsername:(NSString *)username password:(NSString *)password andEmail:(NSString *)email success:(void(^)())success andFailure:(void(^)(NSError *error))failure
+{
+    [self.api POST:@"user/register" parameters:@{@"username":username,@"password":password,@"email":email} success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        if (success) success();
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        if (failure) failure(error);
+        
+    }];
+}
+
 - (void)userLoginWithUsername:(NSString *)username andPassword:(NSString *)password success:(void(^)(NSDictionary *responseData))success andFailure:(void(^)(NSError *error))failure
 {
     [self.api POST:@"user/login" parameters:@{@"username":username,@"password":password} success:^(NSURLSessionDataTask *task, id responseObject) {
