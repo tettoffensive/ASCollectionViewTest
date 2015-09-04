@@ -52,7 +52,7 @@
 {
     return !_postButton ? _postButton =
     ({
-        UIImage *postButtonImage = [UIImage imageNamed:@"Post Button"];
+        UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
         [button setCenter:self.view.center];
         [button setFrame:CGRectOffset(button.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
@@ -218,8 +218,7 @@
 {
     PostingViewModel *postingViewModel = [[PostingViewModel alloc] init];
     PostingViewController *postViewController = [[PostingViewController alloc] initWithViewModel:postingViewModel];
-    [self.navigationController presentViewController:postViewController animated:YES completion:NULL];
-//    [self loadViewControllerInForeground:postViewController];
+    [self.navigationController presentViewController:postViewController animated:NO completion:NULL];
 }
 
 #pragma -------------------------------------------------------------------------------------------
