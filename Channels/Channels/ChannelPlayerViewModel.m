@@ -15,7 +15,7 @@
 {
     ChannelsNetworking *networking = [ChannelsNetworking sharedInstance];
     __weak __typeof(self)weakSelf = self;
-    [networking channelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
+    [networking fetchAllChannelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
         ChannelModel *channelModel = channels[0];
         [self updateChannelTitleWithString:channelModel.title];
         if (channelModel) {

@@ -12,14 +12,14 @@
 #import "PostingViewController.h"
 #import "PostingViewModel.h"
 
-@import MediaPlayer;
+@import PBJVideoPlayer;
 @import KVOController;
 
-@interface ChannelViewController ()
+@interface ChannelViewController ()<PBJVideoPlayerControllerDelegate>
 /*!
  *  Player responsible for playing the current channel's stream
  */
-@property (nonatomic) MPMoviePlayerController *channelMoviePlayerController;
+@property (nonatomic) PBJVideoPlayerController *channelMoviePlayerController;
 @property (nonatomic) NSUInteger index;
 @property (nonatomic) NSUInteger count;
 @property (nonatomic, strong) UIButton *postButton;
@@ -37,11 +37,6 @@
 
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [self unsubscribeFromNotifications];
 }
 
 - (void)viewDidLoad
@@ -105,112 +100,72 @@
     [self pauseMovie];
 }
 
-- (MPMoviePlayerController *)channelMoviePlayerController
+- (PBJVideoPlayerController *)channelMoviePlayerController
 {
     return !_channelMoviePlayerController ? _channelMoviePlayerController =
     ({
-        MPMoviePlayerController *player = [[MPMoviePlayerController alloc] init];
-        [player setFullscreen:NO];
-        [player setMovieSourceType:MPMovieSourceTypeStreaming];
-        [player setControlStyle:MPMovieControlStyleNone];
-        [player setRepeatMode:MPMovieRepeatModeNone];
-        [player setScalingMode:MPMovieScalingModeAspectFill];
+        PBJVideoPlayerController *player = [PBJVideoPlayerController new];
+        [player setDelegate:self];
         [player.view setFrame:self.view.bounds];
+        [player.view setUserInteractionEnabled:NO];
+        [player setVideoFillMode:AVLayerVideoGravityResizeAspectFill]; // order important. must do AFTER setFrame
         [self.view addSubview:player.view];
+        [player didMoveToParentViewController:self];
         [self.view sendSubviewToBack:player.view];
-        [self subscribeToNotificationsForPlayer:player];
+        
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+        [tapGestureRecognizer setNumberOfTapsRequired:1];
+        [tapGestureRecognizer setDelegate:self];
+        [player.view addGestureRecognizer:tapGestureRecognizer];
+        
         player;
     }) : _channelMoviePlayerController;
 }
 
 #pragma -------------------------------------------------------------------------------------------
-#pragma mark - MPMoviePlayerController Notifications
+#pragma mark - PBJVideoPlayerControllerDelegate
 #pragma -------------------------------------------------------------------------------------------
 
-- (void)unsubscribeFromNotifications
+- (void)videoPlayerReady:(PBJVideoPlayerController *)videoPlayer
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)subscribeToNotificationsForPlayer:(MPMoviePlayerController*)player
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieDurationAvailable:)    name:MPMovieDurationAvailableNotification              object:player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieReadyForDisplay:)      name:MPMoviePlayerReadyForDisplayDidChangeNotification object:player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieLoadStateDidChange:)   name:MPMoviePlayerLoadStateDidChangeNotification       object:player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieNowPlayingDidChange:)  name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackStateChange:)  name:MPMoviePlayerPlaybackStateDidChangeNotification   object:player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackDidFinish:)  name:MPMoviePlayerPlaybackDidFinishNotification   object:player];
-    
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
-    [tapGestureRecognizer setNumberOfTapsRequired:1];
-    [tapGestureRecognizer setDelegate:self];
-    [player.view addGestureRecognizer:tapGestureRecognizer];
-}
-
-- (void)movieDurationAvailable:(NSNotification*)notification
-{
-    POLYLog(@"%d",self.channelMoviePlayerController.duration);
-}
-
-- (void)movieReadyForDisplay:(NSNotification*)notification
-{
-    POLYLog(@"%@",self.channelMoviePlayerController.readyForDisplay ? @"YES" : @"NO");
-}
-
-- (void)movieLoadStateDidChange:(NSNotification*)notification
-{
-    // Network Load State of the movie player (Unknown, Playable, PlaythroughOK, Stalled)
-    POLYLog(@"%u",self.channelMoviePlayerController.loadState);
-}
-
-- (void)movieNowPlayingDidChange:(NSNotification*)notification
-{
-    // Posted when the currently playing movie has changed. There is no userInfo dictionary.
-    POLYLog(@"%@", self.channelMoviePlayerController.contentURL);
-    
     
 }
 
-- (void)moviePlaybackDidFinish:(NSNotification*)notification
+- (void)videoPlayerPlaybackStateDidChange:(PBJVideoPlayerController *)videoPlayer
 {
-    MPMovieFinishReason reason = (MPMovieFinishReason)[[notification.userInfo objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] unsignedIntegerValue];
-    
-    if (reason != MPMovieFinishReasonUserExited) {
-        if (self.count - self.index < 3) {
-            // make a call to reload the posts if we are close to the last post
-            [self.viewModel updatePosts];
+    switch (videoPlayer.playbackState) {
+        case PBJVideoPlayerPlaybackStateStopped:
+        case PBJVideoPlayerPlaybackStatePlaying:
+        case PBJVideoPlayerPlaybackStatePaused:
+            break;
+        case PBJVideoPlayerPlaybackStateFailed: {
+            // this video failed move on to the next
+            [self videoPlayerPlaybackDidEnd:videoPlayer];
+            break;
         }
-        self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
-        [self loadMovie];
+        default:
+            break;
     }
 }
 
-- (void)moviePlaybackStateChange:(NSNotification*)notification
+- (void)videoPlayerPlaybackWillStartFromBeginning:(PBJVideoPlayerController *)videoPlayer
 {
-    // Stopped, Playing, Paused, Interrupted, Seeking Forward, Seeking Backward
-    POLYLog(@"%u",self.channelMoviePlayerController.playbackState);
     
-    switch (self.channelMoviePlayerController.playbackState) {
-        case MPMoviePlaybackStatePaused:
-        case MPMoviePlaybackStateStopped: {
-            break;
-        }
-        case MPMoviePlaybackStatePlaying: {
-            break;
-        }
-        case MPMoviePlaybackStateInterrupted: {
-            break;
-        }
-        case MPMoviePlaybackStateSeekingForward: {
-            break;
-        }
-        case MPMoviePlaybackStateSeekingBackward: {
-            break;
-        }
-        default: {
-            break;
-        }
+}
+
+- (void)videoPlayerPlaybackDidEnd:(PBJVideoPlayerController *)videoPlayer
+{
+    if (self.count - self.index < 3) {
+        // make a call to reload the posts if we are close to the last post
+        [self.viewModel updatePosts];
     }
+    self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+    [self loadMovie];
+}
+
+- (void)videoPlayerBufferringStateDidChange:(PBJVideoPlayerController *)videoPlayer
+{
+    
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -225,7 +180,7 @@
         self.index = 0;
     }
     
-    if (self.channelMoviePlayerController.loadState == MPMovieLoadStateUnknown) {
+    if (self.channelMoviePlayerController.bufferingState == PBJVideoPlayerBufferingStateUnknown) {
         [self loadMovie];
     }
 }
@@ -236,18 +191,18 @@
     
     if (!movieURL) return;
     
-    if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.contentURL.absoluteString]) {
-        [self.channelMoviePlayerController setContentURL:movieURL];
-        [self.channelMoviePlayerController prepareToPlay];
+    if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.videoPath]) {
+        [self.channelMoviePlayerController setVideoPath:movieURL.absoluteString];
     }
-    if ([self.channelMoviePlayerController.contentURL.absoluteString length] > 0) {
-        [self.channelMoviePlayerController play];
+    
+    if ([self.channelMoviePlayerController.videoPath length] > 0) {
+        [self.channelMoviePlayerController playFromBeginning];
     }
 }
 
 - (void)playMovie
 {
-    [self.channelMoviePlayerController play];
+    [self.channelMoviePlayerController playFromCurrentTime];
 }
 
 - (void)pauseMovie
@@ -280,7 +235,7 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    return YES; // MPMoviePlayerController's view intercepts the tap gesture if we don't do this
+    return YES;
 }
 
 
