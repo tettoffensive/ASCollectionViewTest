@@ -29,8 +29,8 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        NSURL *url = [NSURL URLWithString:@"http://stage.channels.joinswipe.com/v1/"];
-        //NSURL *url = [NSURL URLWithString:@"http://channels.joinswipe.dev/v1/"];
+//        NSURL *url = [NSURL URLWithString:@"http://stage.channels.joinswipe.com/v1/"];
+        NSURL *url = [NSURL URLWithString:@"http://channels.joinswipe.dev/v1/"];
         self.api = [[AFHTTPSessionManager alloc] initWithBaseURL: url];
     }
     return self;
@@ -89,6 +89,38 @@
     [self.api POST:@"post/create" parameters:@{@"channel_id":@(channelID),@"media_key":mediaKey} success:^(NSURLSessionDataTask *task, id responseObject) {
         
         if (success) success();
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        if (failure) failure(error);
+        
+    }];
+}
+
+#pragma ------------------------------------------------------------------------------------------------------
+#pragma mark - User Model
+#pragma ------------------------------------------------------------------------------------------------------
+
+- (void)userLoginWithUsername:(NSString *)username andPassword:(NSString *)password success:(void(^)(NSDictionary *responseData))success andFailure:(void(^)(NSError *error))failure
+{
+    [self.api POST:@"user/login" parameters:@{@"username":username,@"password":password} success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *data = [responseObject objectForKey:@"data"];
+        if (success) success(data);
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        if (failure) failure(error);
+        
+    }];
+}
+
+- (void)userInfoWithUserModel:(UserModel *)userModel Success:(void(^)())success andFailure:(void(^)(NSError *error))failure
+{
+    [self.api POST:@"user/info" parameters:@{@"access_token":[[UserModel currentUser] accessToken]} success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *data = [responseObject objectForKey:@"data"];
+        NSLog(@"%@", data);
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
