@@ -113,7 +113,7 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 - (void)setupCameraControls
 {
     // New Record Button
-    _recordVideoButton = [[ChannelRecordVideoButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 90.0f, 90.0f)];
+    _recordVideoButton = [[ChannelRecordVideoButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 120.0f, 120.0f)];
     _recordVideoButton.delegate = self;
     [_recordVideoButton setCenter:self.view.center];
     [_recordVideoButton setFrame:CGRectOffset(_recordVideoButton.frame, 0.0f, self.view.bounds.size.height / 2.0f - 60.0f)];
@@ -200,7 +200,10 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     double videoDuration = [[_currentVideo objectForKey:kPBJVisionVideoCapturedDurationKey] doubleValue];
     if (videoDuration >= 1.0) {
         [self loadMoviePlayer];
-        [self showconfirmUploadDialog];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self showconfirmUploadDialog];
+        });
     } else {
         UIAlertView *alertView = [[UIAlertView alloc]
                                   initWithTitle:@"Oops..."
@@ -232,10 +235,10 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 {
     [self pauseMovie];
     [self.channelMoviePlayerController.view removeFromSuperview];
+    self.channelMoviePlayerController = nil;
     
     if (buttonIndex == alertView.firstOtherButtonIndex) {
         [self uploadVideo:_currentVideo];
-        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self dismissPostingViewController];
         });

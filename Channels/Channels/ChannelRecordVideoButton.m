@@ -73,20 +73,21 @@
                                  clockwise:YES];
         
         bezierPathShadow.lineWidth = 6.0f;
-        [[UIColor colorWithWhite:0.0f alpha:0.04f] setStroke];
+        [[UIColor colorWithWhite:0.0f alpha:0.05f] setStroke];
         [bezierPathShadow stroke];
         
         
         UIBezierPath *bezierPath = [UIBezierPath bezierPath];
         
         [bezierPath addArcWithCenter:CGPointMake(rect.size.width / 2, rect.size.height / 2)
-                              radius:42.0f
+                              radius:52.0f
                           startAngle:_startAngle
                             endAngle:(_endAngle - _startAngle) * (_percent / 100.0) + _startAngle
                            clockwise:YES];
         
-        bezierPath.lineWidth = 4.0f;
-        [[UIColor colorWithWhite:1.0f alpha:0.75f] setStroke];
+        bezierPath.lineWidth = 6.0f;
+//        [[UIColor colorWithWhite:1.0f alpha:0.75f] setStroke];
+        [[UIColor redColor] setStroke];
         [bezierPath stroke];
     }
 }
@@ -124,9 +125,10 @@
 
 - (void)animateRecordStatusButton:(BOOL)start
 {
-    CGFloat scale = 61.0 / 24.0;
-    CGSize size = start ? CGSizeMake(scale, scale) : CGSizeMake(1.0f, 1.0f);
+    if (!start) [self resetProgressView];
     
+    CGFloat scale = 60.0 / 24.0;
+    CGSize size = start ? CGSizeMake(scale, scale) : CGSizeMake(1.0f, 1.0f);
     POPBasicAnimation *scaleAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewScaleXY];
     scaleAnimation.toValue = [NSValue valueWithCGSize:size];
     scaleAnimation.duration = 0.25f;
@@ -135,10 +137,17 @@
             [self.delegate didStartRecording];
         } else {
             [self.delegate didEndRecording];
-            [self resetProgressView];
         }
     };
     [_recordVideoButtonStatusView pop_addAnimation:scaleAnimation forKey:@"scaleAnim"];
+    
+    
+    CGFloat scale2 = 84.0 / 70.0;
+    CGSize size2 = start ? CGSizeMake(scale2, scale2) : CGSizeMake(1.0f, 1.0f);
+    POPBasicAnimation *scaleAnimation2 = [POPBasicAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+    scaleAnimation2.toValue = [NSValue valueWithCGSize:size2];
+    scaleAnimation2.duration = 0.25f;
+    [_recordVideoButton pop_addAnimation:scaleAnimation2 forKey:@"scaleAnim"];
 }
 
 - (void)stopRecording
