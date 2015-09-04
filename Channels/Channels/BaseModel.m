@@ -21,7 +21,7 @@
     id userModel = [MTLJSONAdapter modelOfClass:self.class fromJSONDictionary:dictionary error:&error];
     
     if (error != nil) {
-        NSLog(@"%@", error);
+        NSLog(@">>> Model Error: %@", error);
     }
     
     return userModel;
