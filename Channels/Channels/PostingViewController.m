@@ -13,7 +13,7 @@
 #import "ChannelsPostManager.h"
 @import MediaPlayer;
 
-static const double kMAX_VIDEO_DURATION = 6.0f;
+static const CGFloat kMAX_VIDEO_DURATION = 6.0f;
 static const NSString *kPBJVisionVideoCapturedDurationKey       = @"PBJVisionVideoCapturedDurationKey";
 static const NSString *kPBJVisionVideoPathKey                   = @"PBJVisionVideoPathKey";
 static const NSString *kPBJVisionVideoThumbnailArrayKey         = @"PBJVisionVideoThumbnailArrayKey";
@@ -113,7 +113,7 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 - (void)setupCameraControls
 {
     // New Record Button
-    _recordVideoButton = [[ChannelRecordVideoButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 80.0f)];
+    _recordVideoButton = [[ChannelRecordVideoButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 90.0f, 90.0f)];
     _recordVideoButton.delegate = self;
     [_recordVideoButton setCenter:self.view.center];
     [_recordVideoButton setFrame:CGRectOffset(_recordVideoButton.frame, 0.0f, self.view.bounds.size.height / 2.0f - 60.0f)];
@@ -269,6 +269,11 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     _recording = NO;
     [self endTrackingVideoDuration];
     [[PBJVision sharedInstance] endVideoCapture];
+}
+
+- (CGFloat)maxVideoDuration
+{
+    return kMAX_VIDEO_DURATION;
 }
 
 #pragma -------------------------------------------------------------------------------------------
