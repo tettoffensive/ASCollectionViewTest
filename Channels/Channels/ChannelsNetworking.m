@@ -37,10 +37,10 @@
 }
 
 #pragma ------------------------------------------------------------------------------------------------------
-#pragma mark - Network Calls
+#pragma mark - Channel Model
 #pragma ------------------------------------------------------------------------------------------------------
 
-- (void)channelsWithSuccess:(void(^)(NSArray<ChannelModel *> *channels))success andFailure:(void(^)(NSError *error))failure
+- (void)fetchAllChannelsWithSuccess:(void(^)(NSArray<ChannelModel *> *channels))success andFailure:(void(^)(NSError *error))failure
 {
     [self.api POST:@"channels" parameters:@{} success:^(NSURLSessionDataTask *task, id responseObject) {
         
@@ -62,7 +62,7 @@
     }];
 }
 
-- (void)postsForChannelID:(NSInteger)channelID withSuccess:(void(^)(NSArray<PostModel *> *posts))success andFailure:(void(^)(NSError *error))failure
+- (void)fetchAllPostsForChannelID:(NSInteger)channelID withSuccess:(void(^)(NSArray<PostModel *> *posts))success andFailure:(void(^)(NSError *error))failure
 {
     [self.api POST:@"posts" parameters:@{@"channel_id":@(channelID)} success:^(NSURLSessionDataTask *task, id responseObject) {
         
@@ -83,6 +83,11 @@
         }
     }];
 }
+
+
+#pragma ------------------------------------------------------------------------------------------------------
+#pragma mark - Post Model
+#pragma ------------------------------------------------------------------------------------------------------
 
 - (void)createPostForChannelID:(NSInteger)channelID withMediaKey:(NSString *)mediaKey success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
@@ -133,7 +138,6 @@
     [self.api POST:@"user/info" parameters:@{@"access_token":[[UserModel currentUser] accessToken]} success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *data = [responseObject objectForKey:@"data"];
-        NSLog(@"%@", data);
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

@@ -30,7 +30,7 @@
 
 + (void)fetchChannelsWithSuccess:(void(^)(NSArray<ChannelModel *> *channels))success andFailure:(void(^)(NSError *error))failure
 {
-    [[ChannelsNetworking sharedInstance] channelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
+    [[ChannelsNetworking sharedInstance] fetchAllChannelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
         if (success) success(channels);
     } andFailure:^(NSError *error) {
         if (failure) failure(error);
@@ -39,7 +39,7 @@
 
 - (void)fetchPostsWithSuccess:(void(^)(NSArray<PostModel *> *posts))success andFailure:(void(^)(NSError *error))failure
 {
-    [[ChannelsNetworking sharedInstance] postsForChannelID:self.channelID withSuccess:^(NSArray<PostModel *> *posts) {
+    [[ChannelsNetworking sharedInstance] fetchAllPostsForChannelID:self.channelID withSuccess:^(NSArray<PostModel *> *posts) {
         if (success) success(posts);
     } andFailure:^(NSError *error) {
         if (failure) failure(error);
