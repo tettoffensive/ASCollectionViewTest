@@ -39,11 +39,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [self unsubscribeFromNotifications];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -112,8 +107,10 @@
         PBJVideoPlayerController *player = [PBJVideoPlayerController new];
         [player setDelegate:self];
         [player.view setFrame:self.view.bounds];
-        [player setVideoFillMode:AVLayerVideoGravityResizeAspectFill]; // order important. must do after setting the frame
+        [player.view setUserInteractionEnabled:NO];
+        [player setVideoFillMode:AVLayerVideoGravityResizeAspectFill]; // order important. must do AFTER setFrame
         [self.view addSubview:player.view];
+        [player didMoveToParentViewController:self];
         [self.view sendSubviewToBack:player.view];
         
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
@@ -136,7 +133,19 @@
 
 - (void)videoPlayerPlaybackStateDidChange:(PBJVideoPlayerController *)videoPlayer
 {
-    
+    switch (videoPlayer.playbackState) {
+        case PBJVideoPlayerPlaybackStateStopped:
+        case PBJVideoPlayerPlaybackStatePlaying:
+        case PBJVideoPlayerPlaybackStatePaused:
+            break;
+        case PBJVideoPlayerPlaybackStateFailed: {
+            // this video failed move on to the next
+            [self videoPlayerPlaybackDidEnd:videoPlayer];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 - (void)videoPlayerPlaybackWillStartFromBeginning:(PBJVideoPlayerController *)videoPlayer
