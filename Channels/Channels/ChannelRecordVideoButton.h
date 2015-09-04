@@ -11,9 +11,9 @@
 @protocol ChannelRecordVideoButtonDelegate
 
 @required
+- (CGFloat)maxVideoDuration;
 - (void)didStartRecording;
 - (void)didEndRecording;
-
 @end
 
 @interface ChannelRecordVideoButton : UIView
