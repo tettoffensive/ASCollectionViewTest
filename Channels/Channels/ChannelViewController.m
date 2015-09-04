@@ -11,15 +11,15 @@
 #import "ChannelPlayerViewModel.h"
 #import "PostingViewController.h"
 #import "PostingViewModel.h"
+#import "ChannelVideoPlayerController.h"
 
-@import PBJVideoPlayer;
 @import KVOController;
 
-@interface ChannelViewController ()<PBJVideoPlayerControllerDelegate>
+@interface ChannelViewController ()<ChannelVideoPlayerControllerDelegate>
 /*!
  *  Player responsible for playing the current channel's stream
  */
-@property (nonatomic) PBJVideoPlayerController *channelMoviePlayerController;
+@property (nonatomic) ChannelVideoPlayerController *channelMoviePlayerController;
 @property (nonatomic) NSUInteger index;
 @property (nonatomic) NSUInteger count;
 @property (nonatomic, strong) UIButton *postButton;
@@ -100,11 +100,11 @@
     [self pauseMovie];
 }
 
-- (PBJVideoPlayerController *)channelMoviePlayerController
+- (ChannelVideoPlayerController *)channelMoviePlayerController
 {
     return !_channelMoviePlayerController ? _channelMoviePlayerController =
     ({
-        PBJVideoPlayerController *player = [PBJVideoPlayerController new];
+        ChannelVideoPlayerController *player = [ChannelVideoPlayerController new];
         [player setDelegate:self];
         [player.view setFrame:self.view.bounds];
         [player.view setUserInteractionEnabled:NO];
@@ -123,22 +123,22 @@
 }
 
 #pragma -------------------------------------------------------------------------------------------
-#pragma mark - PBJVideoPlayerControllerDelegate
+#pragma mark - ChannelVideoPlayerControllerDelegate
 #pragma -------------------------------------------------------------------------------------------
 
-- (void)videoPlayerReady:(PBJVideoPlayerController *)videoPlayer
+- (void)videoPlayerReady:(ChannelVideoPlayerController *)videoPlayer
 {
     
 }
 
-- (void)videoPlayerPlaybackStateDidChange:(PBJVideoPlayerController *)videoPlayer
+- (void)videoPlayerPlaybackStateDidChange:(ChannelVideoPlayerController *)videoPlayer
 {
     switch (videoPlayer.playbackState) {
-        case PBJVideoPlayerPlaybackStateStopped:
-        case PBJVideoPlayerPlaybackStatePlaying:
-        case PBJVideoPlayerPlaybackStatePaused:
+        case ChannelVideoPlayerPlaybackStateStopped:
+        case ChannelVideoPlayerPlaybackStatePlaying:
+        case ChannelVideoPlayerPlaybackStatePaused:
             break;
-        case PBJVideoPlayerPlaybackStateFailed: {
+        case ChannelVideoPlayerPlaybackStateFailed: {
             // this video failed move on to the next
             [self videoPlayerPlaybackDidEnd:videoPlayer];
             break;
@@ -148,12 +148,12 @@
     }
 }
 
-- (void)videoPlayerPlaybackWillStartFromBeginning:(PBJVideoPlayerController *)videoPlayer
+- (void)videoPlayerPlaybackWillStartFromBeginning:(ChannelVideoPlayerController *)videoPlayer
 {
     
 }
 
-- (void)videoPlayerPlaybackDidEnd:(PBJVideoPlayerController *)videoPlayer
+- (void)videoPlayerPlaybackDidEnd:(ChannelVideoPlayerController *)videoPlayer
 {
     if (self.count - self.index < 3) {
         // make a call to reload the posts if we are close to the last post
@@ -163,7 +163,7 @@
     [self loadMovie];
 }
 
-- (void)videoPlayerBufferringStateDidChange:(PBJVideoPlayerController *)videoPlayer
+- (void)videoPlayerBufferringStateDidChange:(ChannelVideoPlayerController *)videoPlayer
 {
     
 }
@@ -180,7 +180,7 @@
         self.index = 0;
     }
     
-    if (self.channelMoviePlayerController.bufferingState == PBJVideoPlayerBufferingStateUnknown) {
+    if (self.channelMoviePlayerController.bufferingState == ChannelVideoPlayerBufferingStateUnknown) {
         [self loadMovie];
     }
 }
