@@ -7,14 +7,18 @@
 //
 
 #import "ChannelsAppDelegate.h"
-#import "ChannelViewController.h"
+
 #import "ChannelsNavigationBar.h"
-#import "ChannelPlayerViewModel.h"
+#import "ChannelViewController.h"
+#import "LoginViewController.h"
 
 #import "POLYUtils.h"
 #import "POLYViewModel.h"
 #import "POLYNetworking.h"
 #import "POLYNetworking.h"
+
+#import "ChannelPlayerViewModel.h"
+#import "UserModel.h"
 
 void uncaughtExceptionHandler(NSException *exception) {
     POLYLog(@"CRASH: %@", exception);
@@ -37,9 +41,15 @@ void uncaughtExceptionHandler(NSException *exception) {
     ChannelPlayerViewModel *viewModel = [[ChannelPlayerViewModel alloc] init];
     [viewModel updatePosts];
     
-    ChannelViewController *channelViewController = [[ChannelViewController alloc] initWithViewModel:viewModel];
-    _navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[ChannelsNavigationBar class] toolbarClass:nil];
-    [_navigationController setViewControllers:@[channelViewController]];
+    if (![UserModel isLoggedIn]) {
+        LoginViewController *loginViewController = [LoginViewController new];
+        _navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[ChannelsNavigationBar class] toolbarClass:nil];
+        [_navigationController setViewControllers:@[loginViewController]];
+    } else {
+        ChannelViewController *channelViewController = [[ChannelViewController alloc] initWithViewModel:viewModel];
+        _navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[ChannelsNavigationBar class] toolbarClass:nil];
+        [_navigationController setViewControllers:@[channelViewController]];
+    }
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = _navigationController;
