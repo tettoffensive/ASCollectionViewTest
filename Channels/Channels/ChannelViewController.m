@@ -105,6 +105,7 @@
     return !_channelMoviePlayerController ? _channelMoviePlayerController =
     ({
         PBJVideoPlayerController *player = [PBJVideoPlayerController new];
+        [player.view setUserInteractionEnabled:NO];
         [player setDelegate:self];
         [player.view setFrame:self.view.bounds];
         [player.view setUserInteractionEnabled:NO];
@@ -116,7 +117,7 @@
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
         [tapGestureRecognizer setNumberOfTapsRequired:1];
         [tapGestureRecognizer setDelegate:self];
-        [player.view addGestureRecognizer:tapGestureRecognizer];
+        [self.view addGestureRecognizer:tapGestureRecognizer];
         
         player;
     }) : _channelMoviePlayerController;
