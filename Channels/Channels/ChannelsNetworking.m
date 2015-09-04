@@ -90,7 +90,7 @@
 
 - (void)createPostForChannelID:(NSInteger)channelID withMediaKey:(NSString *)mediaKey success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [self.api POST:@"post/create" parameters:@{@"channel_id":@(channelID),@"media_key":mediaKey} success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self.api POST:@"post/create" parameters:@{@"channel_id":@(channelID),@"media_key":mediaKey,@"user_id":[UserModel isLoggedIn] ? @([[UserModel currentUser] userID]) : 0} success:^(NSURLSessionDataTask *task, id responseObject) {
         
         if (success) success();
         
@@ -136,7 +136,7 @@
 {
     [self.api POST:@"user/info" parameters:@{@"access_token":[[UserModel currentUser] accessToken]} success:^(NSURLSessionDataTask *task, id responseObject) {
         
-        NSDictionary *data = [responseObject objectForKey:@"data"];
+        // NSDictionary *data = [responseObject objectForKey:@"data"];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
