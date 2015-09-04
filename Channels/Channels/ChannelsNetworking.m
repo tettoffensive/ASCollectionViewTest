@@ -29,8 +29,8 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-//        NSURL *url = [NSURL URLWithString:@"http://stage.channels.joinswipe.com/v1/"];
-        NSURL *url = [NSURL URLWithString:@"http://channels.joinswipe.dev/v1/"];
+        NSURL *url = [NSURL URLWithString:@"http://stage.channels.joinswipe.com/v1/"];
+        //NSURL *url = [NSURL URLWithString:@"http://channels.joinswipe.dev/v1/"];
         self.api = [[AFHTTPSessionManager alloc] initWithBaseURL: url];
     }
     return self;
@@ -83,7 +83,6 @@
         }
     }];
 }
-
 
 #pragma ------------------------------------------------------------------------------------------------------
 #pragma mark - Post Model
