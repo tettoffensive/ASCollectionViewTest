@@ -260,8 +260,8 @@
 {
     PostingViewModel *postingViewModel = [[PostingViewModel alloc] init];
     PostingViewController *postViewController = [[PostingViewController alloc] initWithViewModel:postingViewModel];
-    //[self.navigationController presentViewController:postViewController animated:YES completion:NULL];
-    [self loadViewControllerInForeground:postViewController];
+    [self.navigationController presentViewController:postViewController animated:YES completion:NULL];
+//    [self loadViewControllerInForeground:postViewController];
 }
 
 #pragma -------------------------------------------------------------------------------------------
