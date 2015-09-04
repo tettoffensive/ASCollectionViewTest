@@ -208,14 +208,36 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     }
     
     _currentVideo = [videoDict copy];
-    double videoDuration = [[_currentVideo objectForKey:kPBJVisionVideoCapturedDurationKey] doubleValue];
-    if (videoDuration >= 1.0) {
+    [self hideCameraControls];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self loadMoviePlayer];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self showconfirmUploadDialog];
-        });
-    }
+        [self showconfirmUploadDialog];
+    });
+}
+
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Show Hide Camera Controls
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)hideCameraControls
+{
+    [UIView animateWithDuration:0.25f
+                     animations:^{
+                         _flashButton.alpha = 0.0f;
+                         _switchCameraButton.alpha = 0.0f;
+                         _recordVideoButton.alpha = 0.0f;
+                     }];
+}
+
+- (void)showCameraControls
+{
+    [UIView animateWithDuration:0.25f
+                     animations:^{
+                         _flashButton.alpha = 1.0f;
+                         _switchCameraButton.alpha = 1.0f;
+                         _recordVideoButton.alpha = 1.0f;
+                     }];
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -244,6 +266,8 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self dismissPostingViewController];
         });
+    } else {
+        [self showCameraControls];
     }
 }
 

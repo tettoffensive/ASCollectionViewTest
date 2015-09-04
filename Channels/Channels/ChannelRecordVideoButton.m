@@ -120,6 +120,9 @@
 {
     if (start) {
         [self.delegate didStartRecording];
+    } else {
+        [self.delegate didEndRecording];
+        [self resetProgressView];
     }
     
     CGFloat scale = 60.0 / 24.0;
@@ -127,12 +130,6 @@
     POPBasicAnimation *scaleAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewScaleXY];
     scaleAnimation.toValue = [NSValue valueWithCGSize:size];
     scaleAnimation.duration = 0.25f;
-    scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-        if (!start) {
-            [self resetProgressView];
-            [self.delegate didEndRecording];
-        }
-    };
     [_recordVideoButtonStatusView pop_addAnimation:scaleAnimation forKey:@"scaleAnim"];
     
     
