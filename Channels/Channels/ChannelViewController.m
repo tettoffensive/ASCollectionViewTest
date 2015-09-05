@@ -228,8 +228,13 @@
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)tap
 {
+    CGPoint touchPoint = [tap locationInView:self.channelMoviePlayerController.view];
     if (tap.state == UIGestureRecognizerStateEnded) {
-        self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+        if (touchPoint.x < self.channelMoviePlayerController.view.width*0.33) {
+            self.index = (self.index < 1) ? self.count-1 : --self.index;
+        } else {
+            self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+        }
         [self loadMovie];
     }
 }
