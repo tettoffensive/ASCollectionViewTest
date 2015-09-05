@@ -167,6 +167,11 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
+    
+    // Turn Off Flash
+    _flashButton.tag = PostingViewFlashStateOff;
+    [_flashButton setImage:[UIImage imageNamed:@"Flash Off"] forState:UIControlStateNormal];
+    _vision.flashMode = PBJFlashModeOff;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
