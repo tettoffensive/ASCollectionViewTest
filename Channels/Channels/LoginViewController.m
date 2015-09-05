@@ -54,9 +54,6 @@
     [self.switchButton centerAlign];
     [self.switchButton setY:CGRectGetMaxY(self.registerContainerView.frame)];
     [self.switchButton moveByY:20.0f];
-    
-    self.loginUsernameTextField.text = @"ryan";
-    self.loginPasswordTextField.text = @"asdasd";
 }
 
 #pragma ------------------------------------------------------------------------------------------------------
