@@ -51,7 +51,6 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
 
 - (void)uploadVideo:(NSDictionary *)videoDictionary
 {
-    // PBJVisionVideoPathKey
     NSData *videoData = [NSData dataWithContentsOfFile:[videoDictionary objectForKey:@"PBJVisionVideoPathKey"]];
     [self.fileManager uploadVideoData:videoData
                              progress:^(CGFloat progress) {

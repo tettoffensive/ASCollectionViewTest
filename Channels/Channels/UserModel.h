@@ -11,13 +11,18 @@
 @interface UserModel : BaseModel
 
 @property (readonly) NSInteger userID;
+@property (readonly) NSString *username;
 
 + (instancetype)currentUser;
 
 // Methods for current user session
++ (void)registerWithUsername:(NSString *)username password:(NSString *)password andEmail:(NSString *)email success:(void(^)(UserModel *userModel))success andFailure:(void(^)(NSError *error))failure;
++ (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password success:(void(^)(UserModel *userModel))success andFailure:(void(^)(NSError *error))failure;
++ (BOOL)isLoggedIn;
 
-- (void)login;
-- (void)isLoggedIn;
+- (void)loginWithAccessToken:(NSString *)accessToken;
+- (void)logout;
 - (NSString *)accessToken;
+- (void)fetchCurrentUserInfo;
 
 @end

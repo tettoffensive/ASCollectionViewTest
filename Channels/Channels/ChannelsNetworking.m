@@ -37,10 +37,10 @@
 }
 
 #pragma ------------------------------------------------------------------------------------------------------
-#pragma mark - Network Calls
+#pragma mark - Channel Model
 #pragma ------------------------------------------------------------------------------------------------------
 
-- (void)channelsWithSuccess:(void(^)(NSArray<ChannelModel *> *channels))success andFailure:(void(^)(NSError *error))failure
+- (void)fetchAllChannelsWithSuccess:(void(^)(NSArray<ChannelModel *> *channels))success andFailure:(void(^)(NSError *error))failure
 {
     [self.api POST:@"channels" parameters:@{} success:^(NSURLSessionDataTask *task, id responseObject) {
         
@@ -62,7 +62,7 @@
     }];
 }
 
-- (void)postsForChannelID:(NSInteger)channelID withSuccess:(void(^)(NSArray<PostModel *> *posts))success andFailure:(void(^)(NSError *error))failure
+- (void)fetchAllPostsForChannelID:(NSInteger)channelID withSuccess:(void(^)(NSArray<PostModel *> *posts))success andFailure:(void(^)(NSError *error))failure
 {
     [self.api POST:@"posts" parameters:@{@"channel_id":@(channelID)} success:^(NSURLSessionDataTask *task, id responseObject) {
         
@@ -84,11 +84,59 @@
     }];
 }
 
+#pragma ------------------------------------------------------------------------------------------------------
+#pragma mark - Post Model
+#pragma ------------------------------------------------------------------------------------------------------
+
 - (void)createPostForChannelID:(NSInteger)channelID withMediaKey:(NSString *)mediaKey success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [self.api POST:@"post/create" parameters:@{@"channel_id":@(channelID),@"media_key":mediaKey} success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self.api POST:@"post/create" parameters:@{@"channel_id":@(channelID),@"media_key":mediaKey,@"user_id":[UserModel isLoggedIn] ? @([[UserModel currentUser] userID]) : 0} success:^(NSURLSessionDataTask *task, id responseObject) {
         
         if (success) success();
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        if (failure) failure(error);
+        
+    }];
+}
+
+#pragma ------------------------------------------------------------------------------------------------------
+#pragma mark - User Model
+#pragma ------------------------------------------------------------------------------------------------------
+
+- (void)userRegisterWithUsername:(NSString *)username password:(NSString *)password andEmail:(NSString *)email success:(void(^)())success andFailure:(void(^)(NSError *error))failure
+{
+    [self.api POST:@"user/register" parameters:@{@"username":username,@"password":password,@"email":email} success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        if (success) success();
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        if (failure) failure(error);
+        
+    }];
+}
+
+- (void)userLoginWithUsername:(NSString *)username andPassword:(NSString *)password success:(void(^)(NSDictionary *responseData))success andFailure:(void(^)(NSError *error))failure
+{
+    [self.api POST:@"user/login" parameters:@{@"username":username,@"password":password} success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *data = [responseObject objectForKey:@"data"];
+        if (success) success(data);
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        if (failure) failure(error);
+        
+    }];
+}
+
+- (void)userInfoWithUserModel:(UserModel *)userModel Success:(void(^)())success andFailure:(void(^)(NSError *error))failure
+{
+    [self.api POST:@"user/info" parameters:@{@"access_token":[[UserModel currentUser] accessToken]} success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        // NSDictionary *data = [responseObject objectForKey:@"data"];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

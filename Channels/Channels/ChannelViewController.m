@@ -52,7 +52,7 @@
 {
     return !_postButton ? _postButton =
     ({
-        UIImage *postButtonImage = [UIImage imageNamed:@"Post Button"];
+        UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
         [button setCenter:self.view.center];
         [button setFrame:CGRectOffset(button.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
@@ -105,6 +105,7 @@
     return !_channelMoviePlayerController ? _channelMoviePlayerController =
     ({
         ChannelVideoPlayerController *player = [ChannelVideoPlayerController new];
+        [player.view setUserInteractionEnabled:NO];
         [player setDelegate:self];
         [player.view setFrame:self.view.bounds];
         [player.view setUserInteractionEnabled:NO];
@@ -116,7 +117,7 @@
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
         [tapGestureRecognizer setNumberOfTapsRequired:1];
         [tapGestureRecognizer setDelegate:self];
-        [player.view addGestureRecognizer:tapGestureRecognizer];
+        [self.view addGestureRecognizer:tapGestureRecognizer];
         
         player;
     }) : _channelMoviePlayerController;
@@ -218,8 +219,7 @@
 {
     PostingViewModel *postingViewModel = [[PostingViewModel alloc] init];
     PostingViewController *postViewController = [[PostingViewController alloc] initWithViewModel:postingViewModel];
-    [self.navigationController presentViewController:postViewController animated:YES completion:NULL];
-//    [self loadViewControllerInForeground:postViewController];
+    [self.navigationController presentViewController:postViewController animated:NO completion:NULL];
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -228,8 +228,13 @@
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)tap
 {
+    CGPoint touchPoint = [tap locationInView:self.channelMoviePlayerController.view];
     if (tap.state == UIGestureRecognizerStateEnded) {
-        self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+        if (touchPoint.x < self.channelMoviePlayerController.view.width*0.33) {
+            self.index = (self.index < 1) ? self.count-1 : --self.index;
+        } else {
+            self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+        }
         [self loadMovie];
     }
 }

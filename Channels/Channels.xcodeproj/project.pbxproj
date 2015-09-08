@@ -50,6 +50,7 @@
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 943FD81C1B97A0AE003B3745 /* ChannelsNetworking.m */; settings = {ASSET_TAGS = (); }; };
 		943FD8211B97A88A003B3745 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 943FD8201B97A88A003B3745 /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
+		947720F01B9A4C3700B0F670 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947720EF1B9A4C3700B0F670 /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
 		94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ADAA5F1B94E38B004EABD7 /* UserModel.m */; };
 		A02FBCF208B27B15C5A4368E /* Pods_Channels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D3FC6A0C52C1A1F7F21D24 /* Pods_Channels.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -153,6 +154,8 @@
 		943FD81E1B97A650003B3745 /* Models.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Models.h; sourceTree = "<group>"; };
 		943FD81F1B97A88A003B3745 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		943FD8201B97A88A003B3745 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
+		947720EE1B9A4C3700B0F670 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		947720EF1B9A4C3700B0F670 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		94ADAA5E1B94E38B004EABD7 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		94ADAA5F1B94E38B004EABD7 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		96A840B90001DBB7E2FA78B9 /* Pods-Channels.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.debug.xcconfig"; sourceTree = "<group>"; };
@@ -197,6 +200,8 @@
 				17D4CA811B910C1900070321 /* ListChannelsViewController.m */,
 				3764E27C1B989F9E0078DCF3 /* PostingViewController.h */,
 				3764E27D1B989F9E0078DCF3 /* PostingViewController.m */,
+				947720EE1B9A4C3700B0F670 /* LoginViewController.h */,
+				947720EF1B9A4C3700B0F670 /* LoginViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -631,6 +636,7 @@
 				1728B6931B9A29D000BECD74 /* ChannelVideoPlayerController.m in Sources */,
 				178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */,
 				943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */,
+				947720F01B9A4C3700B0F670 /* LoginViewController.m in Sources */,
 				1718B7D71B97E03F005F1071 /* POLYNetworking.m in Sources */,
 				1718B7D81B97E03F005F1071 /* POLYViewModel.m in Sources */,
 				1718B7D41B97E03F005F1071 /* POLYImageManager.m in Sources */,

@@ -38,21 +38,10 @@
     _channelID = channelID;
 }
 
-- (void)setMediaKey:(NSString *)mediaKey
-{
-    _mediaKey = mediaKey;
-}
-
 #pragma ------------------------------------------------------------------------------------------------------
 #pragma mark - Network Calls
 #pragma ------------------------------------------------------------------------------------------------------
 
-/*
-    PostModel *newPostModel = [PostModel new];
-    newPostModel.channelID = XXXX; // Must be a valid channel id
-     mediaKey // Create new UUID
-    [newPostModel createPostWithSuccess:xxxx andFailure:xxxx];
-*/
 - (void)createPostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
     [[ChannelsNetworking sharedInstance] createPostForChannelID:self.channelID withMediaKey:self.mediaKey success:^{
