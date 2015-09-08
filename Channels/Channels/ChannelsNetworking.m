@@ -29,7 +29,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        NSURL *url = [NSURL URLWithString:@"http://channels-dev-1133499222.us-west-2.elb.amazonaws.com/"];
+        NSURL *url = [NSURL URLWithString:@"http://stage.channels.joinswipe.com/v1/"];
         //NSURL *url = [NSURL URLWithString:@"http://channels.joinswipe.dev/v1/"];
         self.api = [[AFHTTPSessionManager alloc] initWithBaseURL: url];
     }
@@ -90,7 +90,7 @@
 
 - (void)createPostForChannelID:(NSInteger)channelID withMediaKey:(NSString *)mediaKey success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [self.api POST:@"posts/create" parameters:@{@"channel_id":@(channelID),@"media_key":mediaKey,@"user_id":[UserModel isLoggedIn] ? @([[UserModel currentUser] userID]) : 0} success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self.api POST:@"post/create" parameters:@{@"channel_id":@(channelID),@"media_key":mediaKey,@"user_id":[UserModel isLoggedIn] ? @([[UserModel currentUser] userID]) : 0} success:^(NSURLSessionDataTask *task, id responseObject) {
         
         if (success) success();
         
