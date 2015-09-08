@@ -316,3 +316,38 @@ CGPoint CGPointIntegralWithScale(CGPoint point, CGFloat scale);
 #ifdef __cplusplus
 }
 #endif
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef struct _NSFloatRange
+{
+    CGFloat location;
+    CGFloat length;
+} NSFloatRange;
+
+typedef NSFloatRange *NSFloatRangePointer;
+
+NS_INLINE NSFloatRange NSMakeFloatRange(NSUInteger loc, NSUInteger len)
+{
+    NSFloatRange r;
+    r.location = loc;
+    r.length = len;
+    return r;
+}
+
+NS_INLINE CGFloat NSMaxFloatRange(NSFloatRange range)
+{
+    return (range.location + range.length);
+}
+
+NS_INLINE BOOL NSLocationInFloatRange(CGFloat loc, NSFloatRange range)
+{
+    return (!(loc < range.location) && (loc - range.location) < range.length) ? YES : NO;
+}
+
+NS_INLINE BOOL NSEqualFloatRanges(NSFloatRange range1, NSFloatRange range2)
+{
+    return (range1.location == range2.location && range1.length == range2.length);
+}
+
+NS_ASSUME_NONNULL_END
