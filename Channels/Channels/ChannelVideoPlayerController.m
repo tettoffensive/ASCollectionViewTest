@@ -32,6 +32,7 @@
 @import PBJVideoPlayer;
 @import AVFoundation;
 @import KVOController;
+@import SDWebImage;
 
 // KVO contexts
 static NSString * const ChannelVideoPlayerObserverContext = @"ChannelVideoPlayerObserverContext";
@@ -61,6 +62,7 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     AVQueuePlayer *_player;
     
     PBJVideoView *_videoView;
+    UIImageView  *_thumbnailImageView;
 
     ChannelVideoPlayerPlaybackState _playbackState;
     ChannelVideoPlayerBufferingState _bufferingState;
@@ -245,7 +247,11 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
  - (void)next
 {
     [self willChangeValueForKey:@"currentItemIndex"];
-    _currentItemIndex = (++_currentItemIndex) % [self.dataSource numberOfPlayerItems];
+    if ([self.dataSource numberOfPlayerItems] > 0) {
+        _currentItemIndex = (_currentItemIndex+1) % [self.dataSource numberOfPlayerItems];
+    } else {
+        _currentItemIndex = 0;
+    }
     [self didChangeValueForKey:@"currentItemIndex"];
     [self playCurrentMedia];
 }
@@ -253,7 +259,11 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
 - (void)previous
 {
     [self willChangeValueForKey:@"currentItemIndex"];
-    _currentItemIndex = (_currentItemIndex < 1) ? [self.dataSource numberOfPlayerItems]-1 : --_currentItemIndex;
+    if ([self.dataSource numberOfPlayerItems] > 0) {
+        _currentItemIndex = (_currentItemIndex < 1) ? [self.dataSource numberOfPlayerItems]-1 : _currentItemIndex-1;
+    } else {
+        _currentItemIndex = 0;
+    }
     [self didChangeValueForKey:@"currentItemIndex"];
     [self playCurrentMedia];
 }
@@ -267,7 +277,26 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     }
     
     NSURL *mediaURL = [self.dataSource videoPlayer:self playerItemAtIndex:_currentItemIndex];
-    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:mediaURL];
+    
+    AVPlayerItem *nextItemInQueue = nil;
+    if (_player.items.count > 1) {
+        nextItemInQueue = _player.items[1];
+        if ([nextItemInQueue.asset respondsToSelector:@selector(URL)]) {
+            if (![mediaURL.absoluteString isEqualToString:[(id)nextItemInQueue.asset URL].absoluteString]) {
+                nextItemInQueue = nil;
+            }
+        }
+    }
+    
+    AVPlayerItem *playerItem = (nextItemInQueue) ? nextItemInQueue : [AVPlayerItem playerItemWithURL:mediaURL];
+    
+    UIImageView *currentMediaImageView = [self imageViewForMediaAtIndex:_currentItemIndex];
+    if (playerItem.status == AVPlayerItemStatusReadyToPlay) {
+        [currentMediaImageView setAlpha:0];
+    }
+    [self.view addSubview:currentMediaImageView];
+    [_thumbnailImageView removeFromSuperview];
+    _thumbnailImageView = currentMediaImageView;
     
     [self.KVOController observe:playerItem
                         keyPaths:@[ChannelVideoPlayerControllerStatusKey,ChannelVideoPlayerControllerPlayerKeepUpKey,ChannelVideoPlayerControllerEmptyBufferKey]
@@ -275,7 +304,33 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
                           context:(__bridge void *)(ChannelVideoPlayerItemObserverContext)];
     
     self.currentItem = playerItem;
-    [_player replaceCurrentItemWithPlayerItem:self.currentItem];
+    
+    if (playerItem != nextItemInQueue) {
+        [_player replaceCurrentItemWithPlayerItem:self.currentItem];
+    } else {
+        [_player advanceToNextItem];
+    }
+    
+    [self preloadNextMedia];
+}
+
+- (void)preloadNextMedia
+{
+    if ([self.dataSource numberOfPlayerItems] <= 0) {
+        return;
+    }
+    
+    NSUInteger index = (_currentItemIndex+1) % [self.dataSource numberOfPlayerItems];
+    
+    if (index == _currentItemIndex) {
+        // only 1 item, no next media
+        return;
+    }
+    
+    NSURL *mediaURL = [self.dataSource videoPlayer:self playerItemAtIndex:index];
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:mediaURL];
+    [self imageViewForMediaAtIndex:index]; // start downloading to cache
+    [_player insertItem:playerItem afterItem:nil];
 }
 
 - (void)playFromBeginning
@@ -343,6 +398,22 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
                                                      name:AVPlayerItemFailedToPlayToEndTimeNotification
                                                    object:_currentItem];
     }
+}
+
+-(UIImageView*)imageViewForMediaAtIndex:(NSUInteger)index
+{
+    NSURL *thumbnailURL = [self.dataSource videoPlayer:self thumbnailItemAtIndex:index];
+    UIImageView *imageView = [UIImageView new];
+    [imageView setContentMode:UIViewContentModeScaleAspectFill];
+    [imageView setFrame:_videoView.frame];
+    UIVisualEffectView *blurEffect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+    [blurEffect setFrame:imageView.frame];
+    [blurEffect setAlpha:0];
+    [imageView addSubview:blurEffect];
+    [imageView sd_setImageWithURL:thumbnailURL placeholderImage:[UIImage imageNamed:@"Truffle Bucket"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [blurEffect setAlpha:1];
+    }];
+    return imageView;
 }
 
 #pragma mark - UIResponder
@@ -427,6 +498,9 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
                     [_delegate videoPlayerBufferringStateDidChange:self];
                 }
                 POLYLog(@"playback buffer is empty");
+                [UIView animateWithDuration:0.15 animations:^{
+                    [_thumbnailImageView setAlpha:1];
+                }];
             }
         } else if ([keyPath isEqualToString:ChannelVideoPlayerControllerPlayerKeepUpKey]) {
             if (self.currentItem.playbackLikelyToKeepUp) {
@@ -449,16 +523,25 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
                     [_videoView.playerLayer setPlayer:_player];
                 }
                 _videoView.playerLayer.hidden = NO;
+                [UIView animateWithDuration:0.15 animations:^{
+                    [_thumbnailImageView setAlpha:0];
+                }];
                 [_player play];
                 break;
             }
             case AVPlayerStatusFailed: {
                 _playbackState = ChannelVideoPlayerPlaybackStateFailed;
+                [UIView animateWithDuration:0.15 animations:^{
+                    [_thumbnailImageView setAlpha:1];
+                }];
                 [_delegate videoPlayerPlaybackStateDidChange:self];
                 break;
             }
             case AVPlayerStatusUnknown:
             default:
+                [UIView animateWithDuration:0.15 animations:^{
+                    [_thumbnailImageView setAlpha:1];
+                }];
                 break;
         }
         

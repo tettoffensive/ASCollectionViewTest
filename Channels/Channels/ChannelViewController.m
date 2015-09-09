@@ -202,6 +202,14 @@
     return nil;
 }
 
+- (NSURL *)videoPlayer:(ChannelVideoPlayerController *)player thumbnailItemAtIndex:(NSInteger)index
+{
+    if (self.viewModel.channelPosts.count > index) {
+        return [NSURL URLWithString:@"http://channels-stage.videos.thumbnails.oregon.s3-us-west-2.amazonaws.com/2CD727A0-8F91-45E5-8C85-E660E5D4E201_00001.png"];
+    }
+    return nil;
+}
+
 - (NSUInteger)numberOfPlayerItems
 {
     return self.viewModel.channelPosts.count;

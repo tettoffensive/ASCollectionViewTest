@@ -80,7 +80,7 @@ typedef NS_ENUM(NSInteger, ChannelVideoPlayerBufferingState) {
 @required
 - (NSUInteger)numberOfPlayerItems;
 - (NSURL *)videoPlayer:(ChannelVideoPlayerController *)player playerItemAtIndex:(NSInteger)index;
-
+- (NSURL *)videoPlayer:(ChannelVideoPlayerController *)player thumbnailItemAtIndex:(NSInteger)index;
 @end
 
 @protocol ChannelVideoPlayerControllerDelegate <NSObject>
