@@ -52,12 +52,4 @@
     [self didChangeValueForKey:@"channelPosts"];
 }
 
-
-
-- (NSArray *)keys
-{
-    return @[@"channelTitle",
-             @"channelPosts"];
-}
-
 @end
