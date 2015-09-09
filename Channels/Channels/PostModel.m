@@ -11,6 +11,20 @@
 
 @implementation PostModel
 
+- (instancetype)initInChannel:(NSUInteger)channelID WithKey:(NSString *)key
+{
+    if (self = [super init]) {
+        _channelID = channelID;
+        _mediaKey = key;
+    }
+    return self;
+}
+
++ (instancetype)newPostInChannel:(NSUInteger)channelID WithKey:(NSString *)key
+{
+    return [[PostModel alloc] initInChannel:channelID WithKey:key];
+}
+
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
     return @{@"postID": @"id",
@@ -21,21 +35,6 @@
              @"mediaURLString":@"media_url",
              @"mediaThumbnailURLString":@"media_thumbnail_url",
              };
-}
-
-- (NSURL *)URL
-{
-    return [NSURL URLWithString:self.mediaURLString];
-}
-
-- (NSURL *)thumbnailURL
-{
-    return [NSURL URLWithString:self.mediaThumbnailURLString];
-}
-
-- (void)setChannelID:(NSInteger)channelID
-{
-    _channelID = channelID;
 }
 
 #pragma ------------------------------------------------------------------------------------------------------
