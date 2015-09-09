@@ -8,11 +8,21 @@
 
 #import "POLYViewModel.h"
 
+@class Post;
+
 @interface ChannelPlayerViewModel : POLYViewModel
 
 @property (nonatomic, copy, readonly) NSString  *channelTitle;
-@property (nonatomic, copy, readonly) NSArray   *channelPosts;
+@property (nonatomic, copy, readonly) NSArray<Post*> *channelPosts;
 
 - (void)updatePosts;
+
+@end
+
+@interface Post : ValueObject
+
+@property (readonly) NSURL *URL;
+@property (readonly) NSURL *thumbnailURL;
+@property (readonly) NSString *userName;
 
 @end

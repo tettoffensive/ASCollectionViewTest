@@ -21,8 +21,8 @@
         if (channelModel) {
             [channelModel fetchPostsWithSuccess:^(NSArray<PostModel *> *posts) {
                 __strong __typeof(weakSelf)strongSelf = weakSelf;
-                [strongSelf updateChannelPostsWithArray:[posts map:^id(PostModel *post) {
-                    return post.mediaURLString;
+                [strongSelf updateChannelPostsWithArray:[posts map:^id(PostModel *model) {
+                    return [[Post alloc] initWithBackingObject:model];
                 }]];
             } andFailure:^(NSError *error) {
                 POLYLog(@"Error : %@", error);
@@ -50,6 +50,32 @@
         _channelPosts = posts;
     }
     [self didChangeValueForKey:@"channelPosts"];
+}
+
+@end
+
+
+@implementation Post
+
+- (instancetype)initWithBackingObject:(id)backingObject
+{
+    NSParameterAssert([backingObject isKindOfClass:[PostModel class]]);
+    return [super initWithBackingObject:backingObject];
+}
+
+- (NSURL *)URL
+{
+    return [NSURL URLWithString:[self.backingObject mediaURLString]];
+}
+
+- (NSURL *)thumbnailURL
+{
+    return [NSURL URLWithString:[self.backingObject mediaThumbnailURLString]];
+}
+
+- (NSString *)userName
+{
+    return @"anonymous";
 }
 
 @end

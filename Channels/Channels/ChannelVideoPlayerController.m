@@ -523,7 +523,7 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
                     [_videoView.playerLayer setPlayer:_player];
                 }
                 _videoView.playerLayer.hidden = NO;
-                [UIView animateWithDuration:0.15 animations:^{
+                [UIView animateWithDuration:0.35 animations:^{
                     [_thumbnailImageView setAlpha:0];
                 }];
                 [_player play];
