@@ -31,6 +31,7 @@
 #import "ChannelVideoPlayerController.h"
 @import PBJVideoPlayer;
 @import AVFoundation;
+@import KVOController;
 
 // KVO contexts
 static NSString * const ChannelVideoPlayerObserverContext = @"ChannelVideoPlayerObserverContext";
@@ -57,13 +58,10 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
 
 @interface ChannelVideoPlayerController () <UIGestureRecognizerDelegate>
 {
-    AVAsset *_asset;
-    AVPlayer *_player;
-    AVPlayerItem *_playerItem;
+    AVQueuePlayer *_player;
     
-    NSString *_videoPath;
     PBJVideoView *_videoView;
-    
+
     ChannelVideoPlayerPlaybackState _playbackState;
     ChannelVideoPlayerBufferingState _bufferingState;
     
@@ -76,12 +74,15 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     float _volume;
 }
 
+@property (nonatomic) CGFloat unmuteVolume;
+@property (nonatomic, strong) AVPlayerItem *currentItem;
+@property (nonatomic) BOOL forcedStop;
+
 @end
 
 @implementation ChannelVideoPlayerController
 
 @synthesize delegate = _delegate;
-@synthesize videoPath = _videoPath;
 @synthesize playbackState = _playbackState;
 @synthesize bufferingState = _bufferingState;
 @synthesize videoFillMode = _videoFillMode;
@@ -94,34 +95,6 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
         _videoFillMode = videoFillMode;
         _videoView.videoFillMode = _videoFillMode;
     }
-}
-
-- (NSString *)videoPath
-{
-    return _videoPath;
-}
-
-- (void)setVideoPath:(NSString *)videoPath
-{
-    if (!videoPath || [videoPath length] == 0)
-        return;
-    
-    NSURL *videoURL = [NSURL URLWithString:videoPath];
-    if (!videoURL || ![videoURL scheme]) {
-        videoURL = [NSURL fileURLWithPath:videoPath];
-    }
-    _videoPath = [videoPath copy];
-    
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:videoURL options:nil];
-    [self setAsset:asset];
-}
-
-- (void)setAsset:(AVAsset *)asset {
-    [self _setAsset:asset];
-}
-
-- (AVAsset *)asset {
-    return _asset;
 }
 
 - (BOOL)playbackLoops
@@ -152,21 +125,34 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     _flags.playbackFreezesAtEnd = (unsigned int)playbackFreezesAtEnd;
 }
 
-- (NSTimeInterval)maxDuration {
-    NSTimeInterval maxDuration = -1;
-    
-    if (CMTIME_IS_NUMERIC(_playerItem.duration)) {
-        maxDuration = CMTimeGetSeconds(_playerItem.duration);
+- (void)mute
+{
+    if (self.isMuted) {
+        return;
     }
     
-    return maxDuration;
+    _muted = YES;
+    self.unmuteVolume = self.volume;
+    [self setVolume:0];
 }
 
-- (float)volume {
+- (void)unmute
+{
+    if (! self.isMuted) {
+        return;
+    }
+    
+    _muted = NO;
+    [self setVolume:self.unmuteVolume];
+}
+
+- (CGFloat)volume
+{
     return _player.volume;
 }
 
-- (void)setVolume:(float)volume {
+- (void)setVolume:(CGFloat)volume
+{
     _volume = volume;
     
     if (!_player) {
@@ -174,98 +160,6 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     }
     
     _player.volume = volume;
-}
-
-- (void)_setAsset:(AVAsset *)asset
-{
-    if (_asset == asset) {
-        return;
-    }
-    
-    if (_playbackState == ChannelVideoPlayerPlaybackStatePlaying) {
-        [self pause];
-    }
-    
-    _bufferingState = ChannelVideoPlayerBufferingStateUnknown;
-    if ([_delegate respondsToSelector:@selector(videoPlayerBufferringStateDidChange:)]){
-        [_delegate videoPlayerBufferringStateDidChange:self];
-    }
-    
-    _asset = asset;
-    
-    if (!_asset) {
-        [self _setPlayerItem:nil];
-    }
-    
-    NSArray *keys = @[ChannelVideoPlayerControllerTracksKey, ChannelVideoPlayerControllerPlayableKey, ChannelVideoPlayerControllerDurationKey];
-    
-    [_asset loadValuesAsynchronouslyForKeys:keys completionHandler:^{
-        [self _enqueueBlockOnMainQueue:^{
-            
-            // check the keys
-            for (NSString *key in keys) {
-                NSError *error = nil;
-                AVKeyValueStatus keyStatus = [asset statusOfValueForKey:key error:&error];
-                if (keyStatus == AVKeyValueStatusFailed) {
-                    _playbackState = ChannelVideoPlayerPlaybackStateFailed;
-                    [_delegate videoPlayerPlaybackStateDidChange:self];
-                    return;
-                }
-            }
-            
-            // check playable
-            if (!_asset.playable) {
-                _playbackState = ChannelVideoPlayerPlaybackStateFailed;
-                [_delegate videoPlayerPlaybackStateDidChange:self];
-                return;
-            }
-            
-            // setup player
-            AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:_asset];
-            [self _setPlayerItem:playerItem];
-            
-        }];
-    }];
-}
-
-- (void)_setPlayerItem:(AVPlayerItem *)playerItem
-{
-    if (_playerItem == playerItem)
-        return;
-    
-    // remove observers
-    if (_playerItem) {
-        // AVPlayerItem KVO
-        [_playerItem removeObserver:self forKeyPath:ChannelVideoPlayerControllerEmptyBufferKey context:(__bridge void *)(ChannelVideoPlayerItemObserverContext)];
-        [_playerItem removeObserver:self forKeyPath:ChannelVideoPlayerControllerPlayerKeepUpKey context:(__bridge void *)(ChannelVideoPlayerItemObserverContext)];
-        [_playerItem removeObserver:self forKeyPath:ChannelVideoPlayerControllerStatusKey context:(__bridge void *)(ChannelVideoPlayerItemObserverContext)];
-        
-        // notifications
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemFailedToPlayToEndTimeNotification object:_playerItem];
-    }
-    
-    _playerItem = playerItem;
-    
-    // add observers
-    if (_playerItem) {
-        // AVPlayerItem KVO
-        [_playerItem addObserver:self forKeyPath:ChannelVideoPlayerControllerEmptyBufferKey options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:(__bridge void *)(ChannelVideoPlayerItemObserverContext)];
-        [_playerItem addObserver:self forKeyPath:ChannelVideoPlayerControllerPlayerKeepUpKey options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:(__bridge void *)(ChannelVideoPlayerItemObserverContext)];
-        [_playerItem addObserver:self forKeyPath:ChannelVideoPlayerControllerStatusKey options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:(__bridge void *)(ChannelVideoPlayerItemObserverContext)];
-        
-        // notifications
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_playerItemDidPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_playerItemFailedToPlayToEndTime:) name:AVPlayerItemFailedToPlayToEndTimeNotification object:_playerItem];
-    }
-    
-    if (!_flags.playbackLoops) {
-        _player.actionAtItemEnd = AVPlayerActionAtItemEndPause;
-    } else {
-        _player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
-    }
-    
-    [_player replaceCurrentItemWithPlayerItem:_playerItem];
 }
 
 #pragma mark - init
@@ -278,28 +172,21 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     // notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    // Layer KVO
-    [_videoView.layer removeObserver:self forKeyPath:ChannelVideoPlayerControllerReadyForDisplay context:(__bridge void *)ChannelVideoPlayerLayerObserverContext];
-    
-    // AVPlayer KVO
-    [_player removeObserver:self forKeyPath:ChannelVideoPlayerControllerRateKey context:(__bridge void *)ChannelVideoPlayerObserverContext];
-    
-    // player
     [_player pause];
-    
-    // player item
-    [self _setPlayerItem:nil];
+    [self.KVOController unobserveAll];
 }
 
 #pragma mark - view lifecycle
 
 - (void)loadView
 {
-    _player = [[AVPlayer alloc] init];
+    _player = [[AVQueuePlayer alloc] init];
     _player.actionAtItemEnd = AVPlayerActionAtItemEndPause;
     
-    // Player KVO
-    [_player addObserver:self forKeyPath:ChannelVideoPlayerControllerRateKey options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:(__bridge void *)(ChannelVideoPlayerObserverContext)];
+    [self.KVOController observe:_player
+                        keyPath:ChannelVideoPlayerControllerRateKey
+                        options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+                        context:(__bridge void *)(ChannelVideoPlayerObserverContext)];
     
     // load the playerLayer view
     _videoView = [[PBJVideoView alloc] initWithFrame:CGRectZero];
@@ -308,7 +195,10 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     self.view = _videoView;
     
     // playerLayer KVO
-    [_videoView.playerLayer addObserver:self forKeyPath:ChannelVideoPlayerControllerReadyForDisplay options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:(__bridge void *)(ChannelVideoPlayerLayerObserverContext)];
+    [self.KVOController observe:_videoView.playerLayer
+                        keyPath:ChannelVideoPlayerControllerReadyForDisplay
+                        options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+                          context:(__bridge void *)(ChannelVideoPlayerLayerObserverContext)];
     
     // Application NSNotifications
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -337,11 +227,56 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     }
 }
 
-- (void)_updatePlayerRatio
+#pragma mark - public methods
+
+- (void)playMediaAtIndex:(NSUInteger)index
 {
+    if (!self.dataSource ||
+        [self.dataSource numberOfPlayerItems] < 1) {
+        return;
+    }
+    [self willChangeValueForKey:@"currentItemIndex"];
+    _currentItemIndex = index;
+    [self didChangeValueForKey:@"currentItemIndex"];
+    
+    [self playCurrentMedia];
 }
 
-#pragma mark - public methods
+ - (void)next
+{
+    [self willChangeValueForKey:@"currentItemIndex"];
+    _currentItemIndex = (++_currentItemIndex) % [self.dataSource numberOfPlayerItems];
+    [self didChangeValueForKey:@"currentItemIndex"];
+    [self playCurrentMedia];
+}
+
+- (void)previous
+{
+    [self willChangeValueForKey:@"currentItemIndex"];
+    _currentItemIndex = (_currentItemIndex < 1) ? [self.dataSource numberOfPlayerItems]-1 : --_currentItemIndex;
+    [self didChangeValueForKey:@"currentItemIndex"];
+    [self playCurrentMedia];
+}
+
+- (void)playCurrentMedia
+{
+    if (_currentItemIndex > [self.dataSource numberOfPlayerItems] - 1) {
+        [self willChangeValueForKey:@"currentItemIndex"];
+        _currentItemIndex = 0;
+        [self didChangeValueForKey:@"currentItemIndex"];
+    }
+    
+    NSURL *mediaURL = [self.dataSource videoPlayer:self playerItemAtIndex:_currentItemIndex];
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:mediaURL];
+    
+    [self.KVOController observe:playerItem
+                        keyPaths:@[ChannelVideoPlayerControllerStatusKey,ChannelVideoPlayerControllerPlayerKeepUpKey,ChannelVideoPlayerControllerEmptyBufferKey]
+                        options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+                          context:(__bridge void *)(ChannelVideoPlayerItemObserverContext)];
+    
+    self.currentItem = playerItem;
+    [_player replaceCurrentItemWithPlayerItem:self.currentItem];
+}
 
 - (void)playFromBeginning
 {
@@ -349,10 +284,10 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     
     [_delegate videoPlayerPlaybackWillStartFromBeginning:self];
     [_player seekToTime:kCMTimeZero];
-    [self playFromCurrentTime];
+    [self resume];
 }
 
-- (void)playFromCurrentTime
+- (void)resume
 {
     POLYLog(@"playing...");
     
@@ -385,46 +320,51 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     [_delegate videoPlayerPlaybackStateDidChange:self];
 }
 
-#pragma mark - main queue helper
-
-typedef void (^ChannelVideoPlayerBlock)();
-
-- (void)_enqueueBlockOnMainQueue:(ChannelVideoPlayerBlock)block {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        block();
-    });
+-(void)setCurrentItem:(AVPlayerItem *)currentItem
+{
+    if (!currentItem && _currentItem) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:AVPlayerItemDidPlayToEndTimeNotification
+                                                      object:_currentItem];
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                      object:_currentItem];
+    }
+    
+    _currentItem = currentItem;
+    
+    if (_currentItem) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(_playerItemDidPlayToEndTime:)
+                                                     name:AVPlayerItemDidPlayToEndTimeNotification
+                                                   object:_currentItem];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(_playerItemFailedToPlayToEndTime:)
+                                                     name:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                   object:_currentItem];
+    }
 }
 
 #pragma mark - UIResponder
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (_videoPath || _asset) {
-        
-        switch (_playbackState) {
-            case ChannelVideoPlayerPlaybackStateStopped:
-            {
-                [self playFromBeginning];
-                break;
-            }
-            case ChannelVideoPlayerPlaybackStatePaused:
-            {
-                [self playFromCurrentTime];
-                break;
-            }
-            case ChannelVideoPlayerPlaybackStatePlaying:
-            case ChannelVideoPlayerPlaybackStateFailed:
-            default:
-            {
-                [self pause];
-                break;
-            }
+    switch (_playbackState) {
+        case ChannelVideoPlayerPlaybackStateStopped: {
+            [self playFromBeginning];
+            break;
         }
-        
-    } else {
-        [super touchesEnded:touches withEvent:event];
+        case ChannelVideoPlayerPlaybackStatePaused: {
+            [self resume];
+            break;
+        }
+        case ChannelVideoPlayerPlaybackStatePlaying:
+        case ChannelVideoPlayerPlaybackStateFailed:
+        default: {
+            [self pause];
+            break;
+        }
     }
-    
 }
 
 - (void)_handleTap:(UIGestureRecognizer *)gestureRecognizer
@@ -434,7 +374,7 @@ typedef void (^ChannelVideoPlayerBlock)();
     } else if (_playbackState == ChannelVideoPlayerPlaybackStateStopped) {
         [self playFromBeginning];
     } else {
-        [self playFromCurrentTime];
+        [self resume];
     }
 }
 
@@ -442,14 +382,9 @@ typedef void (^ChannelVideoPlayerBlock)();
 
 - (void)_playerItemDidPlayToEndTime:(NSNotification *)aNotification
 {
-    if (_flags.playbackLoops || !_flags.playbackFreezesAtEnd) {
-        [_player seekToTime:kCMTimeZero];
-    }
-    
-    if (!_flags.playbackLoops) {
-        [self stop];
-        [_delegate videoPlayerPlaybackDidEnd:self];
-    }
+    self.forcedStop = NO;
+    [_delegate videoPlayerPlaybackDidEnd:self];
+    [self next];
 }
 
 - (void)_playerItemFailedToPlayToEndTime:(NSNotification *)aNotification
@@ -486,7 +421,7 @@ typedef void (^ChannelVideoPlayerBlock)();
         // PlayerItem KVO
         
         if ([keyPath isEqualToString:ChannelVideoPlayerControllerEmptyBufferKey]) {
-            if (_playerItem.playbackBufferEmpty) {
+            if (self.currentItem.playbackBufferEmpty) {
                 _bufferingState = ChannelVideoPlayerBufferingStateDelayed;
                 if ([_delegate respondsToSelector:@selector(videoPlayerBufferringStateDidChange:)]) {
                     [_delegate videoPlayerBufferringStateDidChange:self];
@@ -494,30 +429,30 @@ typedef void (^ChannelVideoPlayerBlock)();
                 POLYLog(@"playback buffer is empty");
             }
         } else if ([keyPath isEqualToString:ChannelVideoPlayerControllerPlayerKeepUpKey]) {
-            if (_playerItem.playbackLikelyToKeepUp) {
+            if (self.currentItem.playbackLikelyToKeepUp) {
                 _bufferingState = ChannelVideoPlayerBufferingStateReady;
                 if ([_delegate respondsToSelector:@selector(videoPlayerBufferringStateDidChange:)]) {
                     [_delegate videoPlayerBufferringStateDidChange:self];
                 }
                 POLYLog(@"playback buffer is likely to keep up");
                 if (_playbackState == ChannelVideoPlayerPlaybackStatePlaying) {
-                    [self playFromCurrentTime];
+                    [self resume];
                 }
             }
         }
         
         AVPlayerStatus status = [change[NSKeyValueChangeNewKey] integerValue];
-        switch (status)
-        {
-            case AVPlayerStatusReadyToPlay:
-            {
+        switch (status) {
+            case AVPlayerStatusReadyToPlay: {
                 _videoView.playerLayer.backgroundColor = [[UIColor blackColor] CGColor];
-                [_videoView.playerLayer setPlayer:_player];
+                if (_videoView.playerLayer.player != _player) {
+                    [_videoView.playerLayer setPlayer:_player];
+                }
                 _videoView.playerLayer.hidden = NO;
+                [_player play];
                 break;
             }
-            case AVPlayerStatusFailed:
-            {
+            case AVPlayerStatusFailed: {
                 _playbackState = ChannelVideoPlayerPlaybackStateFailed;
                 [_delegate videoPlayerPlaybackStateDidChange:self];
                 break;
@@ -538,9 +473,7 @@ typedef void (^ChannelVideoPlayerBlock)();
         }
         
     } else {
-        
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-        
     }
 }
 

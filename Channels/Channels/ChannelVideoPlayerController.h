@@ -45,13 +45,12 @@ typedef NS_ENUM(NSInteger, ChannelVideoPlayerBufferingState) {
 };
 
 // ChannelVideoPlayerController.view provides the interface for playing/streaming videos
-@protocol ChannelVideoPlayerControllerDelegate;
+@protocol ChannelVideoPlayerControllerDelegate, ChannelVideoPlayerControllerDataSource;
+
 @interface ChannelVideoPlayerController : UIViewController
 
 @property (nonatomic, weak) id<ChannelVideoPlayerControllerDelegate> delegate;
-
-@property (nonatomic, copy) NSString *videoPath;
-@property (nonatomic, copy) AVAsset *asset;
+@property (nonatomic, weak) id<ChannelVideoPlayerControllerDataSource> dataSource;
 
 @property (nonatomic, copy, setter=setVideoFillMode:) NSString *videoFillMode; // default, AVLayerVideoGravityResizeAspect
 
@@ -59,15 +58,28 @@ typedef NS_ENUM(NSInteger, ChannelVideoPlayerBufferingState) {
 @property (nonatomic) BOOL playbackFreezesAtEnd;
 @property (nonatomic, readonly) ChannelVideoPlayerPlaybackState playbackState;
 @property (nonatomic, readonly) ChannelVideoPlayerBufferingState bufferingState;
+@property (nonatomic) CGFloat volume;
+@property (nonatomic, readonly, getter = isMuted) BOOL muted;
+@property (nonatomic, readonly) NSUInteger currentItemIndex;
 
-@property (nonatomic, readonly) NSTimeInterval maxDuration;
-
-@property (nonatomic) float volume;
-
+- (void)playCurrentMedia;
 - (void)playFromBeginning;
-- (void)playFromCurrentTime;
+- (void)playMediaAtIndex:(NSUInteger)index;
+- (void)resume;
 - (void)pause;
 - (void)stop;
+- (void)next;
+- (void)previous;
+- (void)mute;
+- (void)unmute;
+
+@end
+
+@protocol ChannelVideoPlayerControllerDataSource <NSObject>
+
+@required
+- (NSUInteger)numberOfPlayerItems;
+- (NSURL *)videoPlayer:(ChannelVideoPlayerController *)player playerItemAtIndex:(NSInteger)index;
 
 @end
 

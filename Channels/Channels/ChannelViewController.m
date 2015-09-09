@@ -15,12 +15,11 @@
 
 @import KVOController;
 
-@interface ChannelViewController ()<ChannelVideoPlayerControllerDelegate>
+@interface ChannelViewController ()<ChannelVideoPlayerControllerDelegate,ChannelVideoPlayerControllerDataSource>
 /*!
  *  Player responsible for playing the current channel's stream
  */
 @property (nonatomic) ChannelVideoPlayerController *channelMoviePlayerController;
-@property (nonatomic) NSUInteger index;
 @property (nonatomic) NSUInteger count;
 @property (nonatomic, strong) UIButton *postButton;
 @property (nonatomic, strong) UILabel  *postTrackerLabel;
@@ -73,17 +72,26 @@
         [value setText:[self trackerString]];
         [value setFrame:CGRectMake(0, 0, screenWidth(), 16)];
         [value setFrame:CGRectOffset(value.frame, 10, screenHeight()-10.-value.frame.size.height)];
-        [value.KVOController observe:self keyPaths:@[@"count",@"index"] options:NSKeyValueObservingOptionNew block:^(UILabel *observer, id object, NSDictionary *change) {
-            [value setText:[self trackerString]];
-        }];
+        [value.KVOController observe:self
+                             keyPath:@"count"
+                             options:NSKeyValueObservingOptionNew
+                               block:[self trackerStringBlock]];
         [value applyScrimShadow];
         value;
     }) : _postTrackerLabel;
 }
 
+- (FBKVONotificationBlock)trackerStringBlock
+{
+    FBKVONotificationBlock trackerStringBlock = ^(UILabel *observer, id object, NSDictionary *change) {
+        [observer setText:[self trackerString]];
+    };
+    return [trackerStringBlock copy];
+}
+
 - (NSString *)trackerString
 {
-    NSUInteger index = MIN(self.index+1,self.count);
+    NSUInteger index = MIN(_channelMoviePlayerController.currentItemIndex+1,self.count);
     return [NSString stringWithFormat:@"%lu  /  %lu", index, self.count];
 }
 
@@ -107,8 +115,10 @@
         ChannelVideoPlayerController *player = [ChannelVideoPlayerController new];
         [player.view setUserInteractionEnabled:NO];
         [player setDelegate:self];
+        [player setDataSource:self];
         [player.view setFrame:self.view.bounds];
         [player.view setUserInteractionEnabled:NO];
+        [player setPlaybackFreezesAtEnd:YES];
         [player setVideoFillMode:AVLayerVideoGravityResizeAspectFill]; // order important. must do AFTER setFrame
         [self.view addSubview:player.view];
         [player didMoveToParentViewController:self];
@@ -118,6 +128,11 @@
         [tapGestureRecognizer setNumberOfTapsRequired:1];
         [tapGestureRecognizer setDelegate:self];
         [self.view addGestureRecognizer:tapGestureRecognizer];
+        
+        [self.postTrackerLabel.KVOController observe:player
+                                             keyPath:@"currentItemIndex"
+                                             options:NSKeyValueObservingOptionNew
+                                               block:[self trackerStringBlock]];
         
         player;
     }) : _channelMoviePlayerController;
@@ -140,8 +155,6 @@
         case ChannelVideoPlayerPlaybackStatePaused:
             break;
         case ChannelVideoPlayerPlaybackStateFailed: {
-            // this video failed move on to the next
-            [self videoPlayerPlaybackDidEnd:videoPlayer];
             break;
         }
         default:
@@ -156,12 +169,10 @@
 
 - (void)videoPlayerPlaybackDidEnd:(ChannelVideoPlayerController *)videoPlayer
 {
-    if (self.count - self.index < 3) {
+    if (self.count - self.channelMoviePlayerController.currentItemIndex < 3) {
         // make a call to reload the posts if we are close to the last post
         [self.viewModel updatePosts];
     }
-    self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
-    [self loadMovie];
 }
 
 - (void)videoPlayerBufferringStateDidChange:(ChannelVideoPlayerController *)videoPlayer
@@ -177,33 +188,28 @@
 {
     [self setTitle:self.viewModel.channelTitle];
     [self setCount:[self.viewModel.channelPosts count]];
-    if (self.index >= self.count) {
-        self.index = 0;
-    }
     
     if (self.channelMoviePlayerController.bufferingState == ChannelVideoPlayerBufferingStateUnknown) {
-        [self loadMovie];
+        [self.channelMoviePlayerController playCurrentMedia];
     }
 }
 
-- (void)loadMovie
+- (NSURL *)videoPlayer:(ChannelVideoPlayerController *)player playerItemAtIndex:(NSInteger)index
 {
-    NSURL *movieURL = ([self.viewModel.channelPosts count] > 0) ? [NSURL URLWithString:self.viewModel.channelPosts[self.index]] : nil;
-    
-    if (!movieURL) return;
-    
-    if (![movieURL.absoluteString isEqualToString:self.channelMoviePlayerController.videoPath]) {
-        [self.channelMoviePlayerController setVideoPath:movieURL.absoluteString];
+    if (self.viewModel.channelPosts.count > index) {
+        return [NSURL URLWithString:self.viewModel.channelPosts[index]];
     }
-    
-    if ([self.channelMoviePlayerController.videoPath length] > 0) {
-        [self.channelMoviePlayerController playFromBeginning];
-    }
+    return nil;
+}
+
+- (NSUInteger)numberOfPlayerItems
+{
+    return self.viewModel.channelPosts.count;
 }
 
 - (void)playMovie
 {
-    [self.channelMoviePlayerController playFromCurrentTime];
+    [self.channelMoviePlayerController resume];
 }
 
 - (void)pauseMovie
@@ -231,11 +237,10 @@
     CGPoint touchPoint = [tap locationInView:self.channelMoviePlayerController.view];
     if (tap.state == UIGestureRecognizerStateEnded) {
         if (touchPoint.x < self.channelMoviePlayerController.view.width*0.33) {
-            self.index = (self.index < 1) ? self.count-1 : --self.index;
+            [self.channelMoviePlayerController previous];
         } else {
-            self.index = (self.count > 0) ? ((self.index + 1) % self.count) : 0;
+            [self.channelMoviePlayerController next];
         }
-        [self loadMovie];
     }
 }
 
