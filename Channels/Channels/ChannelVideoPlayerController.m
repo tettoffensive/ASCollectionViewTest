@@ -29,6 +29,7 @@
 //
 
 #import "ChannelVideoPlayerController.h"
+@import FXBlurView;
 @import PBJVideoPlayer;
 @import AVFoundation;
 @import KVOController;
@@ -406,10 +407,12 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     UIImageView *imageView = [UIImageView new];
     [imageView setContentMode:UIViewContentModeScaleAspectFill];
     [imageView setFrame:_videoView.frame];
-    UIVisualEffectView *blurEffect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
-    [blurEffect setFrame:imageView.frame];
-    [blurEffect setAlpha:0];
+    FXBlurView *blurEffect = [[FXBlurView alloc] initWithFrame:imageView.frame];
+    blurEffect.tintColor = [UIColor clearColor];
+    blurEffect.blurRadius = 7.;
+    blurEffect.updateInterval = 1;
     [imageView addSubview:blurEffect];
+    [blurEffect setAlpha:0];
     [imageView sd_setImageWithURL:thumbnailURL placeholderImage:[UIImage imageNamed:@"Truffle Bucket"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         [blurEffect setAlpha:1];
     }];
