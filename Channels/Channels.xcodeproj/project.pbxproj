@@ -22,6 +22,8 @@
 		1718B7D81B97E03F005F1071 /* POLYViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7CB1B97E03F005F1071 /* POLYViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		1718B7DA1B97E0F0005F1071 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1718B7D91B97E0F0005F1071 /* WebP.framework */; settings = {ASSET_TAGS = (); }; };
 		1739236D1BA2350D00A0B265 /* ChannelListerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1739236C1BA2350D00A0B265 /* ChannelListerViewModel.m */; settings = {ASSET_TAGS = (); }; };
+		1728B6931B9A29D000BECD74 /* ChannelVideoPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1728B6921B9A29D000BECD74 /* ChannelVideoPlayerController.m */; settings = {ASSET_TAGS = (); }; };
+		173F58D71BA0D406007CF9FF /* ValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 173F58D61BA0D406007CF9FF /* ValueObject.m */; settings = {ASSET_TAGS = (); }; };
 		1786D30C1B99017600F7EF72 /* UIView+POLYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1786D30B1B99017600F7EF72 /* UIView+POLYAdditions.m */; settings = {ASSET_TAGS = (); }; };
 		178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F31B8FDE9E00AAE2BF /* main.m */; };
@@ -98,6 +100,10 @@
 		1718B7D91B97E0F0005F1071 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = "<group>"; };
 		1739236B1BA2350D00A0B265 /* ChannelListerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelListerViewModel.h; sourceTree = "<group>"; };
 		1739236C1BA2350D00A0B265 /* ChannelListerViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelListerViewModel.m; sourceTree = "<group>"; };
+		1728B6911B9A29D000BECD74 /* ChannelVideoPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelVideoPlayerController.h; sourceTree = "<group>"; };
+		1728B6921B9A29D000BECD74 /* ChannelVideoPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelVideoPlayerController.m; sourceTree = "<group>"; };
+		173F58D51BA0D406007CF9FF /* ValueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueObject.h; sourceTree = "<group>"; };
+		173F58D61BA0D406007CF9FF /* ValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueObject.m; sourceTree = "<group>"; };
 		1786D30A1B99017600F7EF72 /* UIView+POLYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+POLYAdditions.h"; sourceTree = "<group>"; };
 		1786D30B1B99017600F7EF72 /* UIView+POLYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+POLYAdditions.m"; sourceTree = "<group>"; };
 		178CB17F1B9660BA0010B097 /* ChannelPlayerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelPlayerViewModel.h; sourceTree = "<group>"; };
@@ -323,6 +329,8 @@
 		373C60501B98AEC500B5DD91 /* POLYFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				173F58D51BA0D406007CF9FF /* ValueObject.h */,
+				173F58D61BA0D406007CF9FF /* ValueObject.m */,
 				373C60511B98AF0100B5DD91 /* POLYFoundation.h */,
 				373C60521B98AF5F00B5DD91 /* UIQuery */,
 				1718B7B81B97E03F005F1071 /* CGPointExtension.h */,
@@ -635,6 +643,7 @@
 				1718B7D51B97E03F005F1071 /* POLYVideoManager.m in Sources */,
 				1718B7D31B97E03F005F1071 /* POLYFileManager.m in Sources */,
 				178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */,
+				173F58D71BA0D406007CF9FF /* ValueObject.m in Sources */,
 				943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */,
 				947720F01B9A4C3700B0F670 /* LoginViewController.m in Sources */,
 				1718B7D71B97E03F005F1071 /* POLYNetworking.m in Sources */,
