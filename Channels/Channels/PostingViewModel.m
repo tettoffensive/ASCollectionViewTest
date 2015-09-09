@@ -10,9 +10,4 @@
 
 @implementation PostingViewModel
 
-- (NSArray *)keys
-{
-    return @[@"postingTitle"];
-}
-
 @end
