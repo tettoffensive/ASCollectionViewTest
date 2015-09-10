@@ -11,7 +11,7 @@
 
 @implementation PostModel
 
-- (instancetype)initInChannel:(NSUInteger)channelID WithKey:(NSString *)key
+- (instancetype)initInChannel:(NSString *)channelID WithKey:(NSString *)key
 {
     if (self = [super init]) {
         _channelID = channelID;
@@ -20,7 +20,7 @@
     return self;
 }
 
-+ (instancetype)newPostInChannel:(NSUInteger)channelID WithKey:(NSString *)key
++ (instancetype)newPostInChannel:(NSString *)channelID WithKey:(NSString *)key
 {
     return [[PostModel alloc] initInChannel:channelID WithKey:key];
 }
