@@ -426,8 +426,8 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     UIImageView *imageView = [UIImageView new];
     [imageView setContentMode:UIViewContentModeScaleAspectFill];
     [imageView setFrame:_videoView.frame];
-    [imageView setHeight:imageView.height*0.5];
-    [imageView setWidth:imageView.width*0.5];
+//    [imageView setHeight:imageView.height*0.5];
+//    [imageView setWidth:imageView.width*0.5];
     FXBlurView *blurEffect = [[FXBlurView alloc] initWithFrame:imageView.frame];
     blurEffect.dynamic = NO; // change if ever over a video
     blurEffect.tintColor = [UIColor clearColor];
