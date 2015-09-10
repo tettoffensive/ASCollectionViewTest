@@ -48,6 +48,8 @@
 #import <math.h>
 #import <objc/objc.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #ifdef __cplusplus
 extern "C" {
 #endif	
@@ -316,8 +318,6 @@ CGPoint CGPointIntegralWithScale(CGPoint point, CGFloat scale);
 #ifdef __cplusplus
 }
 #endif
-
-NS_ASSUME_NONNULL_BEGIN
 
 typedef struct _NSFloatRange
 {
