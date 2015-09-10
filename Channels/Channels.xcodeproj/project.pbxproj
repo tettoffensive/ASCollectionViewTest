@@ -23,6 +23,7 @@
 		1718B7DA1B97E0F0005F1071 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1718B7D91B97E0F0005F1071 /* WebP.framework */; settings = {ASSET_TAGS = (); }; };
 		1728B6931B9A29D000BECD74 /* ChannelVideoPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1728B6921B9A29D000BECD74 /* ChannelVideoPlayerController.m */; settings = {ASSET_TAGS = (); }; };
 		173F58D71BA0D406007CF9FF /* ValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 173F58D61BA0D406007CF9FF /* ValueObject.m */; settings = {ASSET_TAGS = (); }; };
+		1739236D1BA2350D00A0B265 /* ChannelListerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1739236C1BA2350D00A0B265 /* ChannelListerViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		1786D30C1B99017600F7EF72 /* UIView+POLYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1786D30B1B99017600F7EF72 /* UIView+POLYAdditions.m */; settings = {ASSET_TAGS = (); }; };
 		178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F31B8FDE9E00AAE2BF /* main.m */; };
@@ -101,6 +102,8 @@
 		1728B6921B9A29D000BECD74 /* ChannelVideoPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelVideoPlayerController.m; sourceTree = "<group>"; };
 		173F58D51BA0D406007CF9FF /* ValueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueObject.h; sourceTree = "<group>"; };
 		173F58D61BA0D406007CF9FF /* ValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueObject.m; sourceTree = "<group>"; };
+		1739236B1BA2350D00A0B265 /* ChannelListerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelListerViewModel.h; sourceTree = "<group>"; };
+		1739236C1BA2350D00A0B265 /* ChannelListerViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelListerViewModel.m; sourceTree = "<group>"; };
 		1786D30A1B99017600F7EF72 /* UIView+POLYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+POLYAdditions.h"; sourceTree = "<group>"; };
 		1786D30B1B99017600F7EF72 /* UIView+POLYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+POLYAdditions.m"; sourceTree = "<group>"; };
 		178CB17F1B9660BA0010B097 /* ChannelPlayerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelPlayerViewModel.h; sourceTree = "<group>"; };
@@ -239,6 +242,8 @@
 		17A3877C1B8FEA9F00702E85 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				1739236B1BA2350D00A0B265 /* ChannelListerViewModel.h */,
+				1739236C1BA2350D00A0B265 /* ChannelListerViewModel.m */,
 				178CB17F1B9660BA0010B097 /* ChannelPlayerViewModel.h */,
 				178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */,
 				379A93F81B98A50E0096BB0C /* PostingViewModel.h */,
@@ -627,6 +632,7 @@
 				371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */,
 				1786D30C1B99017600F7EF72 /* UIView+POLYAdditions.m in Sources */,
 				17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */,
+				1739236D1BA2350D00A0B265 /* ChannelListerViewModel.m in Sources */,
 				17AC67F71B8FDE9E00AAE2BF /* ChannelsAppDelegate.m in Sources */,
 				1718B7D21B97E03F005F1071 /* UIImage+WebP.m in Sources */,
 				37A8261C1B96218100707AC9 /* ChannelsInterface.m in Sources */,

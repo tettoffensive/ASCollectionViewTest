@@ -7,7 +7,8 @@
 //
 
 #import "BaseViewController.h"
+#import "ChannelListerViewModel.h"
 
 @interface ListChannelsViewController : BaseViewController
-
+@property (nonatomic, strong) ChannelListerViewModel *viewModel; // covariant return type: https://en.wikipedia.org/wiki/Covariant_return_type
 @end
