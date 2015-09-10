@@ -10,4 +10,14 @@
 
 @implementation ListChannelsViewController
 
+@dynamic viewModel; // required for covariant return type: https://en.wikipedia.org/wiki/Covariant_return_type
+
+- (instancetype)initWithViewModel:(ChannelListerViewModel *)viewModel
+{
+    if (self = [super initWithViewModel:viewModel]) {
+        
+    }
+    return self;
+}
+
 @end
