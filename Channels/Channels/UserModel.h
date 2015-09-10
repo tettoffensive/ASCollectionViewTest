@@ -10,7 +10,7 @@
 
 @interface UserModel : BaseModel
 
-@property (readonly) NSInteger userID;
+@property (readonly) NSString *userID;
 @property (readonly) NSString *username;
 
 + (instancetype)currentUser;

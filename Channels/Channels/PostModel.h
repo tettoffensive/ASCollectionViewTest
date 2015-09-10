@@ -15,9 +15,9 @@
 
 @interface PostModel : BaseModel
 
-@property (readonly)                    NSInteger postID;
-@property (readonly)                    NSInteger channelID;
-@property (readonly)                    NSInteger userID;
+@property (readonly)                    NSString *postID;
+@property (readonly)                    NSString *channelID;
+@property (readonly)                    NSString *userID;
 @property (nonatomic, copy)             NSString *mediaKey; // Must be in a UUID format.
 @property (nonatomic, copy, readonly)   NSString *mediaURLString;
 @property (nonatomic, copy, readonly)   NSString *mediaThumbnailURLString;
@@ -27,6 +27,6 @@
 @property (nonatomic, copy, readonly)   NSURL *thumbnailURL;
 
 - (void)createPostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
-- (void)setChannelID:(NSInteger)channelID;
+- (void)setChannelID:(NSString *)channelID;
 
 @end

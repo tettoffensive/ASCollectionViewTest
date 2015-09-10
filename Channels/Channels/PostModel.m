@@ -33,7 +33,7 @@
     return [NSURL URLWithString:self.mediaThumbnailURLString];
 }
 
-- (void)setChannelID:(NSInteger)channelID
+- (void)setChannelID:(NSString *)channelID
 {
     _channelID = channelID;
 }

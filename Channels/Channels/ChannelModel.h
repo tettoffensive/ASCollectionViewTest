@@ -12,7 +12,7 @@
 
 @interface ChannelModel : BaseModel
 
-@property (nonatomic) NSInteger channelID;
+@property (nonatomic) NSString *channelID;
 
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, copy, readonly) NSArray<PostModel *> *channelPosts;

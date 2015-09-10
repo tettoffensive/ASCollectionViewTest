@@ -22,7 +22,7 @@ static UserModel *__currentUser = nil;
 - (instancetype)initForCurrentUser
 {
     if (self == [super init]) {
-        self->_userID = [[UserModel getPropertyForKey:@"userModelUserID"] integerValue];
+        self->_userID = [UserModel getPropertyForKey:@"userModelUserID"];
         self->_username = [UserModel getPropertyForKey:@"userModelUsername"];
     }
     return self;
@@ -72,7 +72,7 @@ static UserModel *__currentUser = nil;
         [UserModel setProperty:@(YES) forKey:@"userModelIsLoggedIn"];
         
         UserModel *userModel = [UserModel modelWithDictionary:[responseData objectForKey:@"user"]];
-        [UserModel setProperty:@(userModel.userID) forKey:@"userModelUserID"];
+        [UserModel setProperty:userModel.userID forKey:@"userModelUserID"];
         [UserModel setProperty:userModel.username forKey:@"userModelUsername"];
         
         if (success) success([UserModel currentUser]);
