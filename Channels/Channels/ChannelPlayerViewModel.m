@@ -11,6 +11,14 @@
 
 @implementation ChannelPlayerViewModel
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _channelTitle = @"Channel";
+    }
+    return self;
+}
+
 - (void)updatePosts
 {
     ChannelsNetworking *networking = [ChannelsNetworking sharedInstance];
