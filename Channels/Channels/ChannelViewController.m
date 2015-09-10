@@ -118,7 +118,6 @@
         [player setDataSource:self];
         [player.view setFrame:self.view.bounds];
         [player.view setUserInteractionEnabled:NO];
-        [player setPlaybackFreezesAtEnd:YES];
         [player setVideoFillMode:AVLayerVideoGravityResizeAspectFill]; // order important. must do AFTER setFrame
         [self.view addSubview:player.view];
         [player didMoveToParentViewController:self];

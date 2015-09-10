@@ -322,7 +322,10 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     
     self.currentItem = playerItem;
     
+    [self pause];
+    
     if (shouldReplace) {
+        [_player removeAllItems];
         [_player replaceCurrentItemWithPlayerItem:self.currentItem];
     } else {
         [_player advanceToNextItem];
@@ -423,6 +426,8 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     UIImageView *imageView = [UIImageView new];
     [imageView setContentMode:UIViewContentModeScaleAspectFill];
     [imageView setFrame:_videoView.frame];
+    [imageView setHeight:imageView.height*0.5];
+    [imageView setWidth:imageView.width*0.5];
     FXBlurView *blurEffect = [[FXBlurView alloc] initWithFrame:imageView.frame];
     blurEffect.dynamic = NO; // change if ever over a video
     blurEffect.tintColor = [UIColor clearColor];
@@ -509,6 +514,8 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
         
         // PlayerItem KVO
         
+        AVPlayerStatus status = [change[NSKeyValueChangeNewKey] integerValue];
+        
         if ([keyPath isEqualToString:ChannelVideoPlayerControllerEmptyBufferKey]) {
             if (self.currentItem.playbackBufferEmpty) {
                 _bufferingState = ChannelVideoPlayerBufferingStateDelayed;
@@ -516,6 +523,7 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
                     [_delegate videoPlayerBufferringStateDidChange:self];
                 }
                 POLYLog(@"playback buffer is empty");
+                [_thumbnailImageView.layer removeAllAnimations];
                 [UIView animateWithDuration:0.15 animations:^{
                     [_thumbnailImageView setAlpha:1];
                 }];
@@ -527,13 +535,18 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
                     [_delegate videoPlayerBufferringStateDidChange:self];
                 }
                 POLYLog(@"playback buffer is likely to keep up");
-                if (_playbackState == ChannelVideoPlayerPlaybackStatePlaying) {
+                if (_playbackState == ChannelVideoPlayerPlaybackStatePlaying && status == AVPlayerStatusReadyToPlay) {
+                    if (_videoView.playerLayer.readyForDisplay) {
+                        [_thumbnailImageView.layer removeAllAnimations];
+                        [UIView animateWithDuration:0.35 animations:^{
+                            [_thumbnailImageView setAlpha:0];
+                        }];
+                    }
                     [self resume];
                 }
             }
         }
         
-        AVPlayerStatus status = [change[NSKeyValueChangeNewKey] integerValue];
         switch (status) {
             case AVPlayerStatusReadyToPlay: {
                 _videoView.playerLayer.backgroundColor = [[UIColor blackColor] CGColor];
@@ -541,25 +554,35 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
                     [_videoView.playerLayer setPlayer:_player];
                 }
                 _videoView.playerLayer.hidden = NO;
-                [UIView animateWithDuration:0.35 animations:^{
-                    [_thumbnailImageView setAlpha:0];
-                }];
-                [_player play];
+                if (self.playbackState != ChannelVideoPlayerPlaybackStatePlaying && _player.currentItem.playbackLikelyToKeepUp) {
+                    if (_videoView.playerLayer.readyForDisplay) {
+                        [_thumbnailImageView.layer removeAllAnimations];
+                        [UIView animateWithDuration:0.35 animations:^{
+                            [_thumbnailImageView setAlpha:0];
+                        }];
+                    }
+                    [self playFromBeginning];
+                } else {
+                    _playbackState = ChannelVideoPlayerPlaybackStatePlaying; // should start playing when likely to keep up
+                }
                 break;
             }
             case AVPlayerStatusFailed: {
                 _playbackState = ChannelVideoPlayerPlaybackStateFailed;
+                [_thumbnailImageView.layer removeAllAnimations];
                 [UIView animateWithDuration:0.15 animations:^{
                     [_thumbnailImageView setAlpha:1];
                 }];
-                [_delegate videoPlayerPlaybackStateDidChange:self];
+                [self pause];
                 break;
             }
             case AVPlayerStatusUnknown:
             default:
+                [_thumbnailImageView.layer removeAllAnimations];
                 [UIView animateWithDuration:0.15 animations:^{
                     [_thumbnailImageView setAlpha:1];
                 }];
+                [self pause];
                 break;
         }
         
@@ -570,6 +593,13 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
         if ([keyPath isEqualToString:ChannelVideoPlayerControllerReadyForDisplay]) {
             if (_videoView.playerLayer.readyForDisplay) {
                 [_delegate videoPlayerReady:self];
+                
+                if (_playbackState == ChannelVideoPlayerPlaybackStatePlaying && _player.status == AVPlayerStatusReadyToPlay && _player.currentItem.playbackLikelyToKeepUp) {
+                    [_thumbnailImageView.layer removeAllAnimations];
+                    [UIView animateWithDuration:0.35 animations:^{
+                        [_thumbnailImageView setAlpha:0];
+                    }];
+                }
             }
         }
         
