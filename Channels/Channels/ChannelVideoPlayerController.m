@@ -194,7 +194,7 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     // load the playerLayer view
     _videoView = [[PBJVideoView alloc] initWithFrame:CGRectZero];
     _videoView.videoFillMode = AVLayerVideoGravityResizeAspect;
-    _videoView.playerLayer.hidden = YES;
+    _videoView.playerLayer.hidden = NO;
     self.view = _videoView;
     
     // playerLayer KVO
@@ -292,21 +292,37 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     AVPlayerItem *playerItem = (nextItemInQueue) ? nextItemInQueue : [AVPlayerItem playerItemWithURL:mediaURL];
     
     UIImageView *currentMediaImageView = [self imageViewForMediaAtIndex:_currentItemIndex];
-    if (playerItem.status == AVPlayerItemStatusReadyToPlay) {
-        [currentMediaImageView setAlpha:0];
-    }
-    [self.view addSubview:currentMediaImageView];
+    [currentMediaImageView setAlpha:0];
+    [_videoView addSubview:currentMediaImageView];
+    [_videoView bringSubviewToFront:currentMediaImageView];
     [_thumbnailImageView removeFromSuperview];
     _thumbnailImageView = currentMediaImageView;
     
+    BOOL shouldReplace = (playerItem != nextItemInQueue);
+
+    if (playerItem.status != AVPlayerItemStatusReadyToPlay) {
+        [UIView animateWithDuration:0.35 animations:^{
+            [currentMediaImageView setAlpha:1];
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [self commitAdvanceWith:playerItem replace:shouldReplace];
+            }
+        }];
+    } else {
+        [self commitAdvanceWith:playerItem replace:shouldReplace];
+    }
+}
+
+- (void)commitAdvanceWith:(AVPlayerItem *)playerItem replace:(BOOL)shouldReplace
+{
     [self.KVOController observe:playerItem
-                        keyPaths:@[ChannelVideoPlayerControllerStatusKey,ChannelVideoPlayerControllerPlayerKeepUpKey,ChannelVideoPlayerControllerEmptyBufferKey]
+                       keyPaths:@[ChannelVideoPlayerControllerStatusKey,ChannelVideoPlayerControllerPlayerKeepUpKey,ChannelVideoPlayerControllerEmptyBufferKey]
                         options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
-                          context:(__bridge void *)(ChannelVideoPlayerItemObserverContext)];
+                        context:(__bridge void *)(ChannelVideoPlayerItemObserverContext)];
     
     self.currentItem = playerItem;
     
-    if (playerItem != nextItemInQueue) {
+    if (shouldReplace) {
         [_player replaceCurrentItemWithPlayerItem:self.currentItem];
     } else {
         [_player advanceToNextItem];
@@ -408,14 +424,13 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     [imageView setContentMode:UIViewContentModeScaleAspectFill];
     [imageView setFrame:_videoView.frame];
     FXBlurView *blurEffect = [[FXBlurView alloc] initWithFrame:imageView.frame];
+    blurEffect.dynamic = NO; // change if ever over a video
     blurEffect.tintColor = [UIColor clearColor];
     blurEffect.blurRadius = 7.;
     blurEffect.updateInterval = 1;
     [imageView addSubview:blurEffect];
-    [blurEffect setAlpha:0];
-    [imageView sd_setImageWithURL:thumbnailURL placeholderImage:[UIImage imageNamed:@"Truffle Bucket"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        [blurEffect setAlpha:1];
-    }];
+    [blurEffect setAlpha:1];
+    [imageView sd_setImageWithURL:thumbnailURL placeholderImage:[UIImage imageNamed:@"Truffle Bucket"]];
     return imageView;
 }
 
