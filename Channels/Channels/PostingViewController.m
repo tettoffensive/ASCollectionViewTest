@@ -12,6 +12,8 @@
 #import <POP/POP.h>
 #import "ChannelRecordVideoButton.h"
 #import "ChannelsPostManager.h"
+#import "PostToChannelToolbar.h"
+#import "ChannelModel.h"
 @import MediaPlayer;
 
 
@@ -33,6 +35,9 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     UIButton *_closeButton;
     UIButton *_flashButton;
     UIButton *_switchCameraButton;
+    
+    UIButton *_backButton;
+    UIButton *_addTextButton;
     
     PBJVision *_vision;
 }
@@ -56,6 +61,8 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 @property (nonatomic) NSDictionary *currentVideo;
 
 @property (nonatomic, strong) ChannelRecordVideoButton *recordVideoButton;
+
+@property (nonatomic, strong) PostToChannelToolbar *postToChannelToolbar;
 
 @end
 
@@ -145,6 +152,28 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [_switchCameraButton addTarget:self action:@selector(switchCamera) forControlEvents:UIControlEventTouchUpInside];
     [_switchCameraButton setTag:PostingViewCameraModeBack];
     [self.view addSubview:_switchCameraButton];
+
+    
+    // Back Button
+    _backButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f, 60.0f)];
+    [_backButton setImage:[UIImage imageNamed:@"Back Button"] forState:UIControlStateNormal];
+    [_backButton addTarget:self action:@selector(discardVideo) forControlEvents:UIControlEventTouchUpInside];
+    _backButton.alpha = 0.0f;
+    [self.view addSubview:_backButton];
+    
+    // Text Button
+    _addTextButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 60.0f, 0.0f, 60.0f, 60.0f)];
+    [_addTextButton setImage:[UIImage imageNamed:@"Text Button"] forState:UIControlStateNormal];
+    [_addTextButton addTarget:self action:@selector(addTextToVideo) forControlEvents:UIControlEventTouchUpInside];
+    _addTextButton.alpha = 0.0f;
+    [self.view addSubview:_addTextButton];
+    
+    CGFloat toolbarHeight = 44.0f;
+    _postToChannelToolbar = [[PostToChannelToolbar alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x,
+                                                                                   self.view.bounds.size.height - toolbarHeight,
+                                                                                   self.view.bounds.size.width,
+                                                                                   toolbarHeight)];
+    [self.view addSubview:_postToChannelToolbar];
 }
 
 - (void)dismissPostingViewController
@@ -216,7 +245,9 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [self hideCameraControls];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self loadMoviePlayer];
-        [self showconfirmUploadDialog];
+        [self showConfirmUploadButtons];
+        [_postToChannelToolbar showPostToChannelToolbar];
+        [self loadChannels];
     });
 }
 
@@ -245,35 +276,41 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
                      }];
 }
 
-#pragma -------------------------------------------------------------------------------------------
-#pragma mark - Confirm Upload Alert View
-#pragma -------------------------------------------------------------------------------------------
-
-- (void)showconfirmUploadDialog
+- (void)showConfirmUploadButtons
 {
-    UIAlertView *alertView = [[UIAlertView alloc]
-                              initWithTitle:@"Confirm Upload"
-                              message:@"Do you want to upload this video?"
-                              delegate:self
-                              cancelButtonTitle:@"No"
-                              otherButtonTitles:@"Yes", nil];
-    [alertView show];
+    [self.view bringSubviewToFront:_backButton];
+    [self.view bringSubviewToFront:_addTextButton];
+    
+    [UIView animateWithDuration:0.25f
+                     animations:^{
+                         
+                         // Hide
+                         _closeButton.alpha = 0.0f;
+                         _flashButton.alpha = 0.0f;
+                         _switchCameraButton.alpha = 0.0f;
+                         _recordVideoButton.alpha = 0.0f;
+                         
+                         // Show
+                         _backButton.alpha = 1.0f;
+                         _addTextButton.alpha = 1.0f;
+                     }];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)hideConfirmUploadButtons
 {
-    [self pauseMovie];
-    [_videoPlayerController.view removeFromSuperview];
-    _videoPlayerController = nil;
-    
-    if (buttonIndex == alertView.firstOtherButtonIndex) {
-        [self uploadVideo:_currentVideo];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self dismissPostingViewController];
-        });
-    } else {
-        [self showCameraControls];
-    }
+    [UIView animateWithDuration:0.25f
+                     animations:^{
+                         
+                         // Hide
+                         _backButton.alpha = 0.0f;
+                         _addTextButton.alpha = 0.0f;
+                         
+                         // Show
+                         _closeButton.alpha = 1.0f;
+                         _flashButton.alpha = 1.0f;
+                         _switchCameraButton.alpha = 1.0f;
+                         _recordVideoButton.alpha = 1.0f;
+                     }];
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -408,6 +445,49 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 - (void)videoPlayerPlaybackDidEnd:(PBJVideoPlayerController *)videoPlayer
 {
 
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Post to Channel Controls
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)discardVideo
+{
+    [self pauseMovie];
+    [_videoPlayerController.view removeFromSuperview];
+    _videoPlayerController = nil;
+    
+    [self hideConfirmUploadButtons];
+    [_postToChannelToolbar hidePostToChannelToolbar];
+}
+
+- (void)addTextToVideo
+{
+    
+}
+
+- (void)upload
+{
+    [self pauseMovie];
+    [_videoPlayerController.view removeFromSuperview];
+    _videoPlayerController = nil;
+    
+    [self uploadVideo:_currentVideo];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self dismissPostingViewController];
+    });
+}
+
+- (void)loadChannels
+{
+    [ChannelModel fetchChannelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
+        NSLog(@"Channels: %@", channels);
+    } andFailure:^(NSError *error) {
+        if (error) {
+            NSLog(@"Error Fetching Channels: %@", [error description]);
+        }
+    }];
 }
 
 @end

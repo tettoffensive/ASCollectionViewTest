@@ -46,6 +46,7 @@
 		37A8262B1B96227F00707AC9 /* Geomanist-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826221B96227F00707AC9 /* Geomanist-Medium.otf */; settings = {ASSET_TAGS = (); }; };
 		37A8262C1B96227F00707AC9 /* Geomanist-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826231B96227F00707AC9 /* Geomanist-Regular.otf */; settings = {ASSET_TAGS = (); }; };
 		37A8262D1B96227F00707AC9 /* Geomanist-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826241B96227F00707AC9 /* Geomanist-Thin.otf */; settings = {ASSET_TAGS = (); }; };
+		37D44C301BA1F8CA009C713E /* PostToChannelToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D44C2F1BA1F8CA009C713E /* PostToChannelToolbar.m */; settings = {ASSET_TAGS = (); }; };
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 943FD81C1B97A0AE003B3745 /* ChannelsNetworking.m */; settings = {ASSET_TAGS = (); }; };
 		943FD8211B97A88A003B3745 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 943FD8201B97A88A003B3745 /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
@@ -142,6 +143,8 @@
 		37A826221B96227F00707AC9 /* Geomanist-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Medium.otf"; sourceTree = "<group>"; };
 		37A826231B96227F00707AC9 /* Geomanist-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Regular.otf"; sourceTree = "<group>"; };
 		37A826241B96227F00707AC9 /* Geomanist-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Thin.otf"; sourceTree = "<group>"; };
+		37D44C2E1BA1F8CA009C713E /* PostToChannelToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostToChannelToolbar.h; sourceTree = "<group>"; };
+		37D44C2F1BA1F8CA009C713E /* PostToChannelToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostToChannelToolbar.m; sourceTree = "<group>"; };
 		4EEAFA6384F410BFB8D50D6E /* Pods-ChannelsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelsTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ChannelsTests/Pods-ChannelsTests.release.xcconfig"; sourceTree = "<group>"; };
 		778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79D2A893B3A6CA08204C0F03 /* Pods-Channels.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.release.xcconfig"; sourceTree = "<group>"; };
@@ -224,6 +227,8 @@
 				371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */,
 				3764E2791B989F600078DCF3 /* ChannelRecordVideoButton.h */,
 				3764E27A1B989F600078DCF3 /* ChannelRecordVideoButton.m */,
+				37D44C2E1BA1F8CA009C713E /* PostToChannelToolbar.h */,
+				37D44C2F1BA1F8CA009C713E /* PostToChannelToolbar.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -610,6 +615,7 @@
 				17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */,
 				1718B7D01B97E03F005F1071 /* POLYDate.m in Sources */,
 				943FD8211B97A88A003B3745 /* BaseModel.m in Sources */,
+				37D44C301BA1F8CA009C713E /* PostToChannelToolbar.m in Sources */,
 				37A826131B96137A00707AC9 /* ChannelsAnimator.m in Sources */,
 				17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */,
 				37A826161B961C8500707AC9 /* ChannelsTitleSelectionViewController.m in Sources */,
