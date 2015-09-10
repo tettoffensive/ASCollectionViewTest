@@ -1,5 +1,5 @@
 //
-//  PostToChannelToolbar.h
+//  ChannelsCollectionViewFlowLayout.h
 //  Channels
 //
 //  Created by Dana Shakiba on 9/10/15.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PostToChannelToolbar : UIView
+@interface ChannelsCollectionViewFlowLayout : UICollectionViewFlowLayout
 
 @end

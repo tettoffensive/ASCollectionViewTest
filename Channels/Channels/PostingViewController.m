@@ -12,8 +12,8 @@
 #import <POP/POP.h>
 #import "ChannelRecordVideoButton.h"
 #import "ChannelsPostManager.h"
-#import "PostToChannelToolbar.h"
-#import "ChannelModel.h"
+#import "ChannelPickerView.h"
+
 @import MediaPlayer;
 
 
@@ -62,7 +62,7 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 
 @property (nonatomic, strong) ChannelRecordVideoButton *recordVideoButton;
 
-@property (nonatomic, strong) PostToChannelToolbar *postToChannelToolbar;
+@property (nonatomic, strong) ChannelPickerView *channelPickerView;
 
 @end
 
@@ -168,12 +168,13 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     _addTextButton.alpha = 0.0f;
     [self.view addSubview:_addTextButton];
     
-    CGFloat toolbarHeight = 44.0f;
-    _postToChannelToolbar = [[PostToChannelToolbar alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x,
-                                                                                   self.view.bounds.size.height - toolbarHeight,
-                                                                                   self.view.bounds.size.width,
-                                                                                   toolbarHeight)];
-    [self.view addSubview:_postToChannelToolbar];
+    _channelPickerView = [[ChannelPickerView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x,
+                                                                 self.view.bounds.size.height,
+                                                                 self.view.bounds.size.width,
+                                                                  200.f)];
+    _channelPickerView.alpha = 0.0f;
+    [self.view addSubview:_channelPickerView];
+    
 }
 
 - (void)dismissPostingViewController
@@ -246,8 +247,6 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self loadMoviePlayer];
         [self showConfirmUploadButtons];
-        [_postToChannelToolbar showPostToChannelToolbar];
-        [self loadChannels];
     });
 }
 
@@ -280,8 +279,9 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 {
     [self.view bringSubviewToFront:_backButton];
     [self.view bringSubviewToFront:_addTextButton];
+    [self.view bringSubviewToFront:_channelPickerView];
     
-    [UIView animateWithDuration:0.25f
+    [UIView animateWithDuration:0.5f
                      animations:^{
                          
                          // Hide
@@ -293,17 +293,21 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
                          // Show
                          _backButton.alpha = 1.0f;
                          _addTextButton.alpha = 1.0f;
+                         _channelPickerView.alpha = 1.0f;
+                         [_channelPickerView setFrame:CGRectOffset(_channelPickerView.frame, 0.0, -200.0f)];
                      }];
 }
 
 - (void)hideConfirmUploadButtons
 {
-    [UIView animateWithDuration:0.25f
+    [UIView animateWithDuration:0.5f
                      animations:^{
                          
                          // Hide
                          _backButton.alpha = 0.0f;
                          _addTextButton.alpha = 0.0f;
+                         _channelPickerView.alpha = 0.0f;
+                         [_channelPickerView setFrame:CGRectOffset(_channelPickerView.frame, 0.0, 200.0f)];
                          
                          // Show
                          _closeButton.alpha = 1.0f;
@@ -458,7 +462,6 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     _videoPlayerController = nil;
     
     [self hideConfirmUploadButtons];
-    [_postToChannelToolbar hidePostToChannelToolbar];
 }
 
 - (void)addTextToVideo
@@ -477,17 +480,6 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self dismissPostingViewController];
     });
-}
-
-- (void)loadChannels
-{
-    [ChannelModel fetchChannelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
-        NSLog(@"Channels: %@", channels);
-    } andFailure:^(NSError *error) {
-        if (error) {
-            NSLog(@"Error Fetching Channels: %@", [error description]);
-        }
-    }];
 }
 
 @end

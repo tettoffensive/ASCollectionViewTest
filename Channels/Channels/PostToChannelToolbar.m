@@ -29,7 +29,6 @@
         
         _viewContainer = [[UIView alloc] initWithFrame:self.bounds];
         _viewContainer.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.95f];
-        [_viewContainer setFrame:CGRectOffset(_viewContainer.frame, 0.0, self.bounds.size.height)];
         [self addSubview:_viewContainer];
         
         _titleLabel = [[UILabel alloc] initWithFrame:_viewContainer.bounds];
@@ -56,26 +55,6 @@
         [_viewContainer addSubview:_rightButton];
     }
     return self;
-}
-
-- (void)showPostToChannelToolbar
-{
-    [self.superview bringSubviewToFront:self];
-    CGFloat offset = self.bounds.origin.y - _viewContainer.frame.origin.y;
-    [UIView animateWithDuration:0.25f
-                     animations:^{
-                         [_viewContainer setFrame:CGRectOffset(_viewContainer.frame, 0.0, offset)];
-                     }];
-}
-
-- (void)hidePostToChannelToolbar
-{
-    [self.superview bringSubviewToFront:self];
-    CGFloat offset = self.bounds.size.height;
-    [UIView animateWithDuration:0.25f
-                     animations:^{
-                         [_viewContainer setFrame:CGRectOffset(_viewContainer.frame, 0.0, offset)];
-                     }];
 }
 
 - (void)leftButtonAction
