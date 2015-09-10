@@ -7,6 +7,7 @@
 //
 
 #import "ChannelsNetworking.h"
+#import "ChannelsAppDelegate.h"
 
 @import AFNetworking;
 
@@ -39,14 +40,58 @@
         self.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         self.manager.responseSerializer = [AFJSONResponseSerializer serializer];
         self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
-        
-        if ([UserModel isLoggedIn]) {
-            NSString *accessToken = [[UserModel currentUser] accessToken];
-            [self.manager.requestSerializer setValue:accessToken forHTTPHeaderField:@"Authorization"];
-        }
-        
     }
     return self;
+}
+
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                     parameters:(id)parameters
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    
+    if ([UserModel isLoggedIn]) {
+        NSString *accessToken = [[UserModel currentUser] accessToken];
+        [self.manager.requestSerializer setValue:accessToken forHTTPHeaderField:@"Authorization"];
+    }
+    
+    return [self.manager GET:URLString parameters:parameters success:success failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [self handleStatusCode:[operation.response statusCode]];
+        if (failure) failure(operation, error);
+        
+    }];
+}
+
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                      parameters:(id)parameters
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    if ([UserModel isLoggedIn]) {
+        NSString *accessToken = [[UserModel currentUser] accessToken];
+        [self.manager.requestSerializer setValue:accessToken forHTTPHeaderField:@"Authorization"];
+    }
+    
+    return [self.manager POST:URLString parameters:parameters success:success failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [self handleStatusCode:[operation.response statusCode]];
+        if (failure) failure(operation, error);
+        
+    }];
+}
+
+- (void)handleStatusCode:(NSInteger)statusCode
+{
+    switch (statusCode) {
+        case 401:
+            [[UserModel currentUser] logout];
+            [(ChannelsAppDelegate *)[[UIApplication sharedApplication] delegate] loadLoginView];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma ------------------------------------------------------------------------------------------------------
@@ -55,7 +100,7 @@
 
 - (void)fetchAllChannelsWithSuccess:(void(^)(NSArray<ChannelModel *> *channels))success andFailure:(void(^)(NSError *error))failure
 {
-    [self.manager GET:@"channels" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:@"channels" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *mutableArray = [NSMutableArray new];
         NSArray *list = [responseObject objectForKey:@"data"];
         for (NSDictionary *data in list) {
@@ -63,19 +108,18 @@
             [mutableArray addObject:model];
         }
         
-        if (success) {
-            success([mutableArray copy]);
-        }
+        if (success) success([mutableArray copy]);
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (failure) {
-            failure(error);
-        }
+        
+        if (failure) failure(error);
+        
     }];
 }
 
 - (void)fetchAllPostsForChannelID:(NSString *)channelID withSuccess:(void(^)(NSArray<PostModel *> *posts))success andFailure:(void(^)(NSError *error))failure
 {
-    [self.manager GET:@"posts" parameters:@{@"channel_id":channelID} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:@"posts" parameters:@{@"channel_id":channelID} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSMutableArray *mutableArray = [NSMutableArray new];
         NSArray *list = [responseObject objectForKey:@"data"];
@@ -84,14 +128,12 @@
             [mutableArray addObject:model];
         }
         
-        if (success) {
-            success([mutableArray copy]);
-        }
+        if (success) success([mutableArray copy]);
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (failure) {
-            failure(error);
-        }
+        
+        if (failure) failure(error);
+        
     }];
 }
 
@@ -101,7 +143,7 @@
 
 - (void)createPostForChannelID:(NSString *)channelID withMediaKey:(NSString *)mediaKey success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [self.manager POST:@"post/create" parameters:@{@"channel_id":channelID,@"media_key":mediaKey,@"user_id":[UserModel isLoggedIn] ? [[UserModel currentUser] userID] : 0} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:@"post/create" parameters:@{@"channel_id":channelID,@"media_key":mediaKey,@"user_id":[UserModel isLoggedIn] ? [[UserModel currentUser] userID] : 0} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (success) success();
         
@@ -112,15 +154,13 @@
     }];
 }
 
-//- (void)requestMethod:(NSString *)requestMethod URLString:(NSString *)urlString parameters:
-
 #pragma ------------------------------------------------------------------------------------------------------
 #pragma mark - User Model
 #pragma ------------------------------------------------------------------------------------------------------
 
 - (void)userRegisterWithUsername:(NSString *)username password:(NSString *)password andEmail:(NSString *)email success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [self.manager POST:@"user/register" parameters:@{@"username":username,@"password":password,@"email":email} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:@"user/register" parameters:@{@"username":username,@"password":password,@"email":email} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (success) success();
         
@@ -133,7 +173,7 @@
 
 - (void)userLoginWithUsername:(NSString *)username andPassword:(NSString *)password success:(void(^)(NSDictionary *responseData))success andFailure:(void(^)(NSError *error))failure
 {
-    [self.manager POST:@"user/login" parameters:@{@"username":username,@"password":password} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:@"user/login" parameters:@{@"username":username,@"password":password} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSDictionary *data = [responseObject objectForKey:@"data"];
         if (success) success(data);
@@ -147,15 +187,15 @@
 
 - (void)userInfoWithUserModel:(UserModel *)userModel Success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [self.api POST:@"user/info" parameters:@{@"access_token":[[UserModel currentUser] accessToken]} success:^(NSURLSessionDataTask *task, id responseObject) {
-        
-        // NSDictionary *data = [responseObject objectForKey:@"data"];
-        
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
-        if (failure) failure(error);
-        
-    }];
+    //[self.api POST:@"user/info" parameters:@{@"access_token":[[UserModel currentUser] accessToken]} success:^(NSURLSessionDataTask *task, id responseObject) {
+    //    
+    //    // NSDictionary *data = [responseObject objectForKey:@"data"];
+    //    
+    //} failure:^(NSURLSessionDataTask *task, NSError *error) {
+    //    
+    //    if (failure) failure(error);
+    //    
+    //}];
 }
 
 @end
