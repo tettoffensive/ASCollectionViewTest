@@ -9,12 +9,14 @@
 #import "ChannelPlayerViewModel.h"
 #import "ChannelsNetworking.h"
 
+NSString *const defaultChannelsName = @"";
+
 @implementation ChannelPlayerViewModel
 
 - (instancetype)init
 {
     if (self = [super init]) {
-        _channelTitle = @"Channel";
+        _channelTitle = defaultChannelsName;
     }
     return self;
 }
@@ -34,11 +36,23 @@
                 }]];
             } andFailure:^(NSError *error) {
                 POLYLog(@"Error : %@", error);
+                [self updateChannelTitleWithError:error];
             }];
         }
     } andFailure:^(NSError *error) {
         POLYLog(@"Fetch Channel Error : %@", error);
+        [self updateChannelTitleWithError:error];
     }];
+}
+
+- (void)updateChannelTitleWithError:(NSError *)error
+{
+    if (error.code == NSURLErrorNotConnectedToInternet) {
+        // if we've already got the channel name just leave it
+        [self updateChannelTitleWithString:@"No Offline Videos"];
+    } else {
+        [self updateChannelTitleWithString:[NSString stringWithFormat:@"Couldn't Refresh %@",self.channelTitle]];
+    }
 }
 
 - (void)updateChannelTitleWithString:(NSString *)title
