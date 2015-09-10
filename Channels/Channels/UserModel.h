@@ -20,7 +20,6 @@
 + (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password success:(void(^)(UserModel *userModel))success andFailure:(void(^)(NSError *error))failure;
 + (BOOL)isLoggedIn;
 
-- (void)loginWithAccessToken:(NSString *)accessToken;
 - (void)logout;
 - (NSString *)accessToken;
 - (void)fetchCurrentUserInfo;
