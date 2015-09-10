@@ -17,7 +17,7 @@
     return @{@"channelID": @"id", @"title": @"title"};
 }
 
-- (void)setChannelID:(NSInteger)channelID
+- (void)setChannelID:(NSString *)channelID
 {
     _channelID = channelID;
 }
