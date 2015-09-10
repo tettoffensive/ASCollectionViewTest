@@ -64,8 +64,8 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
                                  [ChannelModel fetchChannelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
                                      
                                      ChannelModel *channel = [channels objectAtIndex:0];
-                                     NSInteger channelID = channel.channelID;
-                                     NSLog(@"CHANNEL ID %li", channelID);
+                                     NSString *channelID = channel.channelID;
+                                     NSLog(@"CHANNEL ID %@", channelID);
                                      
                                      PostModel *post = [PostModel new];
                                      [post setMediaKey:key];
