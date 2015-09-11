@@ -7,6 +7,7 @@
 //
 
 #import "ChannelRecordVideoButton.h"
+#import "ChannelsInterface.h"
 #import <POP/POP.h>
 
 /** Degrees to Radian **/
@@ -49,7 +50,7 @@
         
         _recordVideoButtonStatusView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 24.0f, 24.0f)];
         [_recordVideoButtonStatusView setUserInteractionEnabled:NO];
-        [_recordVideoButtonStatusView setBackgroundColor:[UIColor redColor]];
+        [_recordVideoButtonStatusView setBackgroundColor:[ChannelsInterface channelsGreenColor]];
         _recordVideoButtonStatusView.layer.cornerRadius = _recordVideoButtonStatusView.frame.size.width / 2.0;
         [_recordVideoButtonStatusView setCenter:CGPointMake(_recordVideoButton.frame.size.width / 2.0, _recordVideoButton.frame.size.height / 2.0)];
         [_recordVideoButton addSubview:_recordVideoButtonStatusView];
@@ -88,7 +89,7 @@
         
         bezierPath.lineWidth = 6.0f;
 //        [[UIColor colorWithWhite:1.0f alpha:0.75f] setStroke];
-        [[UIColor redColor] setStroke];
+        [[UIColor whiteColor] setStroke];
         [bezierPath stroke];
     }
 }

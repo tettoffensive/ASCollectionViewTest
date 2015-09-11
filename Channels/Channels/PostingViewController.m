@@ -121,6 +121,11 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
                                                object:nil];
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)loadMoviePlayer
 {
     NSString *filePath = [_currentVideo objectForKey:kPBJVisionVideoPathKey];
