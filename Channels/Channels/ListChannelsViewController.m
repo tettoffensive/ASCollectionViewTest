@@ -8,6 +8,7 @@
 
 #import "ListChannelsViewController.h"
 @import AsyncDisplayKit;
+#import "ChannelInfoNode.h"
 
 @interface ListChannelsViewController ()<ASCollectionViewDelegate,ASCollectionViewDataSource>
 @property (nonatomic) ASCollectionView *myFeedCollectionView;
@@ -34,7 +35,10 @@
 
 - (void)viewWillLayoutSubviews
 {
-    [self.myFeedCollectionView setFrame:self.view.bounds];
+    CGRect frame = self.view.bounds;
+    frame.origin.x   += 10;
+    frame.size.width -= 10;
+    [self.myFeedCollectionView setFrame:frame];
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -72,15 +76,16 @@
 - (ASCellNode *)collectionView:(ASCollectionView *)collectionView nodeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ChannelInfo *info = self.viewModel.channelList[indexPath.item];
-    NSString *text = info.title;
-    ASCellNode *cell = [[ASTextCellNode alloc] init];
+//    NSString *text = info.title;
+    ChannelInfoNode *cell = [[ChannelInfoNode alloc] initWithInfo:info];
+//    ASCellNode *cell = [[ASTextCellNode alloc] init];
 //    CGFloat width = floor((screenWidth() - 15.0)/2.);
 //    CGFloat height = floor(width*1.22);
 //    CGRect frame = cell.frame;
 //    frame.size = CGSizeMake(width, height);
 //    cell set
 ////    [node setFrame:frame];
-    cell.backgroundColor = [UIColor whiteColor];
+//    cell.backgroundColor = [UIColor blackColor];
     
     return cell;
 }
@@ -111,7 +116,7 @@
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
+    return UIEdgeInsetsMake(0.0, 0.0, 10.0, 10.0);
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -121,6 +126,7 @@
 - (void)reloadData
 {
     [self setTitle:self.viewModel.listTitle];
+//    [self.myFeedCollectionView setAsyncDataSource:self];
     [self.myFeedCollectionView reloadData];
 }
 
