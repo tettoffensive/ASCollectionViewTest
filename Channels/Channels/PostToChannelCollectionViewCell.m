@@ -8,6 +8,7 @@
 
 #import "PostToChannelCollectionViewCell.h"
 #import "ChannelsInterface.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface PostToChannelCollectionViewCell()
 {
@@ -31,8 +32,14 @@
     } else {
         [self showHideShadow:YES];
         [self setChannelTitleAttributedTextWithString:channel.title];
-        self.channelImageView.image = [UIImage imageNamed:@"Cell Placeholder"];
+        [self setImage:channel.thumbnailURLString];
     }
+}
+
+- (void)setImage:(NSString *)urlString
+{
+    [self.channelImageView sd_setImageWithURL:[NSURL URLWithString:urlString]
+                             placeholderImage:[UIImage imageNamed:@"Channel Picker Cell Placeholder"]];
 }
 
 - (void)showHideShadow:(BOOL)show
