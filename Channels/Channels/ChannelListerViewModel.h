@@ -11,6 +11,8 @@
 @class ChannelInfo;
 
 @interface ChannelListerViewModel : POLYViewModel
+
+@property (nonatomic, copy, readonly) NSString  *listTitle;
 @property (nonatomic, copy, readonly) NSArray<ChannelInfo*> *channelList;
 
 - (void)updateList;

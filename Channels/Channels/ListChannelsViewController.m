@@ -7,9 +7,10 @@
 //
 
 #import "ListChannelsViewController.h"
+@import AsyncDisplayKit;
 
-@interface ListChannelsViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
-@property (nonatomic) UICollectionViewController *channelCollectionViewController;
+@interface ListChannelsViewController ()<ASCollectionViewDelegate,ASCollectionViewDataSource>
+@property (nonatomic) ASCollectionView *myFeedCollectionView;
 @end
 
 @implementation ListChannelsViewController
@@ -24,39 +25,103 @@
     return self;
 }
 
-#pragma -------------------------------------------------------------------------------------------
-#pragma mark - UICollectionViewDelegate
-#pragma -------------------------------------------------------------------------------------------
-
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)viewDidLoad
 {
+    [super viewDidLoad];
     
+    [self.view addSubview:self.myFeedCollectionView];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [self.myFeedCollectionView setFrame:self.view.bounds];
 }
 
 #pragma -------------------------------------------------------------------------------------------
-#pragma mark - UICollectionViewDataSource
+#pragma mark - Properties
 #pragma -------------------------------------------------------------------------------------------
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+- (ASCollectionView *)myFeedCollectionView
+{
+    return !_myFeedCollectionView ? _myFeedCollectionView =
+    ({
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        ASCollectionView *value = [[ASCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout asyncDataFetching:YES];
+        [value setAsyncDataSource:self];
+        [value setAsyncDelegate:self];
+        [value setBackgroundColor:[UIColor clearColor]];
+        value;
+    }) : _myFeedCollectionView;
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - ASCollectionViewDelegate
+#pragma -------------------------------------------------------------------------------------------
+
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - ASCollectionViewDataSource
+#pragma -------------------------------------------------------------------------------------------
+
+- (NSInteger)numberOfSectionsInCollectionView:(ASCollectionView *)collectionView
 {
     return 1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (ASCellNode *)collectionView:(ASCollectionView *)collectionView nodeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return nil;
+    ChannelInfo *info = self.viewModel.channelList[indexPath.item];
+    NSString *text = info.title;
+    ASCellNode *cell = [[ASTextCellNode alloc] init];
+//    CGFloat width = floor((screenWidth() - 15.0)/2.);
+//    CGFloat height = floor(width*1.22);
+//    CGRect frame = cell.frame;
+//    frame.size = CGSizeMake(width, height);
+//    cell set
+////    [node setFrame:frame];
+    cell.backgroundColor = [UIColor whiteColor];
+    
+    return cell;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 0;
+    return self.viewModel.channelList.count;
 }
 
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
-//           viewForSupplementaryElementOfKind:(NSString *)kind
-//                                 atIndexPath:(NSIndexPath *)indexPath
-//{
-//    
-//}
+- (void)collectionViewLockDataSource:(ASCollectionView *)collectionView
+{
+    // lock the data source
+    // The data source should not be change until it is unlocked.
+}
+
+- (void)collectionViewUnlockDataSource:(ASCollectionView *)collectionView
+{
+    // unlock the data source to enable data source updating.
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willBeginBatchFetchWithContext:(ASBatchContext *)context
+{
+    NSLog(@"fetch additional content");
+    [context completeBatchFetching:YES];
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout *)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - ViewModel
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)reloadData
+{
+    [self setTitle:self.viewModel.listTitle];
+    [self.myFeedCollectionView reloadData];
+}
 
 @end
