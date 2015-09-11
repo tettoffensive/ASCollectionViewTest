@@ -37,7 +37,7 @@ target :Channels do
   pod 'FLKAutoLayout'
   pod 'PBJVision'
   pod 'PBJVideoPlayer'
-  pod 'FXBlurView'
+  pod 'AsyncDisplayKit'
 
   # Core
   pod "AFNetworking", "~> 2.5.1"
