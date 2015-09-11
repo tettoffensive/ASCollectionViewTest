@@ -14,13 +14,29 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{@"channelID": @"id", @"title": @"title"};
+    return @{
+             @"channelID"          : @"id",
+             @"title"              : @"title",
+             @"updatedAt"          : @"updated_at",
+             @"thumbnailURLString" : @"thumbnail_url",
+             };
 }
 
 - (void)setChannelID:(NSString *)channelID
 {
     _channelID = channelID;
 }
+
++ (NSValueTransformer*)updatedAtJSONTransformer
+{
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(id value, BOOL *success, NSError *__autoreleasing *error) {
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
+        return date;
+    } reverseBlock:^id(NSDate *value, BOOL *success, NSError *__autoreleasing *error) {
+        return @([value timeIntervalSince1970]);
+    }];
+}
+
 
 #pragma ------------------------------------------------------------------------------------------------------
 #pragma mark - Network Calls

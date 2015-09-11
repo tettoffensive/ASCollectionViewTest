@@ -28,6 +28,7 @@ target :Channels do
   import_pods
   # Core
   pod 'Mantle'
+  pod 'DateTools'
 
   # Analytics
   pod 'Mixpanel'
