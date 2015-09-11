@@ -11,6 +11,7 @@
 #import "ChannelsNavigationBar.h"
 #import "ChannelViewController.h"
 #import "LoginViewController.h"
+#import "ListChannelsViewController.h"
 
 #import "POLYUtils.h"
 #import "POLYViewModel.h"
@@ -60,11 +61,25 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void)loadChannelView
 {
+    [self loadListChannelView];
+    return;
+    
     ChannelPlayerViewModel *viewModel = [[ChannelPlayerViewModel alloc] init];
     [viewModel updatePosts];
     ChannelViewController *channelViewController = [[ChannelViewController alloc] initWithViewModel:viewModel];
     _navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[ChannelsNavigationBar class] toolbarClass:nil];
     [_navigationController setViewControllers:@[channelViewController]];
+    
+    self.window.rootViewController = _navigationController;
+}
+
+- (void)loadListChannelView
+{
+    ChannelListerViewModel *viewModel = [ChannelListerViewModel new];
+    [viewModel updateList];
+    ListChannelsViewController *listChannelsViewController = [[ListChannelsViewController alloc] initWithViewModel:viewModel];
+    _navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[ChannelsNavigationBar class] toolbarClass:nil];
+    [_navigationController setViewControllers:@[listChannelsViewController]];
     
     self.window.rootViewController = _navigationController;
 }
