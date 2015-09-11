@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8187.4" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,18 +13,26 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="94" height="105"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6HX-vj-L2Q" userLabel="Image Container">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6HX-vj-L2Q" userLabel="Image Container">
                         <rect key="frame" x="4" y="4" width="86" height="65"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j3Y-7v-6fA" userLabel="Channel Image View">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j3Y-7v-6fA" userLabel="Channel Image View">
                                 <rect key="frame" x="0.0" y="0.0" width="86" height="65"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="j3Y-7v-6fA" secondAttribute="trailing" id="0LG-rg-Z5V"/>
+                            <constraint firstItem="j3Y-7v-6fA" firstAttribute="leading" secondItem="6HX-vj-L2Q" secondAttribute="leading" id="Kbc-QL-wbk"/>
+                            <constraint firstItem="j3Y-7v-6fA" firstAttribute="centerX" secondItem="6HX-vj-L2Q" secondAttribute="centerX" id="LNc-2t-DCS"/>
+                            <constraint firstAttribute="bottom" secondItem="j3Y-7v-6fA" secondAttribute="bottom" id="gNd-P6-xGC"/>
+                            <constraint firstItem="j3Y-7v-6fA" firstAttribute="top" secondItem="6HX-vj-L2Q" secondAttribute="top" id="sGO-3I-iGs"/>
+                            <constraint firstAttribute="height" constant="65" id="zH7-XC-Lal"/>
+                        </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="jas-VT-HAJ">
-                        <rect key="frame" x="4" y="76" width="86" height="22"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="jas-VT-HAJ">
+                        <rect key="frame" x="4" y="73" width="86" height="28"/>
                         <attributedString key="attributedText">
                             <fragment content="Channel name">
                                 <attributes>
@@ -39,6 +47,17 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="6HX-vj-L2Q" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="4" id="2Ry-Ci-pva"/>
+                <constraint firstItem="jas-VT-HAJ" firstAttribute="top" secondItem="6HX-vj-L2Q" secondAttribute="bottom" constant="4" id="C5M-3r-OHt"/>
+                <constraint firstAttribute="trailing" secondItem="6HX-vj-L2Q" secondAttribute="trailing" constant="4" id="JwG-Ss-Opp"/>
+                <constraint firstItem="6HX-vj-L2Q" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="4" id="RXS-JQ-xON"/>
+                <constraint firstItem="6HX-vj-L2Q" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="idd-t6-LoX"/>
+                <constraint firstItem="jas-VT-HAJ" firstAttribute="leading" secondItem="6HX-vj-L2Q" secondAttribute="leading" id="mJO-SV-ODc"/>
+                <constraint firstItem="jas-VT-HAJ" firstAttribute="trailing" secondItem="6HX-vj-L2Q" secondAttribute="trailing" id="sSY-to-us1"/>
+                <constraint firstAttribute="bottom" secondItem="jas-VT-HAJ" secondAttribute="bottom" constant="4" id="tDj-Vl-hDi"/>
+            </constraints>
             <connections>
                 <outlet property="_channelImageContainer" destination="6HX-vj-L2Q" id="cvj-7c-3Lu"/>
                 <outlet property="channelImageView" destination="j3Y-7v-6fA" id="iE7-ri-eKT"/>

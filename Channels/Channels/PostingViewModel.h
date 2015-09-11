@@ -10,4 +10,6 @@
 
 @interface PostingViewModel : POLYViewModel
 
+@property (nonatomic, copy, readonly) NSString *title;
+
 @end

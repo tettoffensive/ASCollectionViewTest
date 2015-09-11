@@ -13,7 +13,10 @@
 #import "ChannelsInterface.h"
 #import "PostToChannelToolbar.h"
 
-@interface ChannelPickerView() <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface ChannelPickerView() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+{
+    ChannelModel *_selectedChannel;
+}
 
 @property (nonatomic, strong) UIView *backgroundView;
 @property (nonatomic, strong) UICollectionView *channelsCollectionView;
@@ -61,6 +64,14 @@ static NSString *kChannelsCollectionViewCellIdentifier = @"PostToChannelCollecti
                                                                                        self.bounds.size.width,
                                                                                        toolbarHeight)];
         [self addSubview:_postToChannelToolbar];
+        
+        [_postToChannelToolbar.leftButton addTarget:self
+                                             action:@selector(searchChannels)
+                                   forControlEvents:UIControlEventTouchUpInside];
+        
+        [_postToChannelToolbar.rightButton addTarget:self
+                                             action:@selector(postToChannel)
+                                   forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
@@ -97,14 +108,13 @@ static NSString *kChannelsCollectionViewCellIdentifier = @"PostToChannelCollecti
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath;
 {
     PostToChannelCollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:kChannelsCollectionViewCellIdentifier forIndexPath:indexPath];
-    
     ChannelModel *channel = [_channelsData objectAtIndex:indexPath.item];
     [cell setupCellWithChannel:channel];
     
     return cell;
 }
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
 }
@@ -116,29 +126,52 @@ static NSString *kChannelsCollectionViewCellIdentifier = @"PostToChannelCollecti
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    //NSLog(@"didSelectItemAtIndexPath %li", indexPath.item);
-    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    NSLog(@"didSelectItemAtIndexPath %li", indexPath.item);
+    
+    PostToChannelCollectionViewCell *cell = (PostToChannelCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     [cell setSelected:YES];
+    
+    ChannelModel *channel = (ChannelModel *)[_channelsData objectAtIndex:indexPath.item];
+    if ([channel.channelID isEqualToString:@"Create Channel"]) {
+        [_postToChannelToolbar.rightButton setEnabled:NO];
+        [_postToChannelToolbar updateToolbarTitle:@"Create Channel"];
+        [self.delegate createChannel];
+    } else {
+        _selectedChannel = channel;
+        NSLog(@"CHANNEL SELECTED TITLE  -  %@  -  ID %@", _selectedChannel.title, _selectedChannel.channelID);
+        [_postToChannelToolbar.rightButton setEnabled:YES];
+        [_postToChannelToolbar updateToolbarTitle:[NSString stringWithFormat:@"Post to %@", _selectedChannel.title]];
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    //NSLog(@"didDeselectItemAtIndexPath %li", indexPath.item);
+    NSLog(@"didDeselectItemAtIndexPath %li", indexPath.item);
+    
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     [cell setSelected:NO];
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(94, 105);
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.item == 0) {
+        return CGSizeMake(55, 105);
+    } else {
+        return CGSizeMake(94, 105);
+    }
 }
 
-
-
-- (void)createChannel
+- (void)searchChannels
 {
-    NSLog(@"Create Channel Button Pressed");
+    NSLog(@"Search Channels");
+}
+
+- (void)postToChannel
+{
+    NSLog(@"Post to Channel %@", _selectedChannel.title);
+    [self.delegate postVideoToChannel:_selectedChannel];
 }
 
 @end

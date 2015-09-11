@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class ChannelModel;
+
+@protocol ChannelPickerViewDelegate
+
+- (void)createChannel;
+- (void)postVideoToChannel:(ChannelModel *)channel;
+
+@end
+
 @interface ChannelPickerView : UIView
+
+@property (nonatomic, assign) id <ChannelPickerViewDelegate> delegate;
 
 @end

@@ -11,6 +11,6 @@
 @interface ChannelsPostManager : NSObject
 
 + (ChannelsPostManager *)sharedInstance;
-- (void)uploadVideo:(NSDictionary *)videoDictionary;
+- (void)postVideoData:(NSData *)videoData toChannel:(NSString *)channelID;
 
 @end

@@ -10,4 +10,10 @@
 
 @interface PostToChannelToolbar : UIView
 
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIButton *rightButton;
+@property (nonatomic, strong) UIButton *leftButton;
+
+- (void)updateToolbarTitle:(NSString *)title;
+
 @end

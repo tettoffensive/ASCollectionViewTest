@@ -13,10 +13,6 @@
 
 @property (nonatomic, strong) UIView *viewContainer;
 
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIButton *rightButton;
-@property (nonatomic, strong) UIButton *leftButton;
-
 @end
 
 @implementation PostToChannelToolbar
@@ -52,9 +48,17 @@
                                                                   50.0f, 50.0f)];
         [_rightButton setImage:[UIImage imageNamed:@"Post To Channel"] forState:UIControlStateNormal];
         [_rightButton addTarget:self action:@selector(rightButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        [_rightButton setEnabled:NO];
         [_viewContainer addSubview:_rightButton];
     }
     return self;
+}
+
+- (void)updateToolbarTitle:(NSString *)title
+{
+    [_titleLabel setText:title];
+    [_titleLabel sizeToFit];
+    _titleLabel.center = CGPointMake(_viewContainer.bounds.size.width/2.0, _viewContainer.bounds.size.height/2.0);
 }
 
 - (void)leftButtonAction

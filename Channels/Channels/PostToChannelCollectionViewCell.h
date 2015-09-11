@@ -11,6 +11,9 @@
 
 @interface PostToChannelCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, strong) IBOutlet UIImageView *channelImageView;
+@property (nonatomic, strong) IBOutlet UILabel *channelTitleLabel;
+
 - (void)setupCellWithChannel:(ChannelModel *)channel;
 
 @end

@@ -13,6 +13,7 @@
 #import "ChannelRecordVideoButton.h"
 #import "ChannelsPostManager.h"
 #import "ChannelPickerView.h"
+#import "ChannelModel.h"
 
 @import MediaPlayer;
 
@@ -26,7 +27,7 @@ static const NSString *kPBJVisionVideoPathKey                   = @"PBJVisionVid
 static const NSString *kPBJVisionVideoThumbnailArrayKey         = @"PBJVisionVideoThumbnailArrayKey";
 static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVideoThumbnailKey";
 
-@interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate, UIAlertViewDelegate, PBJVideoPlayerControllerDelegate>
+@interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate, UIAlertViewDelegate, PBJVideoPlayerControllerDelegate, ChannelPickerViewDelegate>
 {
     NSTimer *_videoDurationTimer;
     BOOL _minimumVideoLengthReached;
@@ -192,6 +193,7 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
                                                                  self.view.bounds.size.height,
                                                                  self.view.bounds.size.width,
                                                                   200.f)];
+    _channelPickerView.delegate = self;
     _channelPickerView.alpha = 0.0f;
     [self.view addSubview:_channelPickerView];
     
@@ -338,15 +340,6 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 }
 
 #pragma -------------------------------------------------------------------------------------------
-#pragma mark - Upload Videos
-#pragma -------------------------------------------------------------------------------------------
-
-- (void)uploadVideo:(NSDictionary *)videoDictionary
-{
-    [[ChannelsPostManager sharedInstance] uploadVideo:_currentVideo];
-}
-
-#pragma -------------------------------------------------------------------------------------------
 #pragma mark - Record Button Delegate Methods
 #pragma -------------------------------------------------------------------------------------------
 
@@ -488,13 +481,23 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     
 }
 
-- (void)upload
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Channel Picker Delegate
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)createChannel
+{
+    NSLog(@"Create Channel");
+}
+
+- (void)postVideoToChannel:(ChannelModel *)channel
 {
     [self pauseMovie];
     [_videoPlayerController.view removeFromSuperview];
     _videoPlayerController = nil;
     
-    [self uploadVideo:_currentVideo];
+    NSData *videoData = [NSData dataWithContentsOfFile:[_currentVideo objectForKey:@"PBJVisionVideoPathKey"]];
+    [[ChannelsPostManager sharedInstance] postVideoData:videoData toChannel:channel.channelID];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self dismissPostingViewController];

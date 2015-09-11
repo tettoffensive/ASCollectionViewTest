@@ -14,9 +14,6 @@
     IBOutlet UIView *_channelImageContainer;
 }
 
-@property (nonatomic, strong) IBOutlet UIImageView *channelImageView;
-@property (nonatomic, strong) IBOutlet UILabel *channelTitleLabel;
-
 @end
 
 @implementation PostToChannelCollectionViewCell

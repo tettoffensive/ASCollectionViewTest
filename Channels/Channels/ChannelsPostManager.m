@@ -44,14 +44,8 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
     return self;
 }
 
-- (void)dealloc
+- (void)postVideoData:(NSData *)videoData toChannel:(NSString *)channelID
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)uploadVideo:(NSDictionary *)videoDictionary
-{
-    NSData *videoData = [NSData dataWithContentsOfFile:[videoDictionary objectForKey:@"PBJVisionVideoPathKey"]];
     [self.fileManager uploadVideoData:videoData
                              progress:^(CGFloat progress) {
                                  NSLog(@"Video Upload Progress: %.2f", progress);
@@ -60,25 +54,14 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
                                  NSLog(@"Finished %@", finished == YES ? @"YES" : @"NO");
                                  NSLog(@"Success %@", key);
                                  
-                                 // Fetch Channel
-                                 [ChannelModel fetchChannelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
-                                     
-                                     ChannelModel *channel = [channels objectAtIndex:0];
-                                     NSString *channelID = channel.channelID;
-                                     NSLog(@"CHANNEL ID %@", channelID);
-                                     
-                                     PostModel *post = [PostModel newPostInChannel:channelID WithKey:key];
-                                     [post createPostWithSuccess:^{
-                                         NSLog(@"Successfully Created Post");
-                                     } andFailure:^(NSError *error) {
-                                         NSLog(@"Failed to Create Post");
-                                     }];
-                                     
+                                 PostModel *post = [PostModel newPostInChannel:channelID WithKey:key];
+                                 [post createPostWithSuccess:^{
+                                     NSLog(@"Successfully Created Post to Channel ID: %@", channelID);
                                  } andFailure:^(NSError *error) {
-                                     NSLog(@"Failed to fetch channel");
+                                     NSLog(@"Failed to Create Post");
                                  }];
                                  
-
+                                 
                              } failure:^(NSError *err) {
                                  NSLog(@"Failure %@", [err description]);
                              }];
