@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ChannelModel.h"
 
 @interface PostToChannelCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) IBOutlet UIImageView *channelImageView;
-@property (nonatomic, strong) IBOutlet UILabel *channelTitleLabel;
-
-- (void)setChannelTitleAttributedTextWithString:(NSString *)text;
+- (void)setupCellWithChannel:(ChannelModel *)channel;
 
 @end

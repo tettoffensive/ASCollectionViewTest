@@ -88,6 +88,26 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     
     // Setup Video
     [self setup];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackground:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackground:)
+                                                 name:UIApplicationWillTerminateNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
 }
 
 - (void)loadMoviePlayer
@@ -460,7 +480,6 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [self pauseMovie];
     [_videoPlayerController.view removeFromSuperview];
     _videoPlayerController = nil;
-    
     [self hideConfirmUploadButtons];
 }
 
@@ -480,6 +499,22 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self dismissPostingViewController];
     });
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Notifications
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)appDidEnterBackground:(NSNotification *)notification
+{
+    [_videoPlayerController stop];
+    [_vision stopPreview];
+}
+
+- (void)appDidEnterForeground:(NSNotification *)notification
+{
+    [_videoPlayerController playFromBeginning];
+    [_vision startPreview];
 }
 
 @end

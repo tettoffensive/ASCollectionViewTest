@@ -16,7 +16,6 @@
 @interface ChannelPickerView() <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UIView *backgroundView;
-@property (nonatomic, strong) UIButton *createChannelButton;
 @property (nonatomic, strong) UICollectionView *channelsCollectionView;
 @property (nonatomic, strong) NSArray *channelsData;
 @property (nonatomic, strong) PostToChannelToolbar *postToChannelToolbar;
@@ -39,14 +38,6 @@ static NSString *kChannelsCollectionViewCellIdentifier = @"PostToChannelCollecti
         [_backgroundView.layer insertSublayer:gradient atIndex:0];
         [self addSubview:_backgroundView];
         
-        _createChannelButton = [[UIButton alloc] initWithImageName:@"Create Channel Button"];
-        [_createChannelButton setFrame:CGRectMake(self.bounds.size.width - _createChannelButton.imageView.bounds.size.width,
-                                                  self.bounds.origin.y,
-                                                  _createChannelButton.imageView.bounds.size.width,
-                                                  _createChannelButton.imageView.bounds.size.height)];
-        [_createChannelButton addTarget:self action:@selector(createChannel) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:_createChannelButton];
-        
         ChannelsCollectionViewFlowLayout *cVLayout = [[ChannelsCollectionViewFlowLayout alloc] init];
         _channelsCollectionView = [[UICollectionView alloc] initWithFrame:self.bounds
                                                      collectionViewLayout:cVLayout];
@@ -64,7 +55,7 @@ static NSString *kChannelsCollectionViewCellIdentifier = @"PostToChannelCollecti
         _channelsData = [NSArray new];
         [self loadChannels];
         
-        CGFloat toolbarHeight = 44.0f;
+        CGFloat toolbarHeight = 50.0f;
         _postToChannelToolbar = [[PostToChannelToolbar alloc] initWithFrame:CGRectMake(self.bounds.origin.x,
                                                                                        self.bounds.size.height - toolbarHeight,
                                                                                        self.bounds.size.width,
@@ -89,6 +80,13 @@ static NSString *kChannelsCollectionViewCellIdentifier = @"PostToChannelCollecti
 - (void)setChannelsData:(NSArray *)channelsData
 {
     _channelsData = [channelsData copy];
+    
+    // Insert Create Channel
+    ChannelModel *createChannel = [[ChannelModel alloc] init];
+    [createChannel setChannelID:@"Create Channel"];
+    NSArray *tempArray = @[createChannel];
+    _channelsData = [tempArray arrayByAddingObjectsFromArray:_channelsData];
+    
     [_channelsCollectionView reloadData];
 }
 
@@ -101,8 +99,7 @@ static NSString *kChannelsCollectionViewCellIdentifier = @"PostToChannelCollecti
     PostToChannelCollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:kChannelsCollectionViewCellIdentifier forIndexPath:indexPath];
     
     ChannelModel *channel = [_channelsData objectAtIndex:indexPath.item];
-    [cell setChannelTitleAttributedTextWithString:channel.title];
-    cell.channelImageView.image = [UIImage imageNamed:@"Cell Placeholder"];
+    [cell setupCellWithChannel:channel];
     
     return cell;
 }

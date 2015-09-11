@@ -42,14 +42,14 @@
         
         _leftButton = [[UIButton alloc] initWithFrame:CGRectMake(_viewContainer.bounds.origin.x,
                                                                  _viewContainer.bounds.origin.y,
-                                                                 44.0f, 44.0f)];
+                                                                 50.0f, 50.0f)];
         [_leftButton setImage:[UIImage imageNamed:@"Pick Channel"] forState:UIControlStateNormal];
         [_leftButton addTarget:self action:@selector(leftButtonAction) forControlEvents:UIControlEventTouchUpInside];
         [_viewContainer addSubview:_leftButton];
         
-        _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(_viewContainer.bounds.size.width - 44.0f,
+        _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(_viewContainer.bounds.size.width - 50.0f,
                                                                   _viewContainer.bounds.origin.y,
-                                                                  44.0f, 44.0f)];
+                                                                  50.0f, 50.0f)];
         [_rightButton setImage:[UIImage imageNamed:@"Post To Channel"] forState:UIControlStateNormal];
         [_rightButton addTarget:self action:@selector(rightButtonAction) forControlEvents:UIControlEventTouchUpInside];
         [_viewContainer addSubview:_rightButton];

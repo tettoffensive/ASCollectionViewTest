@@ -14,19 +14,47 @@
     IBOutlet UIView *_channelImageContainer;
 }
 
+@property (nonatomic, strong) IBOutlet UIImageView *channelImageView;
+@property (nonatomic, strong) IBOutlet UILabel *channelTitleLabel;
+
 @end
 
 @implementation PostToChannelCollectionViewCell
 
 - (void)awakeFromNib {
     // Initialization code
-    
-    _channelImageContainer.clipsToBounds = NO;
-    _channelImageContainer.layer.shadowColor = [UIColor blackColor].CGColor;
-    _channelImageContainer.layer.shadowPath = [UIBezierPath bezierPathWithRect:_channelImageContainer.bounds].CGPath;
-    _channelImageContainer.layer.shadowRadius = 1.0f;
-    _channelImageContainer.layer.shadowOpacity = 0.5f;
-    _channelImageContainer.layer.shadowOffset = CGSizeZero;
+}
+
+- (void)setupCellWithChannel:(ChannelModel *)channel
+{
+    if ([channel.channelID isEqualToString:@"Create Channel"]) {
+        [self showHideShadow:NO];
+        [self setChannelTitleAttributedTextWithString:@""];
+        self.channelImageView.image = [UIImage imageNamed:@"Create Channel Button"];
+    } else {
+        [self showHideShadow:YES];
+        [self setChannelTitleAttributedTextWithString:channel.title];
+        self.channelImageView.image = [UIImage imageNamed:@"Cell Placeholder"];
+    }
+}
+
+- (void)showHideShadow:(BOOL)show
+{
+    if (show) {
+        _channelImageContainer.clipsToBounds = NO;
+        _channelImageContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+        _channelImageContainer.layer.shadowPath = [UIBezierPath bezierPathWithRect:_channelImageContainer.bounds].CGPath;
+        _channelImageContainer.layer.shadowRadius = 1.0f;
+        _channelImageContainer.layer.shadowOpacity = 0.5f;
+        _channelImageContainer.layer.shadowOffset = CGSizeZero;
+    } else {
+        _channelImageContainer.clipsToBounds = NO;
+        _channelImageContainer.layer.shadowColor = nil;
+        _channelImageContainer.layer.shadowPath = nil;
+        _channelImageContainer.layer.shadowRadius = 0.0f;
+        _channelImageContainer.layer.shadowOpacity = 0.0f;
+        _channelImageContainer.layer.shadowOffset = CGSizeZero;
+    }
 }
 
 - (void)setChannelTitleAttributedTextWithString:(NSString *)text
