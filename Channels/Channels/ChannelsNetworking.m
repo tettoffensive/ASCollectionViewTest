@@ -154,6 +154,32 @@
     }];
 }
 
+- (void)likePostForPostID:(NSString *)postID success:(void(^)())success andFailure:(void(^)(NSError *error))failure
+{
+    [self POST:@"posts/like" parameters:@{@"post_id":postID} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (success) success();
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if (failure) failure(error);
+        
+    }];
+}
+
+- (void)disLikePostForPostID:(NSString *)postID success:(void(^)())success andFailure:(void(^)(NSError *error))failure
+{
+    [self POST:@"posts/dislike" parameters:@{@"post_id":postID} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (success) success();
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if (failure) failure(error);
+        
+    }];
+}
+
 #pragma ------------------------------------------------------------------------------------------------------
 #pragma mark - User Model
 #pragma ------------------------------------------------------------------------------------------------------

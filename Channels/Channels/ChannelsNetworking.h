@@ -16,6 +16,8 @@
 - (void)fetchAllChannelsWithSuccess:(void(^)(NSArray<ChannelModel *> *channels))success andFailure:(void(^)(NSError *error))failure;
 - (void)fetchAllPostsForChannelID:(NSString *)channelID withSuccess:(void(^)(NSArray<PostModel *> *posts))success andFailure:(void(^)(NSError *error))failure;
 - (void)createPostForChannelID:(NSString *)channelID withMediaKey:(NSString *)mediaKey success:(void(^)())success andFailure:(void(^)(NSError *error))failure;
+- (void)likePostForPostID:(NSString *)postID success:(void(^)())success andFailure:(void(^)(NSError *error))failure;
+- (void)disLikePostForPostID:(NSString *)postID success:(void(^)())success andFailure:(void(^)(NSError *error))failure;
 
 // Please only call this from User model
 - (void)userRegisterWithUsername:(NSString *)username password:(NSString *)password andEmail:(NSString *)email success:(void(^)())success andFailure:(void(^)(NSError *error))failure;

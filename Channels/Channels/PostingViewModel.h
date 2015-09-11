@@ -9,5 +9,5 @@
 #import "POLYViewModel.h"
 
 @interface PostingViewModel : POLYViewModel
-
+@property NSString *title;
 @end
