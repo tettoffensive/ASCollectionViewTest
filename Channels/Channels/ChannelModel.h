@@ -15,6 +15,8 @@
 @property (nonatomic) NSString *channelID;
 
 @property (nonatomic, copy, readonly) NSString *title;
+@property (nonatomic, copy, readonly) NSString *thumbnailURLString;
+@property (nonatomic, copy, readonly) NSDate *updatedAt;
 @property (nonatomic, copy, readonly) NSArray<PostModel *> *channelPosts;
 
 + (void)fetchChannelsWithSuccess:(void(^)(NSArray<ChannelModel *> *channels))success andFailure:(void(^)(NSError *error))failure;
