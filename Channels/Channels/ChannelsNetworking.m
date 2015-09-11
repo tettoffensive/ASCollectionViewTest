@@ -154,22 +154,13 @@
     }];
 }
 
-- (void)likePostForPostID:(NSString *)postID success:(void(^)())success andFailure:(void(^)(NSError *error))failure
+- (void)sendVoteResultsForPostID:(NSString *)postID withNumberOfVotesUp:(NSInteger)numberOfVotesUp andNumberOfVotesDown:(NSInteger)numberOfVotesDown success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [self POST:@"posts/like" parameters:@{@"post_id":postID} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        if (success) success();
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        if (failure) failure(error);
-        
-    }];
-}
-
-- (void)disLikePostForPostID:(NSString *)postID success:(void(^)())success andFailure:(void(^)(NSError *error))failure
-{
-    [self POST:@"posts/dislike" parameters:@{@"post_id":postID} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSDictionary *data = @{@"post_id":postID,
+                           @"upvotes": @(numberOfVotesUp),
+                           @"downvotes":@(numberOfVotesDown)};
+    
+    [self POST:@"votes" parameters:data success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (success) success();
         

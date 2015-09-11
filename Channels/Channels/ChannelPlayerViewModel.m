@@ -100,4 +100,19 @@ NSString *const defaultChannelsName = @"";
     return @"anonymous";
 }
 
+- (void)voteUp
+{
+    [self.backingObject voteUp];
+}
+
+- (void)voteDown
+{
+    [self.backingObject voteDown];
+}
+
+- (void)sendVote
+{
+    [self.backingObject sendVoteWithSuccess:nil andFailure:nil];
+}
+
 @end
