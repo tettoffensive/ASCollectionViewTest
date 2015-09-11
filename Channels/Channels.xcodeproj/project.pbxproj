@@ -36,6 +36,7 @@
 		17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA7E1B910BE600070321 /* BaseViewController.m */; };
 		17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA811B910C1900070321 /* ListChannelsViewController.m */; };
 		17E886FE1BA3649900554472 /* ChannelInfoNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 17E886FD1BA3649900554472 /* ChannelInfoNode.m */; settings = {ASSET_TAGS = (); }; };
+		3718CA0E1BA3820100F97AEB /* POLYActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */; settings = {ASSET_TAGS = (); }; };
 		371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */; settings = {ASSET_TAGS = (); }; };
 		3764E27B1B989F600078DCF3 /* ChannelRecordVideoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764E27A1B989F600078DCF3 /* ChannelRecordVideoButton.m */; settings = {ASSET_TAGS = (); }; };
 		3764E27E1B989F9E0078DCF3 /* PostingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764E27D1B989F9E0078DCF3 /* PostingViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -50,6 +51,11 @@
 		37A8262B1B96227F00707AC9 /* Geomanist-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826221B96227F00707AC9 /* Geomanist-Medium.otf */; settings = {ASSET_TAGS = (); }; };
 		37A8262C1B96227F00707AC9 /* Geomanist-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826231B96227F00707AC9 /* Geomanist-Regular.otf */; settings = {ASSET_TAGS = (); }; };
 		37A8262D1B96227F00707AC9 /* Geomanist-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37A826241B96227F00707AC9 /* Geomanist-Thin.otf */; settings = {ASSET_TAGS = (); }; };
+		37D44C301BA1F8CA009C713E /* PostToChannelToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D44C2F1BA1F8CA009C713E /* PostToChannelToolbar.m */; settings = {ASSET_TAGS = (); }; };
+		37D44C341BA20E4D009C713E /* PostToChannelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D44C321BA20E4D009C713E /* PostToChannelCollectionViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		37D44C351BA20E4D009C713E /* PostToChannelCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D44C331BA20E4D009C713E /* PostToChannelCollectionViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		37D44C381BA212CF009C713E /* ChannelPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D44C371BA212CF009C713E /* ChannelPickerView.m */; settings = {ASSET_TAGS = (); }; };
+		37D44C3B1BA2154B009C713E /* ChannelsCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D44C3A1BA2154B009C713E /* ChannelsCollectionViewFlowLayout.m */; settings = {ASSET_TAGS = (); }; };
 		92F8751DF12C40C179CE6EC5 /* Pods_ChannelsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 943FD81C1B97A0AE003B3745 /* ChannelsNetworking.m */; settings = {ASSET_TAGS = (); }; };
 		943FD8211B97A88A003B3745 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 943FD8201B97A88A003B3745 /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
@@ -131,6 +137,8 @@
 		17D4CA811B910C1900070321 /* ListChannelsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListChannelsViewController.m; sourceTree = "<group>"; };
 		17E886FC1BA3649900554472 /* ChannelInfoNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelInfoNode.h; sourceTree = "<group>"; };
 		17E886FD1BA3649900554472 /* ChannelInfoNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelInfoNode.m; sourceTree = "<group>"; };
+		3718CA0C1BA3820100F97AEB /* POLYActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYActivityIndicator.h; sourceTree = "<group>"; };
+		3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYActivityIndicator.m; sourceTree = "<group>"; };
 		371BF09E1B962C3C004D54D1 /* ChannelsNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsNavigationBar.h; sourceTree = "<group>"; };
 		371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsNavigationBar.m; sourceTree = "<group>"; };
 		373C60511B98AF0100B5DD91 /* POLYFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = POLYFoundation.h; sourceTree = "<group>"; };
@@ -154,6 +162,15 @@
 		37A826221B96227F00707AC9 /* Geomanist-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Medium.otf"; sourceTree = "<group>"; };
 		37A826231B96227F00707AC9 /* Geomanist-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Regular.otf"; sourceTree = "<group>"; };
 		37A826241B96227F00707AC9 /* Geomanist-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geomanist-Thin.otf"; sourceTree = "<group>"; };
+		37D44C2E1BA1F8CA009C713E /* PostToChannelToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostToChannelToolbar.h; sourceTree = "<group>"; };
+		37D44C2F1BA1F8CA009C713E /* PostToChannelToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostToChannelToolbar.m; sourceTree = "<group>"; };
+		37D44C311BA20E4D009C713E /* PostToChannelCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostToChannelCollectionViewCell.h; sourceTree = "<group>"; };
+		37D44C321BA20E4D009C713E /* PostToChannelCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostToChannelCollectionViewCell.m; sourceTree = "<group>"; };
+		37D44C331BA20E4D009C713E /* PostToChannelCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostToChannelCollectionViewCell.xib; sourceTree = "<group>"; };
+		37D44C361BA212CF009C713E /* ChannelPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelPickerView.h; sourceTree = "<group>"; };
+		37D44C371BA212CF009C713E /* ChannelPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelPickerView.m; sourceTree = "<group>"; };
+		37D44C391BA2154B009C713E /* ChannelsCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		37D44C3A1BA2154B009C713E /* ChannelsCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		4EEAFA6384F410BFB8D50D6E /* Pods-ChannelsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelsTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ChannelsTests/Pods-ChannelsTests.release.xcconfig"; sourceTree = "<group>"; };
 		778F743ED2A32A3ED09C8016 /* Pods_ChannelsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79D2A893B3A6CA08204C0F03 /* Pods-Channels.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Channels.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Channels/Pods-Channels.release.xcconfig"; sourceTree = "<group>"; };
@@ -236,10 +253,21 @@
 			children = (
 				17E886FC1BA3649900554472 /* ChannelInfoNode.h */,
 				17E886FD1BA3649900554472 /* ChannelInfoNode.m */,
+				3718CA0C1BA3820100F97AEB /* POLYActivityIndicator.h */,
+				3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */,
 				371BF09E1B962C3C004D54D1 /* ChannelsNavigationBar.h */,
 				371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */,
 				3764E2791B989F600078DCF3 /* ChannelRecordVideoButton.h */,
 				3764E27A1B989F600078DCF3 /* ChannelRecordVideoButton.m */,
+				37D44C2E1BA1F8CA009C713E /* PostToChannelToolbar.h */,
+				37D44C2F1BA1F8CA009C713E /* PostToChannelToolbar.m */,
+				37D44C311BA20E4D009C713E /* PostToChannelCollectionViewCell.h */,
+				37D44C321BA20E4D009C713E /* PostToChannelCollectionViewCell.m */,
+				37D44C331BA20E4D009C713E /* PostToChannelCollectionViewCell.xib */,
+				37D44C361BA212CF009C713E /* ChannelPickerView.h */,
+				37D44C371BA212CF009C713E /* ChannelPickerView.m */,
+				37D44C391BA2154B009C713E /* ChannelsCollectionViewFlowLayout.h */,
+				37D44C3A1BA2154B009C713E /* ChannelsCollectionViewFlowLayout.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -514,6 +542,7 @@
 				37A8262A1B96227F00707AC9 /* Geomanist-Light.otf in Resources */,
 				37A8262B1B96227F00707AC9 /* Geomanist-Medium.otf in Resources */,
 				17AC67FF1B8FDE9E00AAE2BF /* Images.xcassets in Resources */,
+				37D44C351BA20E4D009C713E /* PostToChannelCollectionViewCell.xib in Resources */,
 				37A8262D1B96227F00707AC9 /* Geomanist-Thin.otf in Resources */,
 				37A826291B96227F00707AC9 /* Geomanist-ExtraLight.otf in Resources */,
 			);
@@ -630,10 +659,13 @@
 				17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */,
 				1718B7D01B97E03F005F1071 /* POLYDate.m in Sources */,
 				943FD8211B97A88A003B3745 /* BaseModel.m in Sources */,
+				37D44C301BA1F8CA009C713E /* PostToChannelToolbar.m in Sources */,
 				37A826131B96137A00707AC9 /* ChannelsAnimator.m in Sources */,
 				17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */,
 				37A826161B961C8500707AC9 /* ChannelsTitleSelectionViewController.m in Sources */,
+				37D44C3B1BA2154B009C713E /* ChannelsCollectionViewFlowLayout.m in Sources */,
 				1718B7CF1B97E03F005F1071 /* CGPointExtension.m in Sources */,
+				37D44C381BA212CF009C713E /* ChannelPickerView.m in Sources */,
 				371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */,
 				1786D30C1B99017600F7EF72 /* UIView+POLYAdditions.m in Sources */,
 				17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */,
@@ -641,6 +673,7 @@
 				17AC67F71B8FDE9E00AAE2BF /* ChannelsAppDelegate.m in Sources */,
 				1718B7D21B97E03F005F1071 /* UIImage+WebP.m in Sources */,
 				37A8261C1B96218100707AC9 /* ChannelsInterface.m in Sources */,
+				37D44C341BA20E4D009C713E /* PostToChannelCollectionViewCell.m in Sources */,
 				94ADAA601B94E38B004EABD7 /* UserModel.m in Sources */,
 				1718B7CC1B97E03F005F1071 /* UIButton+UIQueryAdditions.m in Sources */,
 				1718B7CD1B97E03F005F1071 /* UIColor+UIQueryAdditions.m in Sources */,
@@ -655,6 +688,7 @@
 				173F58D71BA0D406007CF9FF /* ValueObject.m in Sources */,
 				943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */,
 				947720F01B9A4C3700B0F670 /* LoginViewController.m in Sources */,
+				3718CA0E1BA3820100F97AEB /* POLYActivityIndicator.m in Sources */,
 				1718B7D71B97E03F005F1071 /* POLYNetworking.m in Sources */,
 				1718B7D81B97E03F005F1071 /* POLYViewModel.m in Sources */,
 				1718B7D41B97E03F005F1071 /* POLYImageManager.m in Sources */,

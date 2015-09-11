@@ -14,6 +14,7 @@
 + (UIColor *)navigationBarColor;
 + (UIColor *)viewBackgroundColor;
 + (UIColor *)channelsGreenColor;
++ (UIColor *)channelsGreyColor;
 
 + (UIFont *)regularFontOfSize:(CGFloat)fontSize;
 + (UIFont *)extraLightFontOfSize:(CGFloat)fontSize;

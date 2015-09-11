@@ -12,6 +12,9 @@
 #import <POP/POP.h>
 #import "ChannelRecordVideoButton.h"
 #import "ChannelsPostManager.h"
+#import "ChannelPickerView.h"
+#import "ChannelModel.h"
+
 @import MediaPlayer;
 
 
@@ -24,7 +27,7 @@ static const NSString *kPBJVisionVideoPathKey                   = @"PBJVisionVid
 static const NSString *kPBJVisionVideoThumbnailArrayKey         = @"PBJVisionVideoThumbnailArrayKey";
 static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVideoThumbnailKey";
 
-@interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate, UIAlertViewDelegate, PBJVideoPlayerControllerDelegate>
+@interface PostingViewController () <PBJVisionDelegate, ChannelRecordVideoButtonDelegate, UIAlertViewDelegate, PBJVideoPlayerControllerDelegate, ChannelPickerViewDelegate>
 {
     NSTimer *_videoDurationTimer;
     BOOL _minimumVideoLengthReached;
@@ -33,6 +36,9 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     UIButton *_closeButton;
     UIButton *_flashButton;
     UIButton *_switchCameraButton;
+    
+    UIButton *_backButton;
+    UIButton *_addTextButton;
     
     PBJVision *_vision;
 }
@@ -56,6 +62,8 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 @property (nonatomic) NSDictionary *currentVideo;
 
 @property (nonatomic, strong) ChannelRecordVideoButton *recordVideoButton;
+
+@property (nonatomic, strong) ChannelPickerView *channelPickerView;
 
 @end
 
@@ -81,6 +89,41 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     
     // Setup Video
     [self setup];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackground:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterBackground:)
+                                                 name:UIApplicationWillTerminateNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appDidEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(uploadDidComplete:)
+                                                 name:ChannelsPostManagerDidCompleteUploadNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(uploadDidFail:)
+                                                 name:ChannelsPostManagerDidFailUploadNotification
+                                               object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)loadMoviePlayer
@@ -145,6 +188,30 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [_switchCameraButton addTarget:self action:@selector(switchCamera) forControlEvents:UIControlEventTouchUpInside];
     [_switchCameraButton setTag:PostingViewCameraModeBack];
     [self.view addSubview:_switchCameraButton];
+
+    
+    // Back Button
+    _backButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f, 60.0f)];
+    [_backButton setImage:[UIImage imageNamed:@"Back Button"] forState:UIControlStateNormal];
+    [_backButton addTarget:self action:@selector(discardVideo) forControlEvents:UIControlEventTouchUpInside];
+    _backButton.alpha = 0.0f;
+    [self.view addSubview:_backButton];
+    
+    // Text Button
+    _addTextButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 60.0f, 0.0f, 60.0f, 60.0f)];
+    [_addTextButton setImage:[UIImage imageNamed:@"Text Button"] forState:UIControlStateNormal];
+    [_addTextButton addTarget:self action:@selector(addTextToVideo) forControlEvents:UIControlEventTouchUpInside];
+    _addTextButton.alpha = 0.0f;
+    [self.view addSubview:_addTextButton];
+    
+    _channelPickerView = [[ChannelPickerView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x,
+                                                                 self.view.bounds.size.height,
+                                                                 self.view.bounds.size.width,
+                                                                  200.f)];
+    _channelPickerView.delegate = self;
+    _channelPickerView.alpha = 0.0f;
+    [self.view addSubview:_channelPickerView];
+    
 }
 
 - (void)dismissPostingViewController
@@ -216,7 +283,7 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [self hideCameraControls];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self loadMoviePlayer];
-        [self showconfirmUploadDialog];
+        [self showConfirmUploadButtons];
     });
 }
 
@@ -245,44 +312,46 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
                      }];
 }
 
-#pragma -------------------------------------------------------------------------------------------
-#pragma mark - Confirm Upload Alert View
-#pragma -------------------------------------------------------------------------------------------
-
-- (void)showconfirmUploadDialog
+- (void)showConfirmUploadButtons
 {
-    UIAlertView *alertView = [[UIAlertView alloc]
-                              initWithTitle:@"Confirm Upload"
-                              message:@"Do you want to upload this video?"
-                              delegate:self
-                              cancelButtonTitle:@"No"
-                              otherButtonTitles:@"Yes", nil];
-    [alertView show];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [self pauseMovie];
-    [_videoPlayerController.view removeFromSuperview];
-    _videoPlayerController = nil;
+    [self.view bringSubviewToFront:_backButton];
+    [self.view bringSubviewToFront:_addTextButton];
+    [self.view bringSubviewToFront:_channelPickerView];
     
-    if (buttonIndex == alertView.firstOtherButtonIndex) {
-        [self uploadVideo:_currentVideo];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self dismissPostingViewController];
-        });
-    } else {
-        [self showCameraControls];
-    }
+    [UIView animateWithDuration:0.5f
+                     animations:^{
+                         
+                         // Hide
+                         _closeButton.alpha = 0.0f;
+                         _flashButton.alpha = 0.0f;
+                         _switchCameraButton.alpha = 0.0f;
+                         _recordVideoButton.alpha = 0.0f;
+                         
+                         // Show
+                         _backButton.alpha = 1.0f;
+                         _addTextButton.alpha = 1.0f;
+                         _channelPickerView.alpha = 1.0f;
+                         [_channelPickerView setFrame:CGRectOffset(_channelPickerView.frame, 0.0, -200.0f)];
+                     }];
 }
 
-#pragma -------------------------------------------------------------------------------------------
-#pragma mark - Upload Videos
-#pragma -------------------------------------------------------------------------------------------
-
-- (void)uploadVideo:(NSDictionary *)videoDictionary
+- (void)hideConfirmUploadButtons
 {
-    [[ChannelsPostManager sharedInstance] uploadVideo:_currentVideo];
+    [UIView animateWithDuration:0.5f
+                     animations:^{
+                         
+                         // Hide
+                         _backButton.alpha = 0.0f;
+                         _addTextButton.alpha = 0.0f;
+                         _channelPickerView.alpha = 0.0f;
+                         [_channelPickerView setFrame:CGRectOffset(_channelPickerView.frame, 0.0, 200.0f)];
+                         
+                         // Show
+                         _closeButton.alpha = 1.0f;
+                         _flashButton.alpha = 1.0f;
+                         _switchCameraButton.alpha = 1.0f;
+                         _recordVideoButton.alpha = 1.0f;
+                     }];
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -408,6 +477,75 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 - (void)videoPlayerPlaybackDidEnd:(PBJVideoPlayerController *)videoPlayer
 {
 
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Post to Channel Controls
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)discardVideo
+{
+    [self pauseMovie];
+    [_videoPlayerController.view removeFromSuperview];
+    _videoPlayerController = nil;
+    [self hideConfirmUploadButtons];
+}
+
+- (void)addTextToVideo
+{
+    
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Channel Picker Delegate
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)createChannel
+{
+    NSLog(@"Create Channel");
+}
+
+- (void)postVideoToChannel:(ChannelModel *)channel
+{
+    [self pauseMovie];
+    [_videoPlayerController.view removeFromSuperview];
+    _videoPlayerController = nil;
+    
+    NSData *videoData = [NSData dataWithContentsOfFile:[_currentVideo objectForKey:@"PBJVisionVideoPathKey"]];
+    [[ChannelsPostManager sharedInstance] postVideoData:videoData toChannel:channel.channelID];
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Notifications
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)appDidEnterBackground:(NSNotification *)notification
+{
+    [_videoPlayerController stop];
+    [_vision stopPreview];
+}
+
+- (void)appDidEnterForeground:(NSNotification *)notification
+{
+    [_videoPlayerController playFromBeginning];
+    [_vision startPreview];
+}
+
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Upload Notifications
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)uploadDidComplete:(NSNotification *)notification
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self dismissPostingViewController];
+    });
+}
+
+- (void)uploadDidFail:(NSNotification *)notification
+{
+    // NEED TO HANDLE FAIL STATE
 }
 
 @end
