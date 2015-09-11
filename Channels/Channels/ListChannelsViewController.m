@@ -68,25 +68,10 @@
 #pragma mark - ASCollectionViewDataSource
 #pragma -------------------------------------------------------------------------------------------
 
-- (NSInteger)numberOfSectionsInCollectionView:(ASCollectionView *)collectionView
-{
-    return 1;
-}
-
 - (ASCellNode *)collectionView:(ASCollectionView *)collectionView nodeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ChannelInfo *info = self.viewModel.channelList[indexPath.item];
-//    NSString *text = info.title;
     ChannelInfoNode *cell = [[ChannelInfoNode alloc] initWithInfo:info];
-//    ASCellNode *cell = [[ASTextCellNode alloc] init];
-//    CGFloat width = floor((screenWidth() - 15.0)/2.);
-//    CGFloat height = floor(width*1.22);
-//    CGRect frame = cell.frame;
-//    frame.size = CGSizeMake(width, height);
-//    cell set
-////    [node setFrame:frame];
-//    cell.backgroundColor = [UIColor blackColor];
-    
     return cell;
 }
 
@@ -126,7 +111,6 @@
 - (void)reloadData
 {
     [self setTitle:self.viewModel.listTitle];
-//    [self.myFeedCollectionView setAsyncDataSource:self];
     [self.myFeedCollectionView reloadData];
 }
 

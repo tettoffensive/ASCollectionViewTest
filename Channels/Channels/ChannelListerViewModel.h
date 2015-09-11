@@ -24,7 +24,7 @@
 @property (readonly) NSString      *title;
 @property (readonly) NSURL         *thumbnailURL;
 @property (readonly) BOOL           isTrending;
-@property (readonly) NSTimeInterval lastChannelPostAt;
+@property (readonly) NSString      *lastUpdatedString;
 @property (readonly) BOOL           newPosts;
 
 @end

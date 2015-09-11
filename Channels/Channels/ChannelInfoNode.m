@@ -32,29 +32,42 @@ static CGFloat kTextPadding = 10.0f;
         if (info.newPosts) {
             [self setAlpha:1.0];
         } else {
-            [self setAlpha:0.35];
+            [self setAlpha:1.0]; // 0.35 later
         }
         
         // create a text node
         _titleNode = [ASTextNode new];
         _titleNode.delegate = self;
         _titleNode.userInteractionEnabled = NO;
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:info.title attributes:@{
-                                                                                                                      NSFontAttributeName : [ChannelsInterface mediumFontOfSize:20],
-                                                                                                                      NSForegroundColorAttributeName : [UIColor whiteColor]
-                                                                                                                      }];
-        _titleNode.attributedString = string;
+        NSString *title = info.title;
+        
+        NSShadow *dropShadow = [NSShadow new];
+        [dropShadow setShadowOffset:CGSizeMake(0, 1)];
+        [dropShadow setShadowColor:[UIColor colorWithHue:0 saturation:0 brightness:0 alpha:0.25]];
+        [dropShadow setShadowBlurRadius:2];
+        
+        if (title && title.length > 0) {
+            NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:title attributes:@{
+                                                                                                                     NSFontAttributeName : [ChannelsInterface mediumFontOfSize:20],
+                                                                                                                     NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                                                                                     NSShadowAttributeName : dropShadow
+                                                                                                                     }];
+            _titleNode.attributedString = string;
+        }
         
         // create another text node for updated at
         _updatedAtNode = [ASTextNode new];
         _updatedAtNode.delegate = self;
         _updatedAtNode.userInteractionEnabled = NO;
-        NSMutableAttributedString *dateString = [[NSMutableAttributedString alloc] initWithString:@"49 minutes ago" attributes:@{
-                                                                                                                      NSFontAttributeName : [ChannelsInterface regularFontOfSize:12],
-                                                                                                                      NSForegroundColorAttributeName : [UIColor whiteColor]
-                                                                                                                      }];
-        [_updatedAtNode setAlpha:0.6];
-        _updatedAtNode.attributedString = dateString;
+        NSString *date = info.lastUpdatedString;
+        if (date && [date length] > 0) {
+            NSMutableAttributedString *dateString = [[NSMutableAttributedString alloc] initWithString:date attributes:@{
+                                                                                                                        NSFontAttributeName : [ChannelsInterface regularFontOfSize:12],
+                                                                                                                        NSForegroundColorAttributeName : [UIColor whiteColor],                                                               NSShadowAttributeName : dropShadow
+                                                                                                                        }];
+            [_updatedAtNode setAlpha:0.6];
+            _updatedAtNode.attributedString = dateString;
+        }
         
         _imageNode = [ASNetworkImageNode new];
         _imageNode.delegate = self;
@@ -103,7 +116,6 @@ static CGFloat kTextPadding = 10.0f;
 
 - (void)imageNode:(ASNetworkImageNode *)imageNode didLoadImage:(UIImage *)image
 {
-    POLYLog(@"Loaded Image");
     [self setNeedsLayout];
 }
 

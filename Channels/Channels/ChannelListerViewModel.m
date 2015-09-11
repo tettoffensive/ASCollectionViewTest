@@ -9,6 +9,8 @@
 #import "ChannelListerViewModel.h"
 #import "ChannelsNetworking.h"
 
+@import DateTools.NSDate_DateTools;
+
 NSString *const defaultName = @"My Feed";
 
 @implementation ChannelListerViewModel
@@ -83,13 +85,7 @@ NSString *const defaultName = @"My Feed";
 
 - (NSURL *)thumbnailURL
 {
-    return [NSURL URLWithString:@"https://usatftw.files.wordpress.com/2013/07/xxx-d01-nickelback-16.jpg"];
-//    return [NSURL URLWithString:[self.backingObject mediaThumbnailURLString]];
-}
-
-- (NSUInteger)numberOfChannelViews
-{
-    return 49000000;
+    return [NSURL URLWithString:[self.backingObject thumbnailURLString]];
 }
 
 - (BOOL)isTrending
@@ -97,9 +93,13 @@ NSString *const defaultName = @"My Feed";
     return FALSE;
 }
 
-- (NSTimeInterval)lastChannelPostAt
+- (NSString*)lastUpdatedString
 {
-  return [[NSDate date] timeIntervalSince1970];
+    NSString *string = [[self.backingObject updatedAt] timeAgoSinceNow];
+    if ([string length] > 0) {
+        return string;
+    }
+    return @"";
 }
 
 - (BOOL)newPosts
