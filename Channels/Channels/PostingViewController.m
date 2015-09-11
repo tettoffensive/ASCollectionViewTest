@@ -109,6 +109,16 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
                                              selector:@selector(appDidEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(uploadDidComplete:)
+                                                 name:ChannelsPostManagerDidCompleteUploadNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(uploadDidFail:)
+                                                 name:ChannelsPostManagerDidFailUploadNotification
+                                               object:nil];
 }
 
 - (void)loadMoviePlayer
@@ -498,10 +508,6 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     
     NSData *videoData = [NSData dataWithContentsOfFile:[_currentVideo objectForKey:@"PBJVisionVideoPathKey"]];
     [[ChannelsPostManager sharedInstance] postVideoData:videoData toChannel:channel.channelID];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //[self dismissPostingViewController];
-    });
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -518,6 +524,23 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 {
     [_videoPlayerController playFromBeginning];
     [_vision startPreview];
+}
+
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Upload Notifications
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)uploadDidComplete:(NSNotification *)notification
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self dismissPostingViewController];
+    });
+}
+
+- (void)uploadDidFail:(NSNotification *)notification
+{
+    // NEED TO HANDLE FAIL STATE
 }
 
 @end

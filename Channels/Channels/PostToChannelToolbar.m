@@ -109,19 +109,13 @@
 - (void)uploadDidComplete:(NSNotification *)notification
 {
     [_activityIndicator stopWithCompletion:YES];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [_rightButton setHidden:NO];
-    });
 }
 
 - (void)uploadDidFail:(NSNotification *)notification
 {
     [_activityIndicator stopWithCompletion:YES];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [_rightButton setHidden:NO];
-    });
+
+    // NEED TO HANDLE FAIL STATE
 }
 
 @end

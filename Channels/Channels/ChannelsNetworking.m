@@ -143,7 +143,7 @@
 
 - (void)createPostForChannelID:(NSString *)channelID withMediaKey:(NSString *)mediaKey success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [self POST:@"posts/create" parameters:@{@"channel_id":channelID,@"media_key":mediaKey,@"user_id":[UserModel isLoggedIn] ? [[UserModel currentUser] userID] : 0} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:@"posts/create" parameters:@{@"channel_id":channelID,@"media_key":mediaKey} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (success) success();
         
