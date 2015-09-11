@@ -172,6 +172,8 @@ static NSString *kChannelsCollectionViewCellIdentifier = @"PostToChannelCollecti
 {
     NSLog(@"Post to Channel %@", _selectedChannel.title);
     [self.delegate postVideoToChannel:_selectedChannel];
+    
+    // Add Indicator View
 }
 
 @end

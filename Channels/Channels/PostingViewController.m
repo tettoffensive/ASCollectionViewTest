@@ -500,7 +500,7 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
     [[ChannelsPostManager sharedInstance] postVideoData:videoData toChannel:channel.channelID];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self dismissPostingViewController];
+        //[self dismissPostingViewController];
     });
 }
 

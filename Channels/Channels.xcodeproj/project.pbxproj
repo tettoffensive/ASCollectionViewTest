@@ -22,8 +22,8 @@
 		1718B7D81B97E03F005F1071 /* POLYViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1718B7CB1B97E03F005F1071 /* POLYViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		1718B7DA1B97E0F0005F1071 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1718B7D91B97E0F0005F1071 /* WebP.framework */; settings = {ASSET_TAGS = (); }; };
 		1728B6931B9A29D000BECD74 /* ChannelVideoPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1728B6921B9A29D000BECD74 /* ChannelVideoPlayerController.m */; settings = {ASSET_TAGS = (); }; };
-		173F58D71BA0D406007CF9FF /* ValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 173F58D61BA0D406007CF9FF /* ValueObject.m */; settings = {ASSET_TAGS = (); }; };
 		1739236D1BA2350D00A0B265 /* ChannelListerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1739236C1BA2350D00A0B265 /* ChannelListerViewModel.m */; settings = {ASSET_TAGS = (); }; };
+		173F58D71BA0D406007CF9FF /* ValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 173F58D61BA0D406007CF9FF /* ValueObject.m */; settings = {ASSET_TAGS = (); }; };
 		1786D30C1B99017600F7EF72 /* UIView+POLYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1786D30B1B99017600F7EF72 /* UIView+POLYAdditions.m */; settings = {ASSET_TAGS = (); }; };
 		178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		17AC67F41B8FDE9E00AAE2BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17AC67F31B8FDE9E00AAE2BF /* main.m */; };
@@ -35,6 +35,7 @@
 		17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA741B910B2200070321 /* ChannelViewController.m */; };
 		17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA7E1B910BE600070321 /* BaseViewController.m */; };
 		17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA811B910C1900070321 /* ListChannelsViewController.m */; };
+		3718CA0E1BA3820100F97AEB /* POLYActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */; settings = {ASSET_TAGS = (); }; };
 		371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */; settings = {ASSET_TAGS = (); }; };
 		3764E27B1B989F600078DCF3 /* ChannelRecordVideoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764E27A1B989F600078DCF3 /* ChannelRecordVideoButton.m */; settings = {ASSET_TAGS = (); }; };
 		3764E27E1B989F9E0078DCF3 /* PostingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764E27D1B989F9E0078DCF3 /* PostingViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -105,10 +106,10 @@
 		1718B7D91B97E0F0005F1071 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = "<group>"; };
 		1728B6911B9A29D000BECD74 /* ChannelVideoPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelVideoPlayerController.h; sourceTree = "<group>"; };
 		1728B6921B9A29D000BECD74 /* ChannelVideoPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelVideoPlayerController.m; sourceTree = "<group>"; };
-		173F58D51BA0D406007CF9FF /* ValueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueObject.h; sourceTree = "<group>"; };
-		173F58D61BA0D406007CF9FF /* ValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueObject.m; sourceTree = "<group>"; };
 		1739236B1BA2350D00A0B265 /* ChannelListerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelListerViewModel.h; sourceTree = "<group>"; };
 		1739236C1BA2350D00A0B265 /* ChannelListerViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelListerViewModel.m; sourceTree = "<group>"; };
+		173F58D51BA0D406007CF9FF /* ValueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueObject.h; sourceTree = "<group>"; };
+		173F58D61BA0D406007CF9FF /* ValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueObject.m; sourceTree = "<group>"; };
 		1786D30A1B99017600F7EF72 /* UIView+POLYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+POLYAdditions.h"; sourceTree = "<group>"; };
 		1786D30B1B99017600F7EF72 /* UIView+POLYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+POLYAdditions.m"; sourceTree = "<group>"; };
 		178CB17F1B9660BA0010B097 /* ChannelPlayerViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelPlayerViewModel.h; sourceTree = "<group>"; };
@@ -133,6 +134,8 @@
 		17D4CA7E1B910BE600070321 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		17D4CA801B910C1900070321 /* ListChannelsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListChannelsViewController.h; sourceTree = "<group>"; };
 		17D4CA811B910C1900070321 /* ListChannelsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListChannelsViewController.m; sourceTree = "<group>"; };
+		3718CA0C1BA3820100F97AEB /* POLYActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYActivityIndicator.h; sourceTree = "<group>"; };
+		3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYActivityIndicator.m; sourceTree = "<group>"; };
 		371BF09E1B962C3C004D54D1 /* ChannelsNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsNavigationBar.h; sourceTree = "<group>"; };
 		371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsNavigationBar.m; sourceTree = "<group>"; };
 		373C60511B98AF0100B5DD91 /* POLYFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = POLYFoundation.h; sourceTree = "<group>"; };
@@ -245,6 +248,8 @@
 		17A3877B1B8FEA6700702E85 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3718CA0C1BA3820100F97AEB /* POLYActivityIndicator.h */,
+				3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */,
 				371BF09E1B962C3C004D54D1 /* ChannelsNavigationBar.h */,
 				371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */,
 				3764E2791B989F600078DCF3 /* ChannelRecordVideoButton.h */,
@@ -677,6 +682,7 @@
 				173F58D71BA0D406007CF9FF /* ValueObject.m in Sources */,
 				943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */,
 				947720F01B9A4C3700B0F670 /* LoginViewController.m in Sources */,
+				3718CA0E1BA3820100F97AEB /* POLYActivityIndicator.m in Sources */,
 				1718B7D71B97E03F005F1071 /* POLYNetworking.m in Sources */,
 				1718B7D81B97E03F005F1071 /* POLYViewModel.m in Sources */,
 				1718B7D41B97E03F005F1071 /* POLYImageManager.m in Sources */,

@@ -8,10 +8,13 @@
 
 #import "PostToChannelToolbar.h"
 #import "ChannelsInterface.h"
+#import "ChannelsPostManager.h"
+#import "POLYActivityIndicator.h"
 
 @interface PostToChannelToolbar()
 
 @property (nonatomic, strong) UIView *viewContainer;
+@property (nonatomic, strong) POLYActivityIndicator *activityIndicator;
 
 @end
 
@@ -40,18 +43,43 @@
                                                                  _viewContainer.bounds.origin.y,
                                                                  50.0f, 50.0f)];
         [_leftButton setImage:[UIImage imageNamed:@"Pick Channel"] forState:UIControlStateNormal];
-        [_leftButton addTarget:self action:@selector(leftButtonAction) forControlEvents:UIControlEventTouchUpInside];
         [_viewContainer addSubview:_leftButton];
         
         _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(_viewContainer.bounds.size.width - 50.0f,
                                                                   _viewContainer.bounds.origin.y,
                                                                   50.0f, 50.0f)];
         [_rightButton setImage:[UIImage imageNamed:@"Post To Channel"] forState:UIControlStateNormal];
-        [_rightButton addTarget:self action:@selector(rightButtonAction) forControlEvents:UIControlEventTouchUpInside];
         [_rightButton setEnabled:NO];
         [_viewContainer addSubview:_rightButton];
+        
+        
+        // Notifications
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(uploadDidStart:)
+                                                     name:ChannelsPostManagerDidStartUploadNotification
+                                                   object:nil];
+        
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(uploadProgress:)
+//                                                     name:ChannelsPostManagerDidUpdateUploadProgressNotification
+//                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(uploadDidComplete:)
+                                                     name:ChannelsPostManagerDidCompleteUploadNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(uploadDidFail:)
+                                                     name:ChannelsPostManagerDidFailUploadNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)updateToolbarTitle:(NSString *)title
@@ -61,14 +89,39 @@
     _titleLabel.center = CGPointMake(_viewContainer.bounds.size.width/2.0, _viewContainer.bounds.size.height/2.0);
 }
 
-- (void)leftButtonAction
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Upload Notifications
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)uploadDidStart:(NSNotification *)notification
 {
-    NSLog(@"leftButtonAction");
+    [_rightButton setHidden:YES];
+    
+    _activityIndicator = [[POLYActivityIndicator alloc] initWithFrame:CGRectMake(0.0, 0.0, 50.0f, 50.0f)];
+    [_activityIndicator setFrame:CGRectMake(_viewContainer.bounds.size.width - _activityIndicator.bounds.size.width,
+                                            _viewContainer.bounds.origin.y,
+                                            _activityIndicator.bounds.size.width,
+                                            _activityIndicator.bounds.size.height)];
+    [_viewContainer addSubview:_activityIndicator];
+    [_activityIndicator start];
 }
 
-- (void)rightButtonAction
+- (void)uploadDidComplete:(NSNotification *)notification
 {
-    NSLog(@"rightButtonAction");
+    [_activityIndicator stopWithCompletion:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_rightButton setHidden:NO];
+    });
+}
+
+- (void)uploadDidFail:(NSNotification *)notification
+{
+    [_activityIndicator stopWithCompletion:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_rightButton setHidden:NO];
+    });
 }
 
 @end
