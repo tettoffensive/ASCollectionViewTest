@@ -9,7 +9,14 @@
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
 
 @class ChannelInfo;
+@class ChannelInfoNode;
+
+@protocol ChannelInfoNodeDelegate <NSObject>
+@optional
+- (void)channelNodeWasTapped:(ChannelInfo*)channel;
+@end
 
 @interface ChannelInfoNode : ASCellNode
+@property (nonatomic, weak) id<ChannelInfoNodeDelegate> delegate;
 - (instancetype)initWithInfo:(ChannelInfo*)info;
 @end

@@ -9,8 +9,10 @@
 #import "ListChannelsViewController.h"
 @import AsyncDisplayKit;
 #import "ChannelInfoNode.h"
+#import "ChannelPlayerViewModel.h"
+#import "ChannelViewController.h"
 
-@interface ListChannelsViewController ()<ASCollectionViewDelegate,ASCollectionViewDataSource>
+@interface ListChannelsViewController ()<ASCollectionViewDelegate,ASCollectionViewDataSource,ChannelInfoNodeDelegate>
 @property (nonatomic) ASCollectionView *myFeedCollectionView;
 @end
 
@@ -72,6 +74,7 @@
 {
     ChannelInfo *info = self.viewModel.channelList[indexPath.item];
     ChannelInfoNode *cell = [[ChannelInfoNode alloc] initWithInfo:info];
+    [cell setDelegate:self];
     return cell;
 }
 
@@ -102,6 +105,20 @@
         insetForSectionAtIndex:(NSInteger)section
 {
     return UIEdgeInsetsMake(0.0, 0.0, 10.0, 10.0);
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - ChannelInfoNode Delegate
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)channelNodeWasTapped:(ChannelInfo *)channel
+{
+    POLYLog(@"Channel Was Tapped:", channel);
+    
+    ChannelPlayerViewModel *viewModel = [ChannelPlayerViewModel new];
+    [viewModel updatePosts];
+    ChannelViewController *channelViewController = [[ChannelViewController alloc] initWithViewModel:viewModel];
+    [self.navigationController presentViewController:channelViewController animated:YES completion:NULL];
 }
 
 #pragma -------------------------------------------------------------------------------------------
