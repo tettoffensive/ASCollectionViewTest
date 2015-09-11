@@ -26,8 +26,11 @@
 @property (nonatomic, copy, readonly)   NSString *mediaThumbnailURLString;
 @property (readonly)                    BOOL mediaEncoded;
 
+// Current user taking an action on post
+@property (nonatomic) NSInteger currentUserNumberOfVotesUp;
+@property (nonatomic) NSInteger currentUserNumberOfVotesDown;
+
 - (void)createPostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
-- (void)likePostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
-- (void)disLikePostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
+- (void)sendVoteResultsWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
 
 @end

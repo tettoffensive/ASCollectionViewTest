@@ -50,18 +50,9 @@
     }];
 }
 
-- (void)likePostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
+- (void)sendVoteResultsWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [[ChannelsNetworking sharedInstance] likePostForPostID:self.postID success:^{
-        if (success) success();
-    } andFailure:^(NSError *error) {
-        if (failure) failure(error);
-    }];
-}
-
-- (void)disLikePostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
-{
-    [[ChannelsNetworking sharedInstance] disLikePostForPostID:self.postID success:^{
+    [[ChannelsNetworking sharedInstance] sendVoteResultsForPostID:self.postID withNumberOfVotesUp:self.currentUserNumberOfVotesUp andNumberOfVotesDown:self.currentUserNumberOfVotesDown success:^{
         if (success) success();
     } andFailure:^(NSError *error) {
         if (failure) failure(error);
