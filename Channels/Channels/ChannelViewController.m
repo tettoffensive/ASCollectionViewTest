@@ -100,6 +100,8 @@
     [super viewWillAppear:animated];
     [self.view bringSubviewToFront:_postButton];
     [self playMovie];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
