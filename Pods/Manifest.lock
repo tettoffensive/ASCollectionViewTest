@@ -38,6 +38,7 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.2.2)
   - FLKAutoLayout (0.2.1)
+  - FXBlurView (1.6.4)
   - KVOController (1.0.3)
   - libextobjc/EXTScope (0.4.1):
     - libextobjc/RuntimeExtensions
@@ -78,6 +79,7 @@ DEPENDENCIES:
   - AWSS3
   - Bolts
   - FLKAutoLayout
+  - FXBlurView
   - KVOController
   - libextobjc/EXTScope
   - Mantle
@@ -98,6 +100,7 @@ SPEC CHECKSUMS:
   AWSS3: 78a5be4417c5fe1d9a1c301b05bbfbb6719d4f18
   Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
   FLKAutoLayout: 9db6b30c2008d230da608e62c607b11c23b942e6
+  FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Mantle: 6bee68168423948be0c0c5924832bf3af188e099

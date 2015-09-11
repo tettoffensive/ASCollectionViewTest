@@ -38,6 +38,7 @@ target :Channels do
   pod 'PBJVision'
   pod 'PBJVideoPlayer'
   pod 'AsyncDisplayKit'
+  pod 'FXBlurView'
 
   # Core
   pod "AFNetworking", "~> 2.5.1"
