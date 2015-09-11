@@ -114,7 +114,6 @@
         
         if (failure) failure(error);
         
-        
     }];
 }
 
@@ -145,6 +144,32 @@
 - (void)createPostForChannelID:(NSString *)channelID withMediaKey:(NSString *)mediaKey success:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
     [self POST:@"posts/create" parameters:@{@"channel_id":channelID,@"media_key":mediaKey,@"user_id":[UserModel isLoggedIn] ? [[UserModel currentUser] userID] : 0} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (success) success();
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if (failure) failure(error);
+        
+    }];
+}
+
+- (void)likePostForPostID:(NSString *)postID success:(void(^)())success andFailure:(void(^)(NSError *error))failure
+{
+    [self POST:@"posts/like" parameters:@{@"post_id":postID} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (success) success();
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if (failure) failure(error);
+        
+    }];
+}
+
+- (void)disLikePostForPostID:(NSString *)postID success:(void(^)())success andFailure:(void(^)(NSError *error))failure
+{
+    [self POST:@"posts/dislike" parameters:@{@"post_id":postID} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (success) success();
         

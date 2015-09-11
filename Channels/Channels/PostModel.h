@@ -27,5 +27,7 @@
 @property (readonly)                    BOOL mediaEncoded;
 
 - (void)createPostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
+- (void)likePostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
+- (void)disLikePostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
 
 @end
