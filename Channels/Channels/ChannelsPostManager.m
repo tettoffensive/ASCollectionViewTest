@@ -13,6 +13,10 @@
 #import "PostModel.h"
 #import "ChannelModel.h"
 
+NSString *const ChannelsPostManagerDidStartUploadNotification           = @"ChannelsPostManagerDidStartUploadNotification";
+NSString *const ChannelsPostManagerDidUpdateUploadProgressNotification  = @"ChannelsPostManagerDidUpdateUploadProgressNotification";
+NSString *const ChannelsPostManagerDidCompleteUploadNotification        = @"ChannelsPostManagerDidCompleteUploadNotification";
+NSString *const ChannelsPostManagerDidFailUploadNotification            = @"ChannelsPostManagerDidFailUploadNotification";
 
 @interface ChannelsPostManager()
 
@@ -44,41 +48,29 @@ static ChannelsPostManager *sharedChannelsPostManagerInstance = nil;
     return self;
 }
 
-- (void)dealloc
+- (void)postVideoData:(NSData *)videoData toChannel:(NSString *)channelID
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)uploadVideo:(NSDictionary *)videoDictionary
-{
-    NSData *videoData = [NSData dataWithContentsOfFile:[videoDictionary objectForKey:@"PBJVisionVideoPathKey"]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ChannelsPostManagerDidStartUploadNotification object:self];
+    
     [self.fileManager uploadVideoData:videoData
                              progress:^(CGFloat progress) {
                                  NSLog(@"Video Upload Progress: %.2f", progress);
+                                 NSDictionary *userInfo = @{@"VIDEO EXPORT PROGRESS" : [NSNumber numberWithFloat:progress]};
+                                 [[NSNotificationCenter defaultCenter] postNotificationName:ChannelsPostManagerDidUpdateUploadProgressNotification object:userInfo];
                              } success:^(BOOL finished, NSString *key) {
                                  
                                  NSLog(@"Finished %@", finished == YES ? @"YES" : @"NO");
                                  NSLog(@"Success %@", key);
                                  
-                                 // Fetch Channel
-                                 [ChannelModel fetchChannelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
-                                     
-                                     ChannelModel *channel = [channels objectAtIndex:0];
-                                     NSString *channelID = channel.channelID;
-                                     NSLog(@"CHANNEL ID %@", channelID);
-                                     
-                                     PostModel *post = [PostModel newPostInChannel:channelID WithKey:key];
-                                     [post createPostWithSuccess:^{
-                                         NSLog(@"Successfully Created Post");
-                                     } andFailure:^(NSError *error) {
-                                         NSLog(@"Failed to Create Post");
-                                     }];
-                                     
+                                 PostModel *post = [PostModel newPostInChannel:channelID WithKey:key];
+                                 [post createPostWithSuccess:^{
+                                     NSLog(@"Successfully Created Post to Channel ID: %@", channelID);
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:ChannelsPostManagerDidCompleteUploadNotification object:self];
                                  } andFailure:^(NSError *error) {
-                                     NSLog(@"Failed to fetch channel");
+                                     NSLog(@"Failed to Create Post");
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:ChannelsPostManagerDidFailUploadNotification object:self];
                                  }];
                                  
-
                              } failure:^(NSError *err) {
                                  NSLog(@"Failure %@", [err description]);
                              }];

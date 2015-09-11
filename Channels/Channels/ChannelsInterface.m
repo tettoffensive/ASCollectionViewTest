@@ -25,6 +25,11 @@
     return [self colorFromHexString:@"#2ecc71"];
 }
 
++ (UIColor *)channelsGreyColor
+{
+    return [self colorFromHexString:@"#7e7e8c"];
+}
+
 + (UIFont *)regularFontOfSize:(CGFloat)fontSize
 {
     return [UIFont fontWithName:@"Geomanist-Regular" size:fontSize];

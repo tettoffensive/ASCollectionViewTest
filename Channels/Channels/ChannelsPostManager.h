@@ -8,9 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+// SPWatermarking Notifications
+extern NSString *const ChannelsPostManagerDidStartUploadNotification;
+extern NSString *const ChannelsPostManagerDidUpdateUploadProgressNotification;
+extern NSString *const ChannelsPostManagerDidCompleteUploadNotification;
+extern NSString *const ChannelsPostManagerDidFailUploadNotification;
+
 @interface ChannelsPostManager : NSObject
 
 + (ChannelsPostManager *)sharedInstance;
-- (void)uploadVideo:(NSDictionary *)videoDictionary;
+- (void)postVideoData:(NSData *)videoData toChannel:(NSString *)channelID;
 
 @end
