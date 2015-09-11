@@ -7,7 +7,6 @@
 //
 
 #import "POLYViewModel.h"
-#import "ValueObject.h"
 
 @class ChannelInfo;
 
@@ -22,7 +21,6 @@
 
 @property (readonly) NSString      *title;
 @property (readonly) NSURL         *thumbnailURL;
-@property (readonly) NSUInteger     numberOfChannelViews;
 @property (readonly) BOOL           isTrending;
 @property (readonly) NSTimeInterval lastChannelPostAt;
 @property (readonly) BOOL           newPosts;
