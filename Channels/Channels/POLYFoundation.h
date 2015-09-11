@@ -15,3 +15,4 @@
 #import "POLYViewController.h"
 #import "POLYNetworking.h"
 #import "UIView+POLYAdditions.h"
+#import "ValueObject.h"

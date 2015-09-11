@@ -15,18 +15,17 @@
 
 @interface PostModel : BaseModel
 
+- (instancetype)initInChannel:(NSString *)channelID WithKey:(NSString *)key;
++ (instancetype)newPostInChannel:(NSString *)channelID WithKey:(NSString *)key;
+
 @property (readonly)                    NSString *postID;
 @property (readonly)                    NSString *channelID;
 @property (readonly)                    NSString *userID;
-@property (nonatomic, copy)             NSString *mediaKey; // Must be in a UUID format.
+@property (nonatomic, copy, readonly)   NSString *mediaKey; // Must be in a UUID format.
 @property (nonatomic, copy, readonly)   NSString *mediaURLString;
 @property (nonatomic, copy, readonly)   NSString *mediaThumbnailURLString;
 @property (readonly)                    BOOL mediaEncoded;
 
-@property (nonatomic, copy, readonly)   NSURL *URL;
-@property (nonatomic, copy, readonly)   NSURL *thumbnailURL;
-
 - (void)createPostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
-- (void)setChannelID:(NSString *)channelID;
 
 @end
