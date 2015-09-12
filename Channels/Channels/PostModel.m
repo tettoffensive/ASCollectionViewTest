@@ -9,6 +9,14 @@
 #import "PostModel.h"
 #import "ChannelsNetworking.h"
 
+@interface PostModel()
+
+// Current user taking an action on post
+@property (nonatomic) NSInteger currentUserNumberOfVotesUp;
+@property (nonatomic) NSInteger currentUserNumberOfVotesDown;
+
+@end
+
 @implementation PostModel
 
 - (instancetype)initInChannel:(NSString *)channelID WithKey:(NSString *)key
@@ -38,6 +46,22 @@
 }
 
 #pragma ------------------------------------------------------------------------------------------------------
+#pragma mark - Current User Action
+#pragma ------------------------------------------------------------------------------------------------------
+
+- (void)voteUp
+{
+    POLYLog(@"UP");
+    _currentUserNumberOfVotesUp++;
+}
+
+- (void)voteDown
+{
+    POLYLog(@"DOWN");
+    _currentUserNumberOfVotesDown++;
+}
+
+#pragma ------------------------------------------------------------------------------------------------------
 #pragma mark - Network Calls
 #pragma ------------------------------------------------------------------------------------------------------
 
@@ -50,18 +74,9 @@
     }];
 }
 
-- (void)likePostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
+- (void)sendVoteWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
-    [[ChannelsNetworking sharedInstance] likePostForPostID:self.postID success:^{
-        if (success) success();
-    } andFailure:^(NSError *error) {
-        if (failure) failure(error);
-    }];
-}
-
-- (void)disLikePostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
-{
-    [[ChannelsNetworking sharedInstance] disLikePostForPostID:self.postID success:^{
+    [[ChannelsNetworking sharedInstance] sendVoteResultsForPostID:self.postID withNumberOfVotesUp:self.currentUserNumberOfVotesUp andNumberOfVotesDown:self.currentUserNumberOfVotesDown success:^{
         if (success) success();
     } andFailure:^(NSError *error) {
         if (failure) failure(error);

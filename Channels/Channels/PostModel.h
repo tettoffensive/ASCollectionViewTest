@@ -26,8 +26,10 @@
 @property (nonatomic, copy, readonly)   NSString *mediaThumbnailURLString;
 @property (readonly)                    BOOL mediaEncoded;
 
+- (void)voteUp;
+- (void)voteDown;
+
 - (void)createPostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
-- (void)likePostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
-- (void)disLikePostWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
+- (void)sendVoteWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure;
 
 @end

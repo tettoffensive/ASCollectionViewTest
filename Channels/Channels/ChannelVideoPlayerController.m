@@ -207,6 +207,7 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(_applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [nc addObserver:self selector:@selector(_applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated

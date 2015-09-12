@@ -100,6 +100,8 @@
     [super viewWillAppear:animated];
     [self.view bringSubviewToFront:_postButton];
     [self playMovie];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -243,11 +245,26 @@
 {
     CGPoint touchPoint = [tap locationInView:self.channelMoviePlayerController.view];
     if (tap.state == UIGestureRecognizerStateEnded) {
-        if (touchPoint.x < self.channelMoviePlayerController.view.width*0.33) {
+        
+        CGFloat navWidth = 100.0f;
+        
+        if (touchPoint.x > 0 && touchPoint.x <= navWidth) {
             [self.channelMoviePlayerController previous];
-        } else {
+        }
+        
+        else if (touchPoint.x >= self.channelMoviePlayerController.view.width - navWidth && touchPoint.x <= self.channelMoviePlayerController.view.width) {
             [self.channelMoviePlayerController next];
         }
+        
+        else {
+        
+            if (touchPoint.y < screenHeight()/2) {
+                [self.viewModel.channelPosts[self.channelMoviePlayerController.currentItemIndex] voteUp];
+            } else {
+                [self.viewModel.channelPosts[self.channelMoviePlayerController.currentItemIndex] voteDown];
+            }
+        }
+        
     }
 }
 
