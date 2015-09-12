@@ -8,8 +8,16 @@
 
 #import "ChannelPlayerViewModel.h"
 #import "ChannelsNetworking.h"
+#import "ChannelListerViewModel.h"
 
 NSString *const defaultChannelsName = @"";
+
+@interface ChannelPlayerViewModel ()
+{
+    ChannelInfo *_currentChannel;
+}
+
+@end
 
 @implementation ChannelPlayerViewModel
 
@@ -21,28 +29,29 @@ NSString *const defaultChannelsName = @"";
     return self;
 }
 
-- (void)updatePosts
+- (void)updatePostsForCurrentChannel
 {
-    ChannelsNetworking *networking = [ChannelsNetworking sharedInstance];
+    NSParameterAssert(_currentChannel);
+    [self updatePostsForChannel:_currentChannel];
+}
+
+- (void)updatePostsForChannel:(ChannelInfo *)channel
+{
+    _currentChannel = channel;
     __weak __typeof(self)weakSelf = self;
-    [networking fetchAllChannelsWithSuccess:^(NSArray<ChannelModel *> *channels) {
-        ChannelModel *channelModel = channels[0];
-        [self updateChannelTitleWithString:channelModel.title];
-        if (channelModel) {
-            [channelModel fetchPostsWithSuccess:^(NSArray<PostModel *> *posts) {
-                __strong __typeof(weakSelf)strongSelf = weakSelf;
-                [strongSelf updateChannelPostsWithArray:[posts map:^id(PostModel *model) {
-                    return [[Post alloc] initWithBackingObject:model];
-                }]];
-            } andFailure:^(NSError *error) {
-                POLYLog(@"Error : %@", error);
-                [self updateChannelTitleWithError:error];
-            }];
-        }
-    } andFailure:^(NSError *error) {
-        POLYLog(@"Fetch Channel Error : %@", error);
-        [self updateChannelTitleWithError:error];
-    }];
+    ChannelModel *channelModel = channel.backingObject;
+    [self updateChannelTitleWithString:channelModel.title];
+    if (channelModel) {
+        [channelModel fetchPostsWithSuccess:^(NSArray<PostModel *> *posts) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf updateChannelPostsWithArray:[posts map:^id(PostModel *model) {
+                return [[Post alloc] initWithBackingObject:model];
+            }]];
+        } andFailure:^(NSError *error) {
+            POLYLog(@"Error : %@", error);
+            [self updateChannelTitleWithError:error];
+        }];
+    }
 }
 
 - (void)updateChannelTitleWithError:(NSError *)error

@@ -172,7 +172,7 @@
 {
     if (self.count - self.channelMoviePlayerController.currentItemIndex < 3) {
         // make a call to reload the posts if we are close to the last post
-        [self.viewModel updatePosts];
+        [self.viewModel updatePostsForCurrentChannel];
     }
 }
 

@@ -62,11 +62,6 @@
 }
 
 #pragma -------------------------------------------------------------------------------------------
-#pragma mark - ASCollectionViewDelegate
-#pragma -------------------------------------------------------------------------------------------
-
-
-#pragma -------------------------------------------------------------------------------------------
 #pragma mark - ASCollectionViewDataSource
 #pragma -------------------------------------------------------------------------------------------
 
@@ -116,7 +111,7 @@
     POLYLog(@"Channel Was Tapped:", channel);
     
     ChannelPlayerViewModel *viewModel = [ChannelPlayerViewModel new];
-    [viewModel updatePosts];
+    [viewModel updatePostsForChannel:channel];
     ChannelViewController *channelViewController = [[ChannelViewController alloc] initWithViewModel:viewModel];
     [self.navigationController presentViewController:channelViewController animated:YES completion:NULL];
 }

@@ -42,7 +42,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (![UserModel isLoggedIn]) {
         [self loadLoginView];
     } else {
-        [self loadChannelView];
+        [self loadListChannelView];
     }
     
     [self.window makeKeyAndVisible];
@@ -55,20 +55,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     LoginViewController *loginViewController = [LoginViewController new];
     _navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[ChannelsNavigationBar class] toolbarClass:nil];
     [_navigationController setViewControllers:@[loginViewController]];
-    
-    self.window.rootViewController = _navigationController;
-}
-
-- (void)loadChannelView
-{
-    [self loadListChannelView];
-    return;
-    
-    ChannelPlayerViewModel *viewModel = [[ChannelPlayerViewModel alloc] init];
-    [viewModel updatePosts];
-    ChannelViewController *channelViewController = [[ChannelViewController alloc] initWithViewModel:viewModel];
-    _navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[ChannelsNavigationBar class] toolbarClass:nil];
-    [_navigationController setViewControllers:@[channelViewController]];
     
     self.window.rootViewController = _navigationController;
 }
