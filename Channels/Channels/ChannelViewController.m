@@ -9,8 +9,6 @@
 #import "ChannelViewController.h"
 #import "ChannelsInterface.h"
 #import "ChannelPlayerViewModel.h"
-#import "PostingViewController.h"
-#import "PostingViewModel.h"
 #import "ChannelVideoPlayerController.h"
 
 @import KVOController;
@@ -24,7 +22,6 @@
  */
 @property (nonatomic) ChannelVideoPlayerController *channelMoviePlayerController;
 @property (nonatomic) NSUInteger count;
-@property (nonatomic, strong) UIButton *postButton;
 @property (nonatomic, strong) UILabel  *postTrackerLabel;
 
 @end
@@ -46,7 +43,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [self.view addSubview:self.postButton];
     [self.view addSubview:self.postTrackerLabel];
     
     // Close Button
@@ -59,20 +55,6 @@
 - (void)dismissViewController
 {
     [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (UIButton *)postButton
-{
-    return !_postButton ? _postButton =
-    ({
-        UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
-        [button setCenter:self.view.center];
-        [button setFrame:CGRectOffset(button.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
-        [button setImage:postButtonImage forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
-        button;
-    }) : _postButton;
 }
 
 - (UILabel *)postTrackerLabel
@@ -112,7 +94,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.view bringSubviewToFront:_postButton];
     [self playMovie];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
@@ -238,17 +219,6 @@
 - (void)pauseMovie
 {
     [self.channelMoviePlayerController pause];
-}
-
-#pragma -------------------------------------------------------------------------------------------
-#pragma mark - Posting View Controller
-#pragma -------------------------------------------------------------------------------------------
-
-- (void)showPostViewController
-{
-    PostingViewModel *postingViewModel = [[PostingViewModel alloc] init];
-    PostingViewController *postViewController = [[PostingViewController alloc] initWithViewModel:postingViewModel];
-    [self.navigationController presentViewController:postViewController animated:NO completion:NULL];
 }
 
 #pragma -------------------------------------------------------------------------------------------

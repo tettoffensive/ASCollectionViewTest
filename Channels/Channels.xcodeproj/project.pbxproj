@@ -38,6 +38,8 @@
 		17E886FE1BA3649900554472 /* ChannelInfoNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 17E886FD1BA3649900554472 /* ChannelInfoNode.m */; settings = {ASSET_TAGS = (); }; };
 		3718CA0E1BA3820100F97AEB /* POLYActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */; settings = {ASSET_TAGS = (); }; };
 		371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */; settings = {ASSET_TAGS = (); }; };
+		3730E7D01BA3BB5500C006D5 /* CreateChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3730E7CF1BA3BB5500C006D5 /* CreateChannelViewController.m */; settings = {ASSET_TAGS = (); }; };
+		3730E7D31BA3BBF000C006D5 /* CreateChannelViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3730E7D21BA3BBF000C006D5 /* CreateChannelViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		3764E27B1B989F600078DCF3 /* ChannelRecordVideoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764E27A1B989F600078DCF3 /* ChannelRecordVideoButton.m */; settings = {ASSET_TAGS = (); }; };
 		3764E27E1B989F9E0078DCF3 /* PostingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764E27D1B989F9E0078DCF3 /* PostingViewController.m */; settings = {ASSET_TAGS = (); }; };
 		3764E2811B989FC20078DCF3 /* ChannelsPostManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764E2801B989FC20078DCF3 /* ChannelsPostManager.m */; settings = {ASSET_TAGS = (); }; };
@@ -141,6 +143,10 @@
 		3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYActivityIndicator.m; sourceTree = "<group>"; };
 		371BF09E1B962C3C004D54D1 /* ChannelsNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsNavigationBar.h; sourceTree = "<group>"; };
 		371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsNavigationBar.m; sourceTree = "<group>"; };
+		3730E7CE1BA3BB5500C006D5 /* CreateChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateChannelViewController.h; sourceTree = "<group>"; };
+		3730E7CF1BA3BB5500C006D5 /* CreateChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateChannelViewController.m; sourceTree = "<group>"; };
+		3730E7D11BA3BBF000C006D5 /* CreateChannelViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateChannelViewModel.h; sourceTree = "<group>"; };
+		3730E7D21BA3BBF000C006D5 /* CreateChannelViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateChannelViewModel.m; sourceTree = "<group>"; };
 		373C60511B98AF0100B5DD91 /* POLYFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = POLYFoundation.h; sourceTree = "<group>"; };
 		3764E2791B989F600078DCF3 /* ChannelRecordVideoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelRecordVideoButton.h; sourceTree = "<group>"; };
 		3764E27A1B989F600078DCF3 /* ChannelRecordVideoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelRecordVideoButton.m; sourceTree = "<group>"; };
@@ -226,6 +232,8 @@
 				17D4CA811B910C1900070321 /* ListChannelsViewController.m */,
 				3764E27C1B989F9E0078DCF3 /* PostingViewController.h */,
 				3764E27D1B989F9E0078DCF3 /* PostingViewController.m */,
+				3730E7CE1BA3BB5500C006D5 /* CreateChannelViewController.h */,
+				3730E7CF1BA3BB5500C006D5 /* CreateChannelViewController.m */,
 				947720EE1B9A4C3700B0F670 /* LoginViewController.h */,
 				947720EF1B9A4C3700B0F670 /* LoginViewController.m */,
 			);
@@ -281,6 +289,8 @@
 				178CB1801B9660BA0010B097 /* ChannelPlayerViewModel.m */,
 				379A93F81B98A50E0096BB0C /* PostingViewModel.h */,
 				379A93F91B98A50E0096BB0C /* PostingViewModel.m */,
+				3730E7D11BA3BBF000C006D5 /* CreateChannelViewModel.h */,
+				3730E7D21BA3BBF000C006D5 /* CreateChannelViewModel.m */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -683,6 +693,7 @@
 				1718B7D51B97E03F005F1071 /* POLYVideoManager.m in Sources */,
 				1718B7D31B97E03F005F1071 /* POLYFileManager.m in Sources */,
 				1728B6931B9A29D000BECD74 /* ChannelVideoPlayerController.m in Sources */,
+				3730E7D31BA3BBF000C006D5 /* CreateChannelViewModel.m in Sources */,
 				178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */,
 				17E886FE1BA3649900554472 /* ChannelInfoNode.m in Sources */,
 				173F58D71BA0D406007CF9FF /* ValueObject.m in Sources */,
@@ -698,6 +709,7 @@
 				3764E27E1B989F9E0078DCF3 /* PostingViewController.m in Sources */,
 				17D4CA721B90FA8200070321 /* ChannelModel.m in Sources */,
 				1718B7D61B97E03F005F1071 /* POLYViewController.m in Sources */,
+				3730E7D01BA3BB5500C006D5 /* CreateChannelViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
