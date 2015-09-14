@@ -11,6 +11,7 @@
 
 #ifdef __OBJC__
 #import "ChannelsConfig.h"
+#import "ChannelsInterface.h"
 #endif
 
 #import "POLYFoundation.h"

@@ -201,7 +201,7 @@
     
     [UserModel loginWithUsername:username andPassword:password success:^(UserModel *userModel) {
         
-        [(ChannelsAppDelegate *)[[UIApplication sharedApplication] delegate] loadChannelView];
+        [(ChannelsAppDelegate *)[[UIApplication sharedApplication] delegate] loadListChannelView];
         
     } andFailure:^(NSError *error) {
         [[[UIAlertView alloc] initWithTitle:@"Access Denied" message:@"Incorrect username or password." delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil] show];
@@ -221,7 +221,7 @@
     
     [UserModel registerWithUsername:username password:password andEmail:email success:^(UserModel *userModel) {
         
-        [(ChannelsAppDelegate *)[[UIApplication sharedApplication] delegate] loadChannelView];
+        [(ChannelsAppDelegate *)[[UIApplication sharedApplication] delegate] loadListChannelView];
         
     } andFailure:^(NSError *error) {
         [[[UIAlertView alloc] initWithTitle:@"Invalid entry" message:@"Username and or email is already taken." delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil] show];
