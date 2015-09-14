@@ -11,9 +11,12 @@
 #import "ChannelInfoNode.h"
 #import "ChannelPlayerViewModel.h"
 #import "ChannelViewController.h"
+#import "PostingViewController.h"
+#import "PostingViewModel.h"
 
 @interface ListChannelsViewController ()<ASCollectionViewDelegate,ASCollectionViewDataSource,ChannelInfoNodeDelegate>
 @property (nonatomic) ASCollectionView *myFeedCollectionView;
+@property (nonatomic, strong) UIButton *postButton;
 @end
 
 @implementation ListChannelsViewController
@@ -33,6 +36,7 @@
     [super viewDidLoad];
     
     [self.view addSubview:self.myFeedCollectionView];
+    [self.view addSubview:self.postButton];
 }
 
 - (void)viewWillLayoutSubviews
@@ -41,6 +45,12 @@
     frame.origin.x   += 10;
     frame.size.width -= 10;
     [self.myFeedCollectionView setFrame:frame];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.view bringSubviewToFront:_postButton];
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -59,6 +69,20 @@
         [value setBackgroundColor:[UIColor clearColor]];
         value;
     }) : _myFeedCollectionView;
+}
+
+- (UIButton *)postButton
+{
+    return !_postButton ? _postButton =
+    ({
+        UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
+        [button setCenter:self.view.center];
+        [button setFrame:CGRectOffset(button.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
+        [button setImage:postButtonImage forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
+        button;
+    }) : _postButton;
 }
 
 #pragma -------------------------------------------------------------------------------------------
@@ -124,6 +148,17 @@
 {
     [self setTitle:self.viewModel.listTitle];
     [self.myFeedCollectionView reloadData];
+}
+
+#pragma -------------------------------------------------------------------------------------------
+#pragma mark - Posting View Controller
+#pragma -------------------------------------------------------------------------------------------
+
+- (void)showPostViewController
+{
+    PostingViewModel *postingViewModel = [[PostingViewModel alloc] init];
+    PostingViewController *postViewController = [[PostingViewController alloc] initWithViewModel:postingViewModel];
+    [self.navigationController presentViewController:postViewController animated:NO completion:NULL];
 }
 
 @end
