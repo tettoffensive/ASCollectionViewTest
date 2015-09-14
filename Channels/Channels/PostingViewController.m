@@ -14,6 +14,8 @@
 #import "ChannelsPostManager.h"
 #import "ChannelPickerView.h"
 #import "ChannelModel.h"
+#import "CreateChannelViewController.h"
+#import "CreateChannelViewModel.h"
 
 @import MediaPlayer;
 
@@ -502,7 +504,9 @@ static const NSString *kPBJVisionVideoThumbnailKey              = @"PBJVisionVid
 
 - (void)createChannel
 {
-    NSLog(@"Create Channel");
+    CreateChannelViewModel *createChannelViewModel = [[CreateChannelViewModel alloc] init];
+    CreateChannelViewController *createViewController = [[CreateChannelViewController alloc] initWithViewModel:createChannelViewModel];
+    [self.navigationController pushViewController:createViewController animated:YES];
 }
 
 - (void)postVideoToChannel:(ChannelModel *)channel
