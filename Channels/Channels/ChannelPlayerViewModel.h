@@ -9,13 +9,15 @@
 #import "POLYViewModel.h"
 
 @class Post;
+@class ChannelInfo;
 
 @interface ChannelPlayerViewModel : POLYViewModel
 
 @property (nonatomic, copy, readonly) NSString  *channelTitle;
 @property (nonatomic, copy, readonly) NSArray<Post*> *channelPosts;
 
-- (void)updatePosts;
+- (void)updatePostsForChannel:(ChannelInfo*)channel;
+- (void)updatePostsForCurrentChannel;
 
 @end
 

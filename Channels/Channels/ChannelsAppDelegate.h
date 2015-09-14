@@ -17,7 +17,7 @@
 @property (strong, nonatomic) UIWindow *foregroundWindow;
 
 - (void)loadLoginView;
-- (void)loadChannelView;
+- (void)loadListChannelView;
 
 @end
 
