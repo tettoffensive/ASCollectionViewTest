@@ -16,6 +16,9 @@
 @import KVOController;
 
 @interface ChannelViewController ()<ChannelVideoPlayerControllerDelegate,ChannelVideoPlayerControllerDataSource>
+{
+    UIButton *_closeButton;
+}
 /*!
  *  Player responsible for playing the current channel's stream
  */
@@ -45,6 +48,17 @@
     
     [self.view addSubview:self.postButton];
     [self.view addSubview:self.postTrackerLabel];
+    
+    // Close Button
+    _closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f, 60.0f)];
+    [_closeButton setImage:[UIImage imageNamed:@"Close Button"] forState:UIControlStateNormal];
+    [_closeButton addTarget:self action:@selector(dismissViewController) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_closeButton];
+}
+
+- (void)dismissViewController
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (UIButton *)postButton
@@ -172,7 +186,7 @@
 {
     if (self.count - self.channelMoviePlayerController.currentItemIndex < 3) {
         // make a call to reload the posts if we are close to the last post
-        [self.viewModel updatePosts];
+        [self.viewModel updatePostsForCurrentChannel];
     }
 }
 

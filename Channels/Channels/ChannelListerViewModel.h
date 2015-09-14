@@ -8,8 +8,23 @@
 
 #import "POLYViewModel.h"
 
+@class ChannelInfo;
+
 @interface ChannelListerViewModel : POLYViewModel
 
-@property (nonatomic, copy, readonly) NSArray *channels;
+@property (nonatomic, copy, readonly) NSString  *listTitle;
+@property (nonatomic, copy, readonly) NSArray<ChannelInfo*> *channelList;
+
+- (void)updateList;
+
+@end
+
+@interface ChannelInfo : ValueObject
+
+@property (readonly) NSString      *title;
+@property (readonly) NSURL         *thumbnailURL;
+@property (readonly) BOOL           isTrending;
+@property (readonly) NSString      *lastUpdatedString;
+@property (readonly) BOOL           newPosts;
 
 @end

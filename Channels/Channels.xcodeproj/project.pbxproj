@@ -35,6 +35,7 @@
 		17D4CA751B910B2200070321 /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA741B910B2200070321 /* ChannelViewController.m */; };
 		17D4CA7F1B910BE600070321 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA7E1B910BE600070321 /* BaseViewController.m */; };
 		17D4CA821B910C1900070321 /* ListChannelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D4CA811B910C1900070321 /* ListChannelsViewController.m */; };
+		17E886FE1BA3649900554472 /* ChannelInfoNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 17E886FD1BA3649900554472 /* ChannelInfoNode.m */; settings = {ASSET_TAGS = (); }; };
 		3718CA0E1BA3820100F97AEB /* POLYActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */; settings = {ASSET_TAGS = (); }; };
 		371BF0A01B962C3C004D54D1 /* ChannelsNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 371BF09F1B962C3C004D54D1 /* ChannelsNavigationBar.m */; settings = {ASSET_TAGS = (); }; };
 		3730E7D01BA3BB5500C006D5 /* CreateChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3730E7CF1BA3BB5500C006D5 /* CreateChannelViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -136,6 +137,8 @@
 		17D4CA7E1B910BE600070321 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		17D4CA801B910C1900070321 /* ListChannelsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListChannelsViewController.h; sourceTree = "<group>"; };
 		17D4CA811B910C1900070321 /* ListChannelsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListChannelsViewController.m; sourceTree = "<group>"; };
+		17E886FC1BA3649900554472 /* ChannelInfoNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelInfoNode.h; sourceTree = "<group>"; };
+		17E886FD1BA3649900554472 /* ChannelInfoNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelInfoNode.m; sourceTree = "<group>"; };
 		3718CA0C1BA3820100F97AEB /* POLYActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POLYActivityIndicator.h; sourceTree = "<group>"; };
 		3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POLYActivityIndicator.m; sourceTree = "<group>"; };
 		371BF09E1B962C3C004D54D1 /* ChannelsNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsNavigationBar.h; sourceTree = "<group>"; };
@@ -256,6 +259,8 @@
 		17A3877B1B8FEA6700702E85 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				17E886FC1BA3649900554472 /* ChannelInfoNode.h */,
+				17E886FD1BA3649900554472 /* ChannelInfoNode.m */,
 				3718CA0C1BA3820100F97AEB /* POLYActivityIndicator.h */,
 				3718CA0D1BA3820100F97AEB /* POLYActivityIndicator.m */,
 				371BF09E1B962C3C004D54D1 /* ChannelsNavigationBar.h */,
@@ -690,6 +695,7 @@
 				1728B6931B9A29D000BECD74 /* ChannelVideoPlayerController.m in Sources */,
 				3730E7D31BA3BBF000C006D5 /* CreateChannelViewModel.m in Sources */,
 				178CB1811B9660BA0010B097 /* ChannelPlayerViewModel.m in Sources */,
+				17E886FE1BA3649900554472 /* ChannelInfoNode.m in Sources */,
 				173F58D71BA0D406007CF9FF /* ValueObject.m in Sources */,
 				943FD81D1B97A0AE003B3745 /* ChannelsNetworking.m in Sources */,
 				947720F01B9A4C3700B0F670 /* LoginViewController.m in Sources */,
