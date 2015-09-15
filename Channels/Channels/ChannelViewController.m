@@ -9,8 +9,6 @@
 #import "ChannelViewController.h"
 #import "ChannelsInterface.h"
 #import "ChannelPlayerViewModel.h"
-#import "PostingViewController.h"
-#import "PostingViewModel.h"
 #import "ChannelVideoPlayerController.h"
 #import <POP/POP.h>
 
@@ -25,7 +23,6 @@
  */
 @property (nonatomic) ChannelVideoPlayerController *channelMoviePlayerController;
 @property (nonatomic) NSUInteger count;
-@property (nonatomic, strong) UIButton *postButton;
 @property (nonatomic, strong) UILabel  *postTrackerLabel;
 @property (nonatomic, strong) UIButton *subscribeButton;
 
@@ -53,7 +50,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [self.view addSubview:self.postButton];
     [self.view addSubview:self.postTrackerLabel];
     [self.view addSubview:self.subscribeButton];
     [self.view addSubview:self.votingScore];
@@ -76,21 +72,24 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (UIButton *)postButton
-{
-    return !_postButton ? _postButton =
-    ({
-        CGFloat margin = 20.0f;
-        UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
-        [button setTransform:[button scaledTransformUsingSize:CGSizeMake(button.width * 0.8f, button.height * 0.8f)]];
-        [button setFrame:CGRectMake(self.view.width - button.width - margin, self.view.height - button.height - margin, button.width, button.height)];
-        [button setImage:postButtonImage forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
-        button;
-    }) : _postButton;
-}
-
+//<<<<<<< HEAD
+//- (UIButton *)postButton
+//{
+//    return !_postButton ? _postButton =
+//    ({
+//        CGFloat margin = 20.0f;
+//        UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
+//        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
+//        [button setTransform:[button scaledTransformUsingSize:CGSizeMake(button.width * 0.8f, button.height * 0.8f)]];
+//        [button setFrame:CGRectMake(self.view.width - button.width - margin, self.view.height - button.height - margin, button.width, button.height)];
+//        [button setImage:postButtonImage forState:UIControlStateNormal];
+//        [button addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
+//        button;
+//    }) : _postButton;
+//}
+//
+//=======
+//>>>>>>> 608f0df776c474e54892e9ccab00773162bce239
 - (UILabel *)postTrackerLabel
 {
     return !_postTrackerLabel ? _postTrackerLabel =
@@ -190,7 +189,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.view bringSubviewToFront:_postButton];
     [self playMovie];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
@@ -326,17 +324,6 @@
 - (Post *)getCurrentPostModel
 {
     return self.viewModel.channelPosts[self.channelMoviePlayerController.currentItemIndex];
-}
-
-#pragma -------------------------------------------------------------------------------------------
-#pragma mark - Posting View Controller
-#pragma -------------------------------------------------------------------------------------------
-
-- (void)showPostViewController
-{
-    PostingViewModel *postingViewModel = [[PostingViewModel alloc] init];
-    PostingViewController *postViewController = [[PostingViewController alloc] initWithViewModel:postingViewModel];
-    [self.navigationController presentViewController:postViewController animated:NO completion:NULL];
 }
 
 #pragma -------------------------------------------------------------------------------------------
