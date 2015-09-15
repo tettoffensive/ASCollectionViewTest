@@ -51,9 +51,11 @@ target :Channels do
   pod 'AWSS3'
   pod 'AWSCognito'
   
+  #Integration
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
+  pod 'GoogleMaps'
   
 end
 

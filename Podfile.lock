@@ -53,6 +53,7 @@ PODS:
     - FBSDKCoreKit
   - FLKAutoLayout (0.2.1)
   - FXBlurView (1.6.4)
+  - GoogleMaps (1.10.2)
   - KVOController (1.0.3)
   - libextobjc/EXTScope (0.4.1):
     - libextobjc/RuntimeExtensions
@@ -98,6 +99,7 @@ DEPENDENCIES:
   - FBSDKShareKit
   - FLKAutoLayout
   - FXBlurView
+  - GoogleMaps
   - KVOController
   - libextobjc/EXTScope
   - Mantle
@@ -123,6 +125,7 @@ SPEC CHECKSUMS:
   FBSDKShareKit: f474f1123791e215d0299b98b3ee92ddd9187d86
   FLKAutoLayout: 9db6b30c2008d230da608e62c607b11c23b942e6
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
+  GoogleMaps: 5c92e599b07b0a2a9b367c5dd128edc629bddfea
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Mantle: 1912395033f601de5adc8ee91e48f46e4c7051ad
