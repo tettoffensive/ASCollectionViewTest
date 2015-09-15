@@ -15,8 +15,12 @@
 #import "PostingViewModel.h"
 
 @interface ListChannelsViewController ()<ASCollectionViewDelegate,ASCollectionViewDataSource,ChannelInfoNodeDelegate>
+{
+    BOOL _dataSourceLocked,_dataSourceShouldUpdate;
+}
 @property (nonatomic) ASCollectionView *myFeedCollectionView;
 @property (nonatomic, strong) UIButton *postButton;
+@property (nonatomic, strong) NSArray<ChannelInfo*> *dataSource;
 @end
 
 @implementation ListChannelsViewController
@@ -96,7 +100,7 @@
 
 - (ASCellNode *)collectionView:(ASCollectionView *)collectionView nodeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ChannelInfo *info = self.viewModel.channelList[indexPath.item];
+    ChannelInfo *info = self.dataSource[indexPath.item];
     ChannelInfoNode *cell = [[ChannelInfoNode alloc] initWithInfo:info];
     [cell setDelegate:self];
     return cell;
@@ -104,18 +108,25 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.viewModel.channelList.count;
+    return self.dataSource.count;
 }
 
 - (void)collectionViewLockDataSource:(ASCollectionView *)collectionView
 {
     // lock the data source
     // The data source should not be change until it is unlocked.
+    _dataSourceLocked = YES;
 }
 
 - (void)collectionViewUnlockDataSource:(ASCollectionView *)collectionView
 {
     // unlock the data source to enable data source updating.
+    _dataSourceLocked = NO;
+    if (_dataSourceShouldUpdate) {
+        _dataSourceShouldUpdate = NO;
+        self.dataSource = self.viewModel.channelList;
+        [self.myFeedCollectionView reloadData];
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willBeginBatchFetchWithContext:(ASBatchContext *)context
@@ -153,7 +164,13 @@
 {
     [self setTitle:self.viewModel.listTitle];
     if (self.viewModel.channelList) {
-        [self.myFeedCollectionView reloadData];
+        if (_dataSourceLocked) {
+            _dataSourceShouldUpdate = YES;
+        } else {
+            _dataSourceShouldUpdate = NO;
+            self.dataSource = self.viewModel.channelList;
+            [self.myFeedCollectionView reloadData];
+        }
     }
 }
 
