@@ -75,7 +75,6 @@
 - (void)sendVoteWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
     POLYLog(@"%ld %ld", self.currentUserNumberOfVotesUp,self.currentUserNumberOfVotesDown);
-    return;
     [[ChannelsNetworking sharedInstance] sendVoteResultsForPostID:self.postID withNumberOfVotesUp:self.currentUserNumberOfVotesUp andNumberOfVotesDown:self.currentUserNumberOfVotesDown success:^{
         if (success) success();
     } andFailure:^(NSError *error) {
