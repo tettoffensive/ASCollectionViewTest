@@ -75,7 +75,7 @@
 {
     return !_postButton ? _postButton =
     ({
-        UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
+        UIImage *postButtonImage = [UIImage imageNamed:@"Add Content Button"];
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
         [button setCenter:self.view.center];
         [button setFrame:CGRectOffset(button.frame, 0.0f, self.view.bounds.size.height/2.0 - 60.0f)];
