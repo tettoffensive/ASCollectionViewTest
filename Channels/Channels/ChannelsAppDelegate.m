@@ -21,6 +21,8 @@
 #import "ChannelPlayerViewModel.h"
 #import "UserModel.h"
 
+@import FBSDKCoreKit.FBSDKCoreKit;
+
 void uncaughtExceptionHandler(NSException *exception) {
     POLYLog(@"CRASH: %@", exception);
     POLYLog(@"Stack Trace: %@", [exception callStackSymbols]);
@@ -47,7 +49,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     
     [self.window makeKeyAndVisible];
     
-    return YES;
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                    didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (void)loadLoginView
@@ -87,7 +90,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-
+    [FBSDKAppEvents activateApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

@@ -50,6 +50,11 @@ target :Channels do
   pod 'AWSCore'
   pod 'AWSS3'
   pod 'AWSCognito'
+  
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
+  pod 'FBSDKShareKit'
+  
 end
 
 target 'ChannelsTests', :exclusive => true do
