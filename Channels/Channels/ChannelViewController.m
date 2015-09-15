@@ -72,7 +72,6 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-//<<<<<<< HEAD
 //- (UIButton *)postButton
 //{
 //    return !_postButton ? _postButton =
@@ -87,9 +86,7 @@
 //        button;
 //    }) : _postButton;
 //}
-//
-//=======
-//>>>>>>> 608f0df776c474e54892e9ccab00773162bce239
+
 - (UILabel *)postTrackerLabel
 {
     return !_postTrackerLabel ? _postTrackerLabel =
