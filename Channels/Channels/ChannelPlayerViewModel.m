@@ -109,6 +109,16 @@ NSString *const defaultChannelsName = @"";
     return @"anonymous";
 }
 
+- (NSInteger)numberOfVotesUp
+{
+    return [self.backingObject votesUp];
+}
+
+- (NSInteger)numberOfVotesDown
+{
+    return [self.backingObject votesDown];
+}
+
 - (void)voteUp
 {
     [self.backingObject voteUp];

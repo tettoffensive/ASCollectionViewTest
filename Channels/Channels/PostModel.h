@@ -25,6 +25,12 @@
 @property (nonatomic, copy, readonly)   NSString *mediaURLString;
 @property (nonatomic, copy, readonly)   NSString *mediaThumbnailURLString;
 @property (readonly)                    BOOL mediaEncoded;
+@property (readonly)                    NSInteger votesUp;
+@property (readonly)                    NSInteger votesDown;
+
+// Current user taking an action on post
+@property (nonatomic) NSInteger currentUserNumberOfVotesUp;
+@property (nonatomic) NSInteger currentUserNumberOfVotesDown;
 
 - (void)voteUp;
 - (void)voteDown;

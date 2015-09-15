@@ -93,5 +93,6 @@ typedef NS_ENUM(NSInteger, ChannelVideoPlayerBufferingState) {
 
 @optional
 - (void)videoPlayerBufferringStateDidChange:(ChannelVideoPlayerController *)videoPlayer;
+- (void)videoPlayerWillPlayNextItem;
 
 @end

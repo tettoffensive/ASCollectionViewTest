@@ -27,6 +27,8 @@
 @property (readonly) NSURL *thumbnailURL;
 @property (readonly) NSString *userName;
 
+- (NSInteger)numberOfVotesUp;
+- (NSInteger)numberOfVotesDown;
 - (void)voteUp;
 - (void)voteDown;
 - (void)sendVote;

@@ -11,10 +11,6 @@
 
 @interface PostModel()
 
-// Current user taking an action on post
-@property (nonatomic) NSInteger currentUserNumberOfVotesUp;
-@property (nonatomic) NSInteger currentUserNumberOfVotesDown;
-
 @end
 
 @implementation PostModel
@@ -42,6 +38,8 @@
              @"mediaEncoded":@"media_encoded",
              @"mediaURLString":@"media_url",
              @"mediaThumbnailURLString":@"media_thumbnail_url",
+             @"votesUp":@"upvotes",
+             @"votesDown":@"downvotes",
              };
 }
 
@@ -76,6 +74,8 @@
 
 - (void)sendVoteWithSuccess:(void(^)())success andFailure:(void(^)(NSError *error))failure
 {
+    POLYLog(@"%ld %ld", self.currentUserNumberOfVotesUp,self.currentUserNumberOfVotesDown);
+    return;
     [[ChannelsNetworking sharedInstance] sendVoteResultsForPostID:self.postID withNumberOfVotesUp:self.currentUserNumberOfVotesUp andNumberOfVotesDown:self.currentUserNumberOfVotesDown success:^{
         if (success) success();
     } andFailure:^(NSError *error) {

@@ -248,6 +248,10 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
 
  - (void)next
 {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(videoPlayerWillPlayNextItem)]) {
+        [self.delegate videoPlayerWillPlayNextItem];
+    }
+    
     [self willChangeValueForKey:@"currentItemIndex"];
     if ([self.dataSource numberOfPlayerItems] > 0) {
         _currentItemIndex = (_currentItemIndex+1) % [self.dataSource numberOfPlayerItems];
@@ -437,6 +441,7 @@ static NSString * const ChannelVideoPlayerControllerReadyForDisplay = @"readyFor
     [imageView addSubview:blurEffect];
     [blurEffect setAlpha:1];
     [imageView sd_setImageWithURL:thumbnailURL placeholderImage:[UIImage imageNamed:@"Truffle Bucket"]];
+    imageView.hidden = YES; // RYAN_TODO: Thumbnails were causing a series of flashes
     return imageView;
 }
 
