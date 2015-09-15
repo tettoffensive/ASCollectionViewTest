@@ -89,6 +89,11 @@
 #pragma mark - ASCollectionViewDataSource
 #pragma -------------------------------------------------------------------------------------------
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
 - (ASCellNode *)collectionView:(ASCollectionView *)collectionView nodeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ChannelInfo *info = self.viewModel.channelList[indexPath.item];
@@ -147,7 +152,9 @@
 - (void)reloadData
 {
     [self setTitle:self.viewModel.listTitle];
-    [self.myFeedCollectionView reloadData];
+    if (self.viewModel.channelList) {
+        [self.myFeedCollectionView reloadData];
+    }
 }
 
 #pragma -------------------------------------------------------------------------------------------
