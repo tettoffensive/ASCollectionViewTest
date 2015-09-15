@@ -25,11 +25,15 @@
 @property (nonatomic) NSUInteger count;
 @property (nonatomic, strong) UILabel  *postTrackerLabel;
 @property (nonatomic, strong) UIButton *subscribeButton;
+@property (nonatomic, strong) UIButton *shareButton;
+@property (nonatomic, strong) UIButton *chatButton;
+@property (nonatomic, strong) UIButton *postButton;
 
 @property (nonatomic, strong) ChannelViewerVoteScore *votingScore;
 
 @property (nonatomic, strong) ChannelViewFeedToggleButton *popularButton;
 @property (nonatomic, strong) ChannelViewFeedToggleButton *recentButton;
+
 
 @end
 
@@ -55,6 +59,9 @@
     [self.view addSubview:self.votingScore];
     [self.view addSubview:self.popularButton];
     [self.view addSubview:self.recentButton];
+    [self.view addSubview:self.shareButton];
+    [self.view addSubview:self.chatButton];
+    [self.view addSubview:self.postButton];
     
     [self.popularButton setSelected:YES];
     
@@ -72,20 +79,20 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-//- (UIButton *)postButton
-//{
-//    return !_postButton ? _postButton =
-//    ({
-//        CGFloat margin = 20.0f;
-//        UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
-//        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
-//        [button setTransform:[button scaledTransformUsingSize:CGSizeMake(button.width * 0.8f, button.height * 0.8f)]];
-//        [button setFrame:CGRectMake(self.view.width - button.width - margin, self.view.height - button.height - margin, button.width, button.height)];
-//        [button setImage:postButtonImage forState:UIControlStateNormal];
-//        [button addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
-//        button;
-//    }) : _postButton;
-//}
+- (UIButton *)postButton
+{
+    return !_postButton ? _postButton =
+    ({
+        CGFloat margin = 20.0f;
+        UIImage *postButtonImage = [UIImage imageNamed:@"Camera Button"];
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, postButtonImage.size.width, postButtonImage.size.height)];
+        [button setTransform:[button scaledTransformUsingSize:CGSizeMake(button.width * 0.8f, button.height * 0.8f)]];
+        [button setFrame:CGRectMake(self.view.width - button.width - margin, self.view.height - button.height - margin, button.width, button.height)];
+        [button setImage:postButtonImage forState:UIControlStateNormal];
+        //[button addTarget:self action:@selector(showPostViewController) forControlEvents:UIControlEventTouchUpInside];
+        button;
+    }) : _postButton;
+}
 
 - (UILabel *)postTrackerLabel
 {
@@ -130,13 +137,35 @@
     }) : _subscribeButton;
 }
 
+- (UIButton *)shareButton
+{
+    return !_shareButton ? _shareButton =
+    ({
+        UIButton *button = [[UIButton alloc] initWithImageName:@"Channel Viewer Share Button"];
+        [button setY:self.recentButton.y + 3.0f];
+        [button setX:self.view.width/2 + 15.0f];
+        button;
+    }) : _shareButton;
+}
+
+- (UIButton *)chatButton
+{
+    return !_chatButton ? _chatButton =
+    ({
+        UIButton *button = [[UIButton alloc] initWithImageName:@"Channel Viewer Chat Button"];
+        [button setY:self.recentButton.y + 5.0f];
+        [button setX:CGRectGetMaxX(self.shareButton.frame) + 20.0f];
+        button;
+    }) : _chatButton;
+}
+
 - (ChannelViewFeedToggleButton *)popularButton
 {
     return !_popularButton ? _popularButton =
     ({
         CGFloat margin = 25.0f;
         ChannelViewFeedToggleButton *button = [[ChannelViewFeedToggleButton alloc] initWithTitle:@"popular"];
-        [button setX:margin + 5.0f];
+        [button setX:margin];
         [button setY:self.view.height - button.height - margin - 12.0f];
         button;
     }) : _popularButton;
@@ -383,7 +412,7 @@
         [self setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8f] forState:UIControlStateNormal];
         //[self setImage:UIQueryImage(@"Channel Viewer Toggle Selected") forState:UIControlStateNormal];
         [self sizeToFit];
-        [self.titleLabel setFont:[ChannelsInterface boldFontOfSize:12]];
+        [self.titleLabel setFont:[ChannelsInterface boldFontOfSize:11]];
         
         self.lineView = UIQueryImageView(@"Channel Viewer Toggle Selected");
         [self addSubview:self.lineView];
