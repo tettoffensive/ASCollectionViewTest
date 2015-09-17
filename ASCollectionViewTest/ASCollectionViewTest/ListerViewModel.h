@@ -20,10 +20,6 @@
 
 @interface ItemInfo : ValueObject
 
-@property (readonly) NSString      *title;
-@property (readonly) NSURL         *thumbnailURL;
-@property (readonly) BOOL           isTrending;
-@property (readonly) NSString      *lastUpdatedString;
-@property (readonly) BOOL           newPosts;
+@property (readonly) NSString *title;
 
 @end

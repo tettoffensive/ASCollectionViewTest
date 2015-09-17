@@ -54,7 +54,7 @@
     ({
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        ASCollectionView *value = [[ASCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout asyncDataFetching:YES];
+        ASCollectionView *value = [[ASCollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout asyncDataFetching:YES];
         [value setAsyncDataSource:self];
         [value setAsyncDelegate:self];
         [value setBackgroundColor:[UIColor clearColor]];
