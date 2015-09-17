@@ -50,9 +50,9 @@ static CGFloat kTextPadding = 10.0f;
             _titleNode.attributedString = string;
         }
         
-        _imageNode = [ASNetworkImageNode new];
-        _imageNode.delegate = self;
-        [_imageNode setURL:[NSURL URLWithString:@"http://economictimes.indiatimes.com/thumb/msid-45891755,width-640,resizemode-4/nasas-images-of-most-remarkable-events-you-cant-miss.jpg"]];
+//        _imageNode = [ASNetworkImageNode new];
+//        _imageNode.delegate = self;
+//        [_imageNode setURL:[NSURL URLWithString:@"http://economictimes.indiatimes.com/thumb/msid-45891755,width-640,resizemode-4/nasas-images-of-most-remarkable-events-you-cant-miss.jpg"]];
         
         [self addSubnode:_imageNode];
         [self addSubnode:_titleNode];
