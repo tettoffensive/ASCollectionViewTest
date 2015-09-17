@@ -26,11 +26,6 @@ PODS:
   - AsyncDisplayKit (1.2.3):
     - AsyncDisplayKit/ASDealloc2MainObject (= 1.2.3)
   - AsyncDisplayKit/ASDealloc2MainObject (1.2.3)
-  - AWSCognito (2.2.5):
-    - AWSCore (= 2.2.5)
-  - AWSCore (2.2.5)
-  - AWSS3 (2.2.5):
-    - AWSCore (= 2.2.5)
   - Bolts (1.2.2):
     - Bolts/AppLinks (= 1.2.2)
     - Bolts/Tasks (= 1.2.2)
@@ -38,22 +33,6 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.2.2)
   - DateTools (1.7.0)
-  - FBSDKCoreKit (4.6.0):
-    - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc (= 4.6.0)
-    - FBSDKCoreKit/no-arc (= 4.6.0)
-  - FBSDKCoreKit/arc (4.6.0):
-    - Bolts (~> 1.1)
-  - FBSDKCoreKit/no-arc (4.6.0):
-    - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc
-  - FBSDKLoginKit (4.6.0):
-    - FBSDKCoreKit
-  - FBSDKShareKit (4.6.0):
-    - FBSDKCoreKit
-  - FLKAutoLayout (0.2.1)
-  - FXBlurView (1.6.4)
-  - GoogleMaps (1.10.2)
   - KVOController (1.0.3)
   - libextobjc/EXTScope (0.4.1):
     - libextobjc/RuntimeExtensions
@@ -61,26 +40,8 @@ PODS:
   - Mantle (2.0.5):
     - Mantle/extobjc (= 2.0.5)
   - Mantle/extobjc (2.0.5)
-  - Mixpanel (2.8.3):
-    - Mixpanel/Mixpanel (= 2.8.3)
-  - Mixpanel/Mixpanel (2.8.3)
   - ObjectiveSugar (1.1.0)
-  - OHHTTPStubs (4.2.0):
-    - OHHTTPStubs/Default (= 4.2.0)
-  - OHHTTPStubs/Core (4.2.0)
-  - OHHTTPStubs/Default (4.2.0):
-    - OHHTTPStubs/Core
-    - OHHTTPStubs/JSON
-    - OHHTTPStubs/NSURLSession
-    - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.2.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.2.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.2.0)
-  - PBJVideoPlayer (0.2.3)
-  - PBJVision (0.4.2)
-  - pop (1.0.7)
+  - pop (1.0.8)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
@@ -89,25 +50,12 @@ DEPENDENCIES:
   - AFNetworkActivityLogger
   - AFNetworking (~> 2.5.1)
   - AsyncDisplayKit
-  - AWSCognito
-  - AWSCore
-  - AWSS3
   - Bolts
   - DateTools
-  - FBSDKCoreKit
-  - FBSDKLoginKit
-  - FBSDKShareKit
-  - FLKAutoLayout
-  - FXBlurView
-  - GoogleMaps
   - KVOController
   - libextobjc/EXTScope
   - Mantle
-  - Mixpanel
   - ObjectiveSugar
-  - OHHTTPStubs
-  - PBJVideoPlayer
-  - PBJVision
   - pop
   - SDWebImage
 
@@ -115,26 +63,13 @@ SPEC CHECKSUMS:
   AFNetworkActivityLogger: 121486778117d53b3ab1c61d264b88081d0c3eee
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   AsyncDisplayKit: 5c8f38225f7478e39c48196cec0dd0d2ac3455ed
-  AWSCognito: df121e01df20a03de311a9cf708cbc25efdb3248
-  AWSCore: 101929899cea9febd4ea4fc85774a63ff17cf809
-  AWSS3: 78a5be4417c5fe1d9a1c301b05bbfbb6719d4f18
   Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
-  FBSDKCoreKit: 9954492d90c5fd65ae831395697a1660360d61f1
-  FBSDKLoginKit: 3d07febbfa884b9878cacba54f705bb41f07d4b6
-  FBSDKShareKit: f474f1123791e215d0299b98b3ee92ddd9187d86
-  FLKAutoLayout: 9db6b30c2008d230da608e62c607b11c23b942e6
-  FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  GoogleMaps: 5c92e599b07b0a2a9b367c5dd128edc629bddfea
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Mantle: 1912395033f601de5adc8ee91e48f46e4c7051ad
-  Mixpanel: fd52e097ae0d27295d0595b2261c60b94d191fda
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
-  OHHTTPStubs: f639130b83fb5f4f022d38f841141b0a6fa77249
-  PBJVideoPlayer: 7b6a077bdbbee692343f026cd9f315a6b6d8145c
-  PBJVision: fe43c9a58bb1c1277d16fd802fa836d25e034a45
-  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
 
 COCOAPODS: 0.38.2

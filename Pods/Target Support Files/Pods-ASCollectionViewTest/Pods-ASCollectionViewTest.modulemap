@@ -1,0 +1,6 @@
+framework module Pods_ASCollectionViewTest {
+  umbrella header "Pods-ASCollectionViewTest-umbrella.h"
+
+  export *
+  module * { export * }
+}
