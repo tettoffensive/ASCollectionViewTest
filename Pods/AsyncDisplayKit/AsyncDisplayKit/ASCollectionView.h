@@ -27,6 +27,8 @@
  */
 @interface ASCollectionView : UICollectionView
 
+- (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout;
+
 @property (nonatomic, weak) id<ASCollectionViewDataSource> asyncDataSource;
 @property (nonatomic, weak) id<ASCollectionViewDelegate> asyncDelegate;       // must not be nil
 
@@ -118,7 +120,7 @@
 - (void)reloadData;
 
 /**
- * Section updating.
+ * Inserts one or more sections.
  *
  * @param sections An index set that specifies the sections to insert.
  *
@@ -160,7 +162,7 @@
 - (void)moveSection:(NSInteger)section toSection:(NSInteger)newSection;
 
 /**
- * Items updating.
+ * Inserts items at the locations identified by an array of index paths.
  *
  * @param indexPaths An array of NSIndexPath objects, each representing an item index and section index that together identify an item.
  *
@@ -262,6 +264,17 @@
 @optional
 
 /**
+ * Provides the constrained size range for measuring the node at the index path.
+ *
+ * @param collectionView The sender.
+ *
+ * @param indexPath The index path of the node.
+ *
+ * @returns A constrained size range for layout the node at this index path.
+ */
+- (ASSizeRange)collectionView:(ASCollectionView *)collectionView constrainedSizeForNodeAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
  * Indicator to lock the data source for data fetching in async mode.
  * We should not update the data source until the data source has been unlocked. Otherwise, it will incur data inconsistence or exception
  * due to the data access in async mode.
@@ -319,6 +332,19 @@
  * should occur.
  */
 - (BOOL)shouldBatchFetchForCollectionView:(ASCollectionView *)collectionView;
+
+/**
+ * Passthrough support to UICollectionViewDelegateFlowLayout sectionInset behavior.
+ *
+ * @param collectionView The sender.
+ * @param collectionViewLayout The layout object requesting the information.
+ * #param section The index number of the section whose insets are needed.
+ *
+ * @discussion The same rules apply as the UICollectionView implementation, but this can also be used without a UICollectionViewFlowLayout.
+ * https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionViewDelegateFlowLayout_protocol/index.html#//apple_ref/occ/intfm/UICollectionViewDelegateFlowLayout/collectionView:layout:insetForSectionAtIndex:
+ *
+ */
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section;
 
 @end
 

@@ -15,6 +15,7 @@
 #import "ASDisplayNodeInternal.h"
 #import "ASBatchFetching.h"
 #import "UICollectionViewLayout+ASConvenience.h"
+#import "ASInternalHelpers.h"
 
 const static NSUInteger kASCollectionViewAnimationNone = UITableViewRowAnimationNone;
 
@@ -118,8 +119,27 @@ static BOOL _isInterceptedSelector(SEL sel)
   NSMutableArray *_batchUpdateBlocks;
 
   BOOL _asyncDataFetchingEnabled;
+  BOOL _asyncDelegateImplementsInsetSection;
+  BOOL _collectionViewLayoutImplementsInsetSection;
+  BOOL _asyncDataSourceImplementsConstrainedSizeForNode;
 
   ASBatchContext *_batchContext;
+  
+  CGSize _maxSizeForNodesConstrainedSize;
+  BOOL _ignoreMaxSizeChange;
+  
+  /**
+   * If YES, the `UICollectionView` will reload its data on next layout pass so we should not forward any updates to it.
+   
+   * Rationale:
+   * In `reloadData`, a collection view invalidates its data and marks itself as needing reload, and waits until `layoutSubviews` to requery its data source.
+   * This can lead to data inconsistency problems.
+   * Say you have an empty collection view. You call `reloadData`, then immediately insert an item into your data source and call `insertItemsAtIndexPaths:[0,0]`.
+   * You will get an assertion failure saying `Invalid number of items in section 0.
+   * The number of items after the update (1) must be equal to the number of items before the update (1) plus or minus the items added and removed (1 added, 0 removed).`
+   * The collection view never queried your data source before the update to see that it actually had 0 items.
+  */
+  BOOL _superIsPendingDataLoad;
 }
 
 @property (atomic, assign) BOOL asyncDataSourceLocked;
@@ -130,6 +150,11 @@ static BOOL _isInterceptedSelector(SEL sel)
 
 #pragma mark -
 #pragma mark Lifecycle.
+
+- (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
+{
+  return [self initWithFrame:CGRectZero collectionViewLayout:layout asyncDataFetching:NO];
+}
 
 - (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout
 {
@@ -165,6 +190,17 @@ static BOOL _isInterceptedSelector(SEL sel)
   _performingBatchUpdates = NO;
   _batchUpdateBlocks = [NSMutableArray array];
 
+  _superIsPendingDataLoad = YES;
+  
+  _collectionViewLayoutImplementsInsetSection = [layout respondsToSelector:@selector(sectionInset)];
+
+  _maxSizeForNodesConstrainedSize = self.bounds.size;
+  // If the initial size is 0, expect a size change very soon which is part of the initial configuration
+  // and should not trigger a relayout.
+  _ignoreMaxSizeChange = CGSizeEqualToSize(_maxSizeForNodesConstrainedSize, CGSizeZero);
+  
+  self.backgroundColor = [UIColor whiteColor];
+  
   [self registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"_ASCollectionViewCell"];
   
   return self;
@@ -185,6 +221,7 @@ static BOOL _isInterceptedSelector(SEL sel)
 {
   ASDisplayNodeAssert(self.asyncDelegate, @"ASCollectionView's asyncDelegate property must be set.");
   ASDisplayNodePerformBlockOnMainThread(^{
+    _superIsPendingDataLoad = YES;
     [super reloadData];
   });
   [_dataController reloadDataWithAnimationOptions:kASCollectionViewAnimationNone completion:completion];
@@ -217,6 +254,7 @@ static BOOL _isInterceptedSelector(SEL sel)
     super.dataSource = nil;
     _asyncDataSource = nil;
     _proxyDataSource = nil;
+    _asyncDataSourceImplementsConstrainedSizeForNode = NO;
   } else {
     _asyncDataSource = asyncDataSource;
     // TODO: Support supplementary views with ASCollectionView.
@@ -225,6 +263,7 @@ static BOOL _isInterceptedSelector(SEL sel)
     }
     _proxyDataSource = [[_ASCollectionViewProxy alloc] initWithTarget:_asyncDataSource interceptor:self];
     super.dataSource = (id<UICollectionViewDataSource>)_proxyDataSource;
+    _asyncDataSourceImplementsConstrainedSizeForNode = ([_asyncDataSource respondsToSelector:@selector(collectionView:constrainedSizeForNodeAtIndexPath:)] ? 1 : 0);
   }
 }
 
@@ -241,10 +280,12 @@ static BOOL _isInterceptedSelector(SEL sel)
     super.delegate = nil;
     _asyncDelegate = nil;
     _proxyDelegate = nil;
+    _asyncDelegateImplementsInsetSection = NO;
   } else {
     _asyncDelegate = asyncDelegate;
     _proxyDelegate = [[_ASCollectionViewProxy alloc] initWithTarget:_asyncDelegate interceptor:self];
     super.delegate = (id<UICollectionViewDelegate>)_proxyDelegate;
+    _asyncDelegateImplementsInsetSection = ([_asyncDelegate respondsToSelector:@selector(collectionView:layout:insetForSectionAtIndex:)] ? 1 : 0);
   }
 }
 
@@ -378,6 +419,7 @@ static BOOL _isInterceptedSelector(SEL sel)
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
+  _superIsPendingDataLoad = NO;
   return [_dataController numberOfSections];
 }
 
@@ -458,6 +500,26 @@ static BOOL _isInterceptedSelector(SEL sel)
   }
 }
 
+- (void)layoutSubviews
+{
+  if (! CGSizeEqualToSize(_maxSizeForNodesConstrainedSize, self.bounds.size)) {
+    _maxSizeForNodesConstrainedSize = self.bounds.size;
+    
+    // First size change occurs during initial configuration. An expensive relayout pass is unnecessary at that time
+    // and should be avoided, assuming that the initial data loading automatically runs shortly afterward.
+    if (_ignoreMaxSizeChange) {
+      _ignoreMaxSizeChange = NO;
+    } else {
+      [self performBatchAnimated:NO updates:^{
+        [_dataController relayoutAllRows];
+      } completion:nil];
+    }
+  }
+  
+  // To ensure _maxSizeForNodesConstrainedSize is up-to-date for every usage, this call to super must be done last
+  [super layoutSubviews];
+}
+
 
 #pragma mark -
 #pragma mark Batch Fetching
@@ -508,17 +570,45 @@ static BOOL _isInterceptedSelector(SEL sel)
   return node;
 }
 
-- (CGSize)dataController:(ASDataController *)dataController constrainedSizeForNodeAtIndexPath:(NSIndexPath *)indexPath
+- (ASSizeRange)dataController:(ASDataController *)dataController constrainedSizeForNodeAtIndexPath:(NSIndexPath *)indexPath
 {
-  CGSize restrainedSize = self.bounds.size;
-
-  if (ASScrollDirectionContainsHorizontalDirection([self scrollableDirections])) {
-    restrainedSize.width = FLT_MAX;
+  ASSizeRange constrainedSize;
+  if (_asyncDataSourceImplementsConstrainedSizeForNode) {
+    constrainedSize = [_asyncDataSource collectionView:self constrainedSizeForNodeAtIndexPath:indexPath];
   } else {
-    restrainedSize.height = FLT_MAX;
+    CGSize maxSize = _maxSizeForNodesConstrainedSize;
+    if (ASScrollDirectionContainsHorizontalDirection([self scrollableDirections])) {
+      maxSize.width = FLT_MAX;
+    } else {
+      maxSize.height = FLT_MAX;
+    }
+    constrainedSize = ASSizeRangeMake(CGSizeZero, maxSize);
   }
 
-  return restrainedSize;
+  UIEdgeInsets sectionInset = UIEdgeInsetsZero;
+  if (_collectionViewLayoutImplementsInsetSection) {
+    sectionInset = [(UICollectionViewFlowLayout *)self.collectionViewLayout sectionInset];
+  }
+  
+  if (_asyncDelegateImplementsInsetSection) {
+    sectionInset = [_asyncDelegate collectionView:self layout:self.collectionViewLayout insetForSectionAtIndex:indexPath.section];
+  }
+
+  if (ASScrollDirectionContainsHorizontalDirection([self scrollableDirections])) {
+    constrainedSize.min.width = MAX(0, constrainedSize.min.width - sectionInset.left - sectionInset.right);
+    //ignore insets for FLT_MAX so FLT_MAX can be compared against
+    if (constrainedSize.max.width - FLT_EPSILON < FLT_MAX) {
+      constrainedSize.max.width = MAX(0, constrainedSize.max.width - sectionInset.left - sectionInset.right);
+    }
+  } else {
+    constrainedSize.min.height = MAX(0, constrainedSize.min.height - sectionInset.top - sectionInset.bottom);
+    //ignore insets for FLT_MAX so FLT_MAX can be compared against
+    if (constrainedSize.max.height - FLT_EPSILON < FLT_MAX) {
+      constrainedSize.max.height = MAX(0, constrainedSize.max.height - sectionInset.top - sectionInset.bottom);
+    }
+  }
+
+  return constrainedSize;
 }
 
 - (NSUInteger)dataController:(ASDataController *)dataController rowsInSection:(NSUInteger)section
@@ -565,7 +655,7 @@ static BOOL _isInterceptedSelector(SEL sel)
 - (void)rangeController:(ASRangeController *)rangeController endUpdatesAnimated:(BOOL)animated completion:(void (^)(BOOL))completion {
   ASDisplayNodeAssertMainThread();
 
-  if (!self.asyncDataSource) {
+  if (!self.asyncDataSource || _superIsPendingDataLoad) {
     if (completion) {
       completion(NO);
     }
@@ -617,7 +707,7 @@ static BOOL _isInterceptedSelector(SEL sel)
 {
   ASDisplayNodeAssertMainThread();
 
-  if (!self.asyncDataSource) {
+  if (!self.asyncDataSource || _superIsPendingDataLoad) {
     return; // if the asyncDataSource has become invalid while we are processing, ignore this request to avoid crashes
   }
 
@@ -636,7 +726,7 @@ static BOOL _isInterceptedSelector(SEL sel)
 {
   ASDisplayNodeAssertMainThread();
 
-  if (!self.asyncDataSource) {
+  if (!self.asyncDataSource || _superIsPendingDataLoad) {
     return; // if the asyncDataSource has become invalid while we are processing, ignore this request to avoid crashes
   }
 
@@ -655,7 +745,7 @@ static BOOL _isInterceptedSelector(SEL sel)
 {
   ASDisplayNodeAssertMainThread();
 
-  if (!self.asyncDataSource) {
+  if (!self.asyncDataSource || _superIsPendingDataLoad) {
     return; // if the asyncDataSource has become invalid while we are processing, ignore this request to avoid crashes
   }
 
@@ -674,7 +764,7 @@ static BOOL _isInterceptedSelector(SEL sel)
 {
   ASDisplayNodeAssertMainThread();
 
-  if (!self.asyncDataSource) {
+  if (!self.asyncDataSource || _superIsPendingDataLoad) {
     return; // if the asyncDataSource has become invalid while we are processing, ignore this request to avoid crashes
   }
 

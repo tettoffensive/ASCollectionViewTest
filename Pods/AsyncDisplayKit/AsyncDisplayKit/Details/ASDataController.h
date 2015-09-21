@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AsyncDisplayKit/ASDealloc2MainObject.h>
+#import <AsyncDisplayKit/ASDimension.h>
 #import "ASFlowLayoutController.h"
 
 @class ASCellNode;
@@ -27,9 +28,9 @@ typedef NSUInteger ASDataControllerAnimationOptions;
 - (ASCellNode *)dataController:(ASDataController *)dataController nodeAtIndexPath:(NSIndexPath *)indexPath;
 
 /**
- The constrained size for layout.
+ The constrained size range for layout.
  */
-- (CGSize)dataController:(ASDataController *)dataController constrainedSizeForNodeAtIndexPath:(NSIndexPath *)indexPath;
+- (ASSizeRange)dataController:(ASDataController *)dataController constrainedSizeForNodeAtIndexPath:(NSIndexPath *)indexPath;
 
 /**
  Fetch the number of rows in specific section.
@@ -153,6 +154,12 @@ typedef NSUInteger ASDataControllerAnimationOptions;
 - (void)deleteRowsAtIndexPaths:(NSArray *)indexPaths withAnimationOptions:(ASDataControllerAnimationOptions)animationOptions;
 
 - (void)reloadRowsAtIndexPaths:(NSArray *)indexPaths withAnimationOptions:(ASDataControllerAnimationOptions)animationOptions;
+
+/**
+ * Re-measures all loaded nodes. Used to respond to a change in size of the containing view 
+ * (e.g. ASTableView or ASCollectionView after an orientation change).
+ */
+- (void)relayoutAllRows;
 
 - (void)moveRowAtIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)newIndexPath withAnimationOptions:(ASDataControllerAnimationOptions)animationOptions;
 

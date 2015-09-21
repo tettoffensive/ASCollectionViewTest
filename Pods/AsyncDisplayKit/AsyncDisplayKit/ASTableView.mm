@@ -15,6 +15,8 @@
 #import "ASRangeController.h"
 #import "ASDisplayNodeInternal.h"
 #import "ASBatchFetching.h"
+#import "ASInternalHelpers.h"
+#import "ASLayout.h"
 
 //#define LOG(...) NSLog(__VA_ARGS__)
 #define LOG(...)
@@ -103,18 +105,40 @@ static BOOL _isInterceptedSelector(SEL sel)
 #pragma mark -
 #pragma mark ASCellNode<->UITableViewCell bridging.
 
+@class _ASTableViewCell;
+
+@protocol _ASTableViewCellDelegate <NSObject>
+- (void)willLayoutSubviewsOfTableViewCell:(_ASTableViewCell *)tableViewCell;
+@end
+
 @interface _ASTableViewCell : UITableViewCell
+@property (nonatomic, weak) id<_ASTableViewCellDelegate> delegate;
+@property (nonatomic, weak) ASCellNode *node;
 @end
 
 @implementation _ASTableViewCell
 // TODO add assertions to prevent use of view-backed UITableViewCell properties (eg .textLabel)
+
+- (void)layoutSubviews
+{
+  [_delegate willLayoutSubviewsOfTableViewCell:self];
+  [super layoutSubviews];
+}
+
+- (void)didTransitionToState:(UITableViewCellStateMask)state
+{
+  [self setNeedsLayout];
+  [self layoutIfNeeded];
+  [super didTransitionToState:state];
+}
+
 @end
 
 
 #pragma mark -
 #pragma mark ASTableView
 
-@interface ASTableView () <ASRangeControllerDelegate, ASDataControllerSource> {
+@interface ASTableView () <ASRangeControllerDelegate, ASDataControllerSource, _ASTableViewCellDelegate> {
   _ASTableViewProxy *_proxyDataSource;
   _ASTableViewProxy *_proxyDelegate;
 
@@ -131,6 +155,9 @@ static BOOL _isInterceptedSelector(SEL sel)
 
   NSIndexPath *_contentOffsetAdjustmentTopVisibleRow;
   CGFloat _contentOffsetAdjustment;
+
+  CGFloat _maxWidthForNodesConstrainedSize;
+  BOOL _ignoreMaxWidthChange;
 }
 
 @property (atomic, assign) BOOL asyncDataSourceLocked;
@@ -183,6 +210,11 @@ void ASPerformBlockWithoutAnimation(BOOL withoutAnimation, void (^block)()) {
   _batchContext = [[ASBatchContext alloc] init];
 
   _automaticallyAdjustsContentOffset = NO;
+  
+  _maxWidthForNodesConstrainedSize = self.bounds.size.width;
+  // If the initial size is 0, expect a size change very soon which is part of the initial configuration
+  // and should not trigger a relayout.
+  _ignoreMaxWidthChange = (_maxWidthForNodesConstrainedSize == 0);
 }
 
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
@@ -343,6 +375,26 @@ void ASPerformBlockWithoutAnimation(BOOL withoutAnimation, void (^block)()) {
   [_dataController endUpdatesAnimated:animated completion:completion];
 }
 
+- (void)layoutSubviews
+{
+  if (_maxWidthForNodesConstrainedSize != self.bounds.size.width) {
+    _maxWidthForNodesConstrainedSize = self.bounds.size.width;
+
+    // First width change occurs during initial configuration. An expensive relayout pass is unnecessary at that time
+    // and should be avoided, assuming that the initial data loading automatically runs shortly afterward.
+    if (_ignoreMaxWidthChange) {
+      _ignoreMaxWidthChange = NO;
+    } else {
+      [self beginUpdates];
+      [_dataController relayoutAllRows];
+      [self endUpdates];
+    }
+  }
+  
+  // To ensure _maxWidthForNodesConstrainedSize is up-to-date for every usage, this call to super must be done last
+  [super layoutSubviews];
+}
+
 #pragma mark -
 #pragma mark Editing
 
@@ -455,11 +507,13 @@ void ASPerformBlockWithoutAnimation(BOOL withoutAnimation, void (^block)()) {
   _ASTableViewCell *cell = [self dequeueReusableCellWithIdentifier:reuseIdentifier];
   if (!cell) {
     cell = [[_ASTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+    cell.delegate = self;
   }
 
   ASCellNode *node = [_dataController nodeAtIndexPath:indexPath];
   [_rangeController configureContentView:cell.contentView forCellNode:node];
 
+  cell.node = node;
   cell.backgroundColor = node.backgroundColor;
   cell.selectionStyle = node.selectionStyle;
 
@@ -748,9 +802,10 @@ void ASPerformBlockWithoutAnimation(BOOL withoutAnimation, void (^block)()) {
   return node;
 }
 
-- (CGSize)dataController:(ASDataController *)dataController constrainedSizeForNodeAtIndexPath:(NSIndexPath *)indexPath
+- (ASSizeRange)dataController:(ASDataController *)dataController constrainedSizeForNodeAtIndexPath:(NSIndexPath *)indexPath
 {
-  return CGSizeMake(self.bounds.size.width, FLT_MAX);
+  return ASSizeRangeMake(CGSizeMake(_maxWidthForNodesConstrainedSize, 0),
+                         CGSizeMake(_maxWidthForNodesConstrainedSize, FLT_MAX));
 }
 
 - (void)dataControllerLockDataSource
@@ -786,6 +841,35 @@ void ASPerformBlockWithoutAnimation(BOOL withoutAnimation, void (^block)()) {
     return [_asyncDataSource numberOfSectionsInTableView:self];
   } else {
     return 1; // default section number
+  }
+}
+
+#pragma mark - _ASTableViewCellDelegate
+
+- (void)willLayoutSubviewsOfTableViewCell:(_ASTableViewCell *)tableViewCell
+{
+  CGFloat contentViewWidth = tableViewCell.contentView.bounds.size.width;
+  ASCellNode *node = tableViewCell.node;
+  ASSizeRange constrainedSize = node.constrainedSizeForCalculatedLayout;
+  
+  // Table view cells should always fill its content view width.
+  // Normally the content view width equals to the constrained size width (which equals to the table view width).
+  // If there is a mismatch between these values, for example after the table view entered or left editing mode,
+  // content view width is preferred and used to re-measure the cell node.
+  if (contentViewWidth != constrainedSize.max.width) {
+    constrainedSize.min.width = contentViewWidth;
+    constrainedSize.max.width = contentViewWidth;
+
+    // Re-measurement is done on main to ensure thread affinity. In the worst case, this is as fast as UIKit's implementation.
+    //
+    // Unloaded nodes *could* be re-measured off the main thread, but only with the assumption that content view width
+    // is the same for all cells (because there is no easy way to get that individual value before the node being assigned to a _ASTableViewCell).
+    // Also, in many cases, some nodes may not need to be re-measured at all, such as when user enters and then immediately leaves editing mode.
+    // To avoid premature optimization and making such assumption, as well as to keep ASTableView simple, re-measurement is strictly done on main.
+    [self beginUpdates];
+    CGSize calculatedSize = [[node measureWithSizeRange:constrainedSize] size];
+    node.frame = CGRectMake(0, 0, calculatedSize.width, calculatedSize.height);
+    [self endUpdates];
   }
 }
 

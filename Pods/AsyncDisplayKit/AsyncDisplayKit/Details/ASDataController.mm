@@ -108,17 +108,19 @@ static void *kASSizingQueueContext = &kASSizingQueueContext;
   for (NSUInteger j = 0; j < nodes.count && j < indexPaths.count; j += kASDataControllerSizingCountPerProcessor) {
     NSArray *subIndexPaths = [indexPaths subarrayWithRange:NSMakeRange(j, MIN(kASDataControllerSizingCountPerProcessor, indexPaths.count - j))];
     
-    // TODO: The current implementation does not make use of different constrained sizes per node.
-    // There should be a fast-path that avoids all of this object creation.
+    //TODO: There should be a fast-path that avoids all of this object creation.
     NSMutableArray *nodeBoundSizes = [[NSMutableArray alloc] initWithCapacity:kASDataControllerSizingCountPerProcessor];
     [subIndexPaths enumerateObjectsUsingBlock:^(NSIndexPath *indexPath, NSUInteger idx, BOOL *stop) {
-      [nodeBoundSizes addObject:[NSValue valueWithCGSize:[_dataSource dataController:self constrainedSizeForNodeAtIndexPath:indexPath]]];
+      ASSizeRange constrainedSize = [_dataSource dataController:self constrainedSizeForNodeAtIndexPath:indexPath];
+      [nodeBoundSizes addObject:[NSValue valueWithBytes:&constrainedSize objCType:@encode(ASSizeRange)]];
     }];
     
     dispatch_group_async(layoutGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       [subIndexPaths enumerateObjectsUsingBlock:^(NSIndexPath *indexPath, NSUInteger idx, BOOL *stop) {
         ASCellNode *node = nodes[j + idx];
-        [node measure:[nodeBoundSizes[idx] CGSizeValue]];
+        ASSizeRange constrainedSize;
+        [nodeBoundSizes[idx] getValue:&constrainedSize];
+        [node measureWithSizeRange:constrainedSize];
         node.frame = CGRectMake(0.0f, 0.0f, node.calculatedSize.width, node.calculatedSize.height);
       }];
     });
@@ -551,6 +553,41 @@ static void *kASSizingQueueContext = &kASSizingQueueContext;
         [self _deleteNodesAtIndexPaths:indexPaths withAnimationOptions:animationOptions];
         [self _batchLayoutNodes:nodes atIndexPaths:indexPaths withAnimationOptions:animationOptions];
       }];
+    }];
+  }];
+}
+
+- (void)relayoutAllRows
+{
+  [self performEditCommandWithBlock:^{
+    ASDisplayNodeAssertMainThread();
+    LOG(@"Edit Command - relayoutRows");
+    [_editingTransactionQueue waitUntilAllOperationsAreFinished];
+    
+    void (^relayoutNodesBlock)(NSMutableArray *) = ^void(NSMutableArray *nodes) {
+      if (!nodes.count) {
+        return;
+      }
+      
+      [self accessDataSourceWithBlock:^{
+        [nodes enumerateObjectsUsingBlock:^(NSMutableArray *section, NSUInteger sectionIndex, BOOL *stop) {
+          [section enumerateObjectsUsingBlock:^(ASCellNode *node, NSUInteger rowIndex, BOOL *stop) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
+            ASSizeRange constrainedSize = [_dataSource dataController:self constrainedSizeForNodeAtIndexPath:indexPath];
+            [node measureWithSizeRange:constrainedSize];
+            node.frame = CGRectMake(0.0f, 0.0f, node.calculatedSize.width, node.calculatedSize.height);
+          }];
+        }];
+      }];
+    };
+
+    // Can't relayout right away because _completedNodes may not be up-to-date,
+    // i.e there might be some nodes that were measured using the old constrained size but haven't been added to _completedNodes
+    // (see _layoutNodes:atIndexPaths:withAnimationOptions:).
+    [_editingTransactionQueue addOperationWithBlock:^{
+      ASDisplayNodePerformBlockOnMainThread(^{
+        relayoutNodesBlock(_completedNodes);
+      });
     }];
   }];
 }

@@ -31,7 +31,7 @@ target :ASCollectionViewTest do
 
   # Animation/Layout/UI
   pod 'pop'
-  pod 'AsyncDisplayKit'
+  pod 'AsyncDisplayKit', :git => 'https://github.com/facebook/AsyncDisplayKit.git', :branch => 'master'
 
   # Core
   pod "AFNetworking", "~> 2.5.1"

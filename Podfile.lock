@@ -23,9 +23,9 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - AsyncDisplayKit (1.2.3):
-    - AsyncDisplayKit/ASDealloc2MainObject (= 1.2.3)
-  - AsyncDisplayKit/ASDealloc2MainObject (1.2.3)
+  - AsyncDisplayKit (1.2.2):
+    - AsyncDisplayKit/ASDealloc2MainObject (= 1.2.2)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.2.2)
   - Bolts (1.2.2):
     - Bolts/AppLinks (= 1.2.2)
     - Bolts/Tasks (= 1.2.2)
@@ -49,7 +49,8 @@ PODS:
 DEPENDENCIES:
   - AFNetworkActivityLogger
   - AFNetworking (~> 2.5.1)
-  - AsyncDisplayKit
+  - AsyncDisplayKit (from `https://github.com/facebook/AsyncDisplayKit.git`, branch
+    `master`)
   - Bolts
   - DateTools
   - KVOController
@@ -59,10 +60,20 @@ DEPENDENCIES:
   - pop
   - SDWebImage
 
+EXTERNAL SOURCES:
+  AsyncDisplayKit:
+    :branch: master
+    :git: https://github.com/facebook/AsyncDisplayKit.git
+
+CHECKOUT OPTIONS:
+  AsyncDisplayKit:
+    :commit: 48b0525f76f44dad9d732d05650160e596f16f63
+    :git: https://github.com/facebook/AsyncDisplayKit.git
+
 SPEC CHECKSUMS:
   AFNetworkActivityLogger: 121486778117d53b3ab1c61d264b88081d0c3eee
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
-  AsyncDisplayKit: 5c8f38225f7478e39c48196cec0dd0d2ac3455ed
+  AsyncDisplayKit: e560e419627381f0ff055bae96310f44a6d2a5f1
   Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
